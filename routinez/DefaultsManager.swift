@@ -15,7 +15,7 @@ class DefaultsManager {
     DefaultsManager.dailyTotal = currentTotal + calories
 
     let currentWeeklyTotal = DefaultsManager.weeklyTotal
-    DefaultsManager.dailyTotal = currentWeeklyTotal + calories
+    DefaultsManager.weeklyTotal = currentWeeklyTotal + calories
   }
 
   static var currentDay: Date {

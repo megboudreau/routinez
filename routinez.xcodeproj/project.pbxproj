@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		150CDB4F1FC3DA9000B112DE /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CDB4E1FC3DA9000B112DE /* WatchSessionManager.swift */; };
-		150CDB511FC3DEFD00B112DE /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CDB4E1FC3DA9000B112DE /* WatchSessionManager.swift */; };
 		150E03C21FB9D5A4003E50DD /* DefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150E03C11FB9D5A4003E50DD /* DefaultsManager.swift */; };
 		15FD435B1FC27E8100D069BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FD435A1FC27E8100D069BD /* CloudKit.framework */; };
 		15FF87D91F96D39700686BEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FF87D81F96D39700686BEB /* AppDelegate.swift */; };
@@ -341,7 +340,6 @@
 				15FF88021F96D39700686BEB /* ComplicationController.swift in Sources */,
 				15FF87FE1F96D39700686BEB /* ExtensionDelegate.swift in Sources */,
 				15FF87FC1F96D39700686BEB /* InterfaceController.swift in Sources */,
-				150CDB511FC3DEFD00B112DE /* WatchSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,14 +17,14 @@ class InterfaceController: WKInterfaceController {
 
   static var currentDailyTotal: Int = 0
   var selectedItem: Int = 0
-  let session: WCSession = 
+  let session: WCSession = WCSession.default
 
   override func awake(withContext context: Any?) {
     super.awake(withContext: context)
 
-    session.startSession()
-    processApplicationContext(session.receivedContext!)
-    session.watchContextUpdateHandler = processApplicationContext(_:)
+    session.delegate = self
+    session.activate()
+    processApplicationContext(session.receivedApplicationContext)
 
     let calories = stride(from:0, to: 2500, by: 10)
     let pickerItems: [WKPickerItem] = calories.map {
@@ -40,7 +40,7 @@ class InterfaceController: WKInterfaceController {
   override func willActivate() {
     super.willActivate()
 
-    processApplicationContext(session.receivedContext!)
+    processApplicationContext(session.receivedApplicationContext)
   }
 
   override func didDeactivate() {
@@ -50,7 +50,7 @@ class InterfaceController: WKInterfaceController {
   @IBAction func didTapAddButton() {
     let caloriesDict = ["caloriesAdded": selectedItem]
     addButton.setTitle("Sending...")
-    session.updateApplicationContext(
+    updateApplicationContext(
       with: caloriesDict,
       successHandler: setSuccessTitle,
       errorHandler: setErrorTitle)
@@ -92,26 +92,46 @@ class InterfaceController: WKInterfaceController {
     }
   }
 
-  func sendCaloriesToPhone(_ message: [String: Any]) {
-    addButton.setTitle("Sending..")
+  func updateApplicationContext(with data: [String: Any], successHandler: (() -> Void), errorHandler: @escaping (()-> Void)) {
 
-    session.sendMessage(message, replyHandler: { responseDict in
-      guard let daily = responseDict["daily"] else {
-        return
+    if session.isReachable {
+      successHandler()
+      session.sendMessage(data, replyHandler: nil, errorHandler: { error in
+        print("error sending message")
+        print(error.localizedDescription)
+      })
+    } else {
+      do {
+        try session.updateApplicationContext(data)
+        successHandler()
+      } catch {
+        errorHandler()
       }
-      self.dailyTotalLabel.setText("\(daily)")
-      self.addButton.setTitle("Add")
-    }, errorHandler: { _ in
-      self.addButton.setTitle("Try again")
-    })
+    }
   }
 
-  func delay(_ delay:Double, closure:@escaping ()->()) {
+  func delay(_ delay: Double, closure: @escaping ()->()) {
     DispatchQueue.main.asyncAfter(
       deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
   }
 }
 
 extension InterfaceController: WCSessionDelegate {
+
+  func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    print("Activation on watchos")
+
+
+    processApplicationContext(session.applicationContext)
+  }
+
+  func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+    processApplicationContext(session.receivedApplicationContext)
+  }
+
+  func sessionReachabilityDidChange(_ session: WCSession) {
+    print("session reachility")
+    print(session.isReachable)
+  }
 
 }
