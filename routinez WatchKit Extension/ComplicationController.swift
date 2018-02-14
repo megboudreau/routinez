@@ -8,18 +8,23 @@
 
 import ClockKit
 
-
 class ComplicationController: NSObject, CLKComplicationDataSource {
 
   var dailyMax: Int = 1700
-  var dailyTotalFraction: Float {
-    return Float(InterfaceController.currentDailyTotal/1700)
+  var currentDailyTotal: Int = 0
+
+  var template: CLKComplicationTemplateModularSmallSimpleText {
+    let template = CLKComplicationTemplateModularSmallSimpleText()
+    template.tintColor = .magenta
+    let caloriesTotal = Entries.sharedInstance.totalDailyValueForEntry("Calories")
+    template.textProvider = CLKSimpleTextProvider(text: "\(caloriesTotal)")
+    return template
   }
 
     // MARK: - Timeline Configuration
     
     func getSupportedTimeTravelDirections(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimeTravelDirections) -> Void) {
-        handler([.forward, .backward])
+        handler([])
     }
     
     func getTimelineStartDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
@@ -37,8 +42,9 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Timeline Population
     
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
-        // Call the handler with the current timeline entry
-        handler(nil)
+
+      let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+      handler(entry)
     }
     
     func getTimelineEntries(for complication: CLKComplication, before date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
@@ -54,13 +60,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Placeholder Templates
     
     func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
-
-//      let template = CLKComplicationTemplateModularSmallRingText()
-//      template.ringStyle = .closed
-//      template.fillFraction = dailyTotalFraction
-//      template.tintColor = .magenta
-//      template.textProvider = CLKSimpleTextProvider(text: "\(InterfaceController.currentDailyTotal)")
-//      handler(template)
+      handler(template)
     }
-    
 }

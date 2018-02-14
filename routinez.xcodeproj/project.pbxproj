@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		150CDB4F1FC3DA9000B112DE /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CDB4E1FC3DA9000B112DE /* WatchSessionManager.swift */; };
-		150E03C21FB9D5A4003E50DD /* DefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150E03C11FB9D5A4003E50DD /* DefaultsManager.swift */; };
+		150A6B641FE5A02B00435670 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
+		151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */; };
+		154CB8BF201552CB006A3E05 /* routinez.ckcomplication in Resources */ = {isa = PBXBuildFile; fileRef = 154CB8BE201552CB006A3E05 /* routinez.ckcomplication */; };
+		15607EC22016CA800071C9FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
+		15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFE9420225C780051947B /* CloudKitManager.swift */; };
+		15EAFE9620278C0A0051947B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFE9420225C780051947B /* CloudKitManager.swift */; };
+		15EAFEE0202BA3980051947B /* Entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFEDF202BA3980051947B /* Entries.swift */; };
+		15EAFEE1202BAB560051947B /* Entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFEDF202BA3980051947B /* Entries.swift */; };
 		15FD435B1FC27E8100D069BD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FD435A1FC27E8100D069BD /* CloudKit.framework */; };
 		15FF87D91F96D39700686BEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FF87D81F96D39700686BEB /* AppDelegate.swift */; };
 		15FF87DB1F96D39700686BEB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FF87DA1F96D39700686BEB /* ViewController.swift */; };
@@ -69,8 +75,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		150CDB4E1FC3DA9000B112DE /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
-		150E03C11FB9D5A4003E50DD /* DefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsManager.swift; sourceTree = "<group>"; };
+		150A6B631FE5A02B00435670 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
+		154CB8BE201552CB006A3E05 /* routinez.ckcomplication */ = {isa = PBXFileReference; lastKnownFileType = folder; path = routinez.ckcomplication; sourceTree = "<group>"; };
+		15EAFE9420225C780051947B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		15EAFEDF202BA3980051947B /* Entries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entries.swift; sourceTree = "<group>"; };
 		15FD43581FC27E6600D069BD /* routinez.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = routinez.entitlements; sourceTree = "<group>"; };
 		15FD435A1FC27E8100D069BD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		15FF87D51F96D39700686BEB /* routinez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routinez.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +122,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1574FB7E2009A6E6009837C9 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				150A6B631FE5A02B00435670 /* Entry.swift */,
+				15EAFEDF202BA3980051947B /* Entries.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		15FD43591FC27E8100D069BD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,10 +164,12 @@
 			isa = PBXGroup;
 			children = (
 				15FD43581FC27E6600D069BD /* routinez.entitlements */,
+				154CB8BE201552CB006A3E05 /* routinez.ckcomplication */,
 				15FF87D81F96D39700686BEB /* AppDelegate.swift */,
-				150CDB4E1FC3DA9000B112DE /* WatchSessionManager.swift */,
-				150E03C11FB9D5A4003E50DD /* DefaultsManager.swift */,
+				1574FB7E2009A6E6009837C9 /* Shared */,
+				15EAFE9420225C780051947B /* CloudKitManager.swift */,
 				15FF87DA1F96D39700686BEB /* ViewController.swift */,
+				151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */,
 				15FF87DC1F96D39700686BEB /* Main.storyboard */,
 				15FF87DF1F96D39700686BEB /* Assets.xcassets */,
 				15FF87E11F96D39700686BEB /* LaunchScreen.storyboard */,
@@ -252,6 +272,9 @@
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -296,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15FF87E31F96D39700686BEB /* LaunchScreen.storyboard in Resources */,
+				154CB8BF201552CB006A3E05 /* routinez.ckcomplication in Resources */,
 				15FF87E01F96D39700686BEB /* Assets.xcassets in Resources */,
 				15FF87DE1F96D39700686BEB /* Main.storyboard in Resources */,
 			);
@@ -325,9 +349,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150A6B641FE5A02B00435670 /* Entry.swift in Sources */,
 				15FF87DB1F96D39700686BEB /* ViewController.swift in Sources */,
-				150E03C21FB9D5A4003E50DD /* DefaultsManager.swift in Sources */,
-				150CDB4F1FC3DA9000B112DE /* WatchSessionManager.swift in Sources */,
+				15EAFEE0202BA3980051947B /* Entries.swift in Sources */,
+				15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */,
+				151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */,
 				15FF87D91F96D39700686BEB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,7 +362,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15607EC22016CA800071C9FB /* Entry.swift in Sources */,
+				15EAFEE1202BAB560051947B /* Entries.swift in Sources */,
 				15FF88001F96D39700686BEB /* NotificationController.swift in Sources */,
+				15EAFE9620278C0A0051947B /* CloudKitManager.swift in Sources */,
 				15FF88021F96D39700686BEB /* ComplicationController.swift in Sources */,
 				15FF87FE1F96D39700686BEB /* ExtensionDelegate.swift in Sources */,
 				15FF87FC1F96D39700686BEB /* InterfaceController.swift in Sources */,

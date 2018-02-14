@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13526" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13524"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -27,7 +27,7 @@
                         <group width="1" height="22" alignment="left" id="aVX-sn-8gX">
                             <items>
                                 <label alignment="left" text="Today:" textAlignment="left" id="Vo5-do-Ffa"/>
-                                <label alignment="right" text="3000" textAlignment="right" id="eB3-hp-QBs"/>
+                                <label alignment="right" text="-" textAlignment="right" id="eB3-hp-QBs"/>
                             </items>
                             <edgeInsets key="margins" left="5" right="5" top="1" bottom="1"/>
                         </group>
@@ -39,8 +39,8 @@
                     </items>
                     <connections>
                         <outlet property="addButton" destination="dv9-KO-FX4" id="2g0-Lj-nST"/>
-                        <outlet property="caloriePicker" destination="qYx-iY-vZk" id="QuV-oT-Ygb"/>
                         <outlet property="dailyTotalLabel" destination="eB3-hp-QBs" id="F6t-pt-P8c"/>
+                        <outlet property="entryValuesPicker" destination="qYx-iY-vZk" id="fHu-a2-tdg"/>
                     </connections>
                 </controller>
             </objects>

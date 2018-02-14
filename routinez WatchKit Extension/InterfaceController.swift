@@ -8,52 +8,74 @@
 
 import WatchKit
 import WatchConnectivity
+import ClockKit
 
 class InterfaceController: WKInterfaceController {
 
-  @IBOutlet var caloriePicker: WKInterfacePicker!
+  @IBOutlet var entryValuesPicker: WKInterfacePicker!
   @IBOutlet var dailyTotalLabel: WKInterfaceLabel!
   @IBOutlet var addButton: WKInterfaceButton!
 
-  static var currentDailyTotal: Int = 0
   var selectedItem: Int = 0
-  let session: WCSession = WCSession.default
+  var entry: Entry?
+
+//  let ckManager = CloudKitManager.sharedInstance()
 
   override func awake(withContext context: Any?) {
     super.awake(withContext: context)
 
-    session.delegate = self
-    session.activate()
-    processApplicationContext(session.receivedApplicationContext)
-
-    let calories = stride(from:0, to: 2500, by: 10)
-    let pickerItems: [WKPickerItem] = calories.map {
-      let pickerItem = WKPickerItem()
-      pickerItem.title = "\($0)"
-      pickerItem.caption = "Calories"
-      return pickerItem
-    }
-
-    caloriePicker.setItems(pickerItems)
   }
 
   override func willActivate() {
     super.willActivate()
 
-    processApplicationContext(session.receivedApplicationContext)
+    if let currentEntry = Entries.sharedInstance.currentCachedEntries?.first {
+      self.entry = currentEntry
+    } else {
+      self.entry = Entry(name: "Calories", timestamp: Date(), value: 0)
+    }
+
+    let entryValues = stride(from:0, to: 2500, by: 10)
+    let pickerItems: [WKPickerItem] = entryValues.map {
+      let pickerItem = WKPickerItem()
+      pickerItem.title = "\($0)"
+      pickerItem.caption = entry?.name
+      return pickerItem
+    }
+
+    entryValuesPicker.setItems(pickerItems)
+
+    updateDisplay()
   }
 
   override func didDeactivate() {
+    ExtensionDelegate.reloadComplications()
     super.didDeactivate()
   }
 
+  func updateDisplay() {
+    guard let entry = entry else {
+      return
+    }
+
+    let currentDailyTotal = Entries.sharedInstance.totalDailyValueForEntry(entry.name)
+    updateDailyTotal(with: currentDailyTotal)
+
+    // TODO create different view controllers based on entries
+  }
+
   @IBAction func didTapAddButton() {
-    let caloriesDict = ["caloriesAdded": selectedItem]
+    guard let entry = entry else {
+      return
+    }
+
+    Entries.sharedInstance.cacheNewEntry(Entry(name: entry.name, timestamp: Date(), value: selectedItem, isBoolValue: false))
+
     addButton.setTitle("Sending...")
-    updateApplicationContext(
-      with: caloriesDict,
+    ExtensionDelegate.sendEntryToPhone(
       successHandler: setSuccessTitle,
-      errorHandler: setErrorTitle)
+      errorHandler: setErrorTitle
+    )
   }
 
   @IBAction func pickerSelectedItemChanged(_ value: Int) {
@@ -68,45 +90,20 @@ class InterfaceController: WKInterfaceController {
   }
 
   func setSuccessTitle() {
+    guard let entry = entry else {
+      return
+    }
+
     addButton.setTitle("Success!")
-    InterfaceController.currentDailyTotal += selectedItem
-    updateDailyCalories(with: InterfaceController.currentDailyTotal)
+    updateDailyTotal(with: Entries.sharedInstance.totalDailyValueForEntry(entry.name))
     delay(1) {
       self.addButton.setTitle("Add")
     }
   }
 
-  func processApplicationContext(_ context: [String: Any]) {
-    guard let context = context as? [String: Int],
-      let dailyTotal = context["dailyTotal"] else {
-        return
-    }
-
-    InterfaceController.currentDailyTotal = dailyTotal
-    updateDailyCalories(with: InterfaceController.currentDailyTotal)
-  }
-
-  func updateDailyCalories(with calories: Int) {
+  func updateDailyTotal(with value: Int) {
     DispatchQueue.main.async {
-      self.dailyTotalLabel.setText("\(calories)")
-    }
-  }
-
-  func updateApplicationContext(with data: [String: Any], successHandler: (() -> Void), errorHandler: @escaping (()-> Void)) {
-
-    if session.isReachable {
-      successHandler()
-      session.sendMessage(data, replyHandler: nil, errorHandler: { error in
-        print("error sending message")
-        print(error.localizedDescription)
-      })
-    } else {
-      do {
-        try session.updateApplicationContext(data)
-        successHandler()
-      } catch {
-        errorHandler()
-      }
+      self.dailyTotalLabel.setText("\(value)")
     }
   }
 
@@ -114,24 +111,21 @@ class InterfaceController: WKInterfaceController {
     DispatchQueue.main.asyncAfter(
       deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
   }
-}
 
-extension InterfaceController: WCSessionDelegate {
+  // MARK: - CloudKit
 
-  func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-    print("Activation on watchos")
+  func saveEntries() {
+//    if ckManager.iCloudAccountIsAvailable {
+//      print("Watch saving directly to iCloud")
+//      ckCentral.saveDate(floData.lastDate, viaWC: false)
+//    } else {
+      // send to iPhone via Watch Connectivity
+//      NotificationCenter.default.post(name:
+//        NSNotification.Name(rawValue:
+//          NotificationDrinkDateOnWatch), object: nil)
+//    }
 
-
-    processApplicationContext(session.applicationContext)
+    // Update UserDefaults
+//    UserDefaults.standard.set(floData.drinkTotal, forKey: LocalCache.drinkTotal.rawValue)
   }
-
-  func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-    processApplicationContext(session.receivedApplicationContext)
-  }
-
-  func sessionReachabilityDidChange(_ session: WCSession) {
-    print("session reachility")
-    print(session.isReachable)
-  }
-
 }

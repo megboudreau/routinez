@@ -1,0 +1,16 @@
+{
+  "tintColor" : {
+    "green" : 0,
+    "red" : 1,
+    "alpha" : 1,
+    "blue" : 1
+  },
+  "class" : "CLKComplicationTemplateModularSmallRingText",
+  "fillFraction" : 90,
+  "ringStyle" : 0,
+  "textProvider" : {
+    "class" : "CLKSimpleTextProvider",
+    "text" : "40"
+  },
+  "version" : 30000
+}
