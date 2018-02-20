@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 
   var weekTableView = UITableView()
   var dailyTotalLabel = UILabel()
-  let addButton = UIButton()
+  let dailyCircleChart = DailyCircleChart()
 
   var currentFormattedDate: String {
     let formatter = DateFormatter()
@@ -37,22 +37,9 @@ class ViewController: UIViewController {
       self.updateDisplay()
     }
 
-    addButton.backgroundColor = .plum
-    addButton.setTitle("AddValue", for: .normal)
-    addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
-    view.addSubview(addButton)
-
-    dailyTotalLabel.text = currentFormattedDate
-    dailyTotalLabel.sizeToFit()
-    view.addSubview(dailyTotalLabel)
-
-    addButton.translatesAutoresizingMaskIntoConstraints = false
-    addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    addButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-
-    dailyTotalLabel.translatesAutoresizingMaskIntoConstraints = false
-    dailyTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    dailyTotalLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor).isActive = true
+    if Entries.sharedInstance.currentCachedEntries == nil {
+      Entries.sharedInstance.cacheNewEntry(Entry(name: "Calories", timestamp: Date(), value: 0))
+    }
 
     addInitialViews()
 
@@ -64,11 +51,6 @@ class ViewController: UIViewController {
         print(recordID)
       }
     }
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-
   }
 
   func addInitialViews() {
@@ -86,19 +68,29 @@ class ViewController: UIViewController {
       dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 65).isActive = true
     }
 
-    let dailyCircleChart = DailyCircleChart()
     view.addSubview(dailyCircleChart)
 
     dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
+    dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 36).isActive = true
     dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    dailyCircleChart.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
     dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
+
+    let addCircle = AddCircle()
+    addCircle.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
+    view.addSubview(addCircle)
+
+    addCircle.translatesAutoresizingMaskIntoConstraints = false
+    addCircle.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    addCircle.widthAnchor.constraint(equalToConstant: 80).isActive = true
+    addCircle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    addCircle.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 36).isActive = true
   }
 
   func updateDisplay() {
     let total = Entries.sharedInstance.totalDailyValueForEntry("Calories")
     dailyTotalLabel.text = "Total: \(total)"
+    dailyCircleChart.fillChart(animate: false)
   }
 
   func successHandler() {
@@ -110,6 +102,7 @@ class ViewController: UIViewController {
   }
 
   @objc func didTapAdd() {
+    print("Adding 100")
     Entries.sharedInstance.cacheNewEntry(Entry(name: "Calories", timestamp: Date(), value: 100))
     AppDelegate.sendEntryToWatch(successHandler: successHandler, errorHandler: errorHandler)
     updateDisplay()

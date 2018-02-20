@@ -87,10 +87,6 @@ class Entries {
     return currentCachedEntries.filter{ $0.name == name }
   }
 
-//  func totalDailyValueForEntry(_ name: String, date: Date) -> Int {
-//
-//  }
-
   func totalDailyValueForEntry(_ name: String) -> Int {
     let calendar = Calendar.current
     let todaysEntries = entriesByName(name: name).filter {

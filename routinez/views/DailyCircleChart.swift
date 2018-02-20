@@ -7,12 +7,13 @@
 //
 
 import UIKit
-
-// to consider https://stackoverflow.com/questions/41197122/pie-chart-using-charts-library-with-swift-3
+import Charts
 
 class DailyCircleChart: UIView {
 
-  var colours: [UIColor] = [
+  var chartValueSelected: (() -> Void)?
+  let chartColors: [UIColor] = [
+    .chartGrey,
     .chartBlue1,
     .chartBlue2,
     .chartBlue3,
@@ -25,76 +26,80 @@ class DailyCircleChart: UIView {
     .chartBlue10
   ]
 
-  var totalValues: CGFloat {
-    return 10 // TODO return entry names .count
-  }
+  let pieChart: PieChartView = {
+    let p = PieChartView()
+    p.legend.enabled = false
+    p.chartDescription?.enabled = false
+    p.holeRadiusPercent = 0.65
 
-  var maxValues: Int {
-    return 10
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = .center
+    let centerText = NSAttributedString(
+      string: "Today's\ndata",
+      attributes: [
+        NSAttributedStringKey.font: UIFont.systemFont(ofSize: 30),
+        NSAttributedStringKey.foregroundColor: UIColor.plum,
+        NSAttributedStringKey.paragraphStyle: paragraphStyle])
+    p.centerAttributedText = centerText
+    return p
+  }()
+
+  var entryKeys: [String] {
+    return Entries.sharedInstance.sortedEntriesByName.map { $0.key }
   }
 
   init() {
     super.init(frame: .zero)
 
+    pieChart.delegate = self
     backgroundColor = .white
+    drawChart()
+    fillChart()
   }
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override func draw(_ rect: CGRect) {
-    let entries = [1]
-    drawChart(with: entries) // TODO get number of unique entry types
-    drawCenterCircle()
+  func drawChart() {
+    addSubview(pieChart)
+    pieChart.pinToSuperviewEdges()
   }
 
-  func drawCenterCircle() {
-    let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-    let radius: CGFloat = bounds.width/4
+  func fillChart(animate: Bool = true) {
+    var dataEntries = [PieChartDataEntry]()
 
-    let path = UIBezierPath(
-      arcCenter: center,
-      radius: radius,
-      startAngle: 0,
-      endAngle: 2 * CGFloat.pi,
-      clockwise: true
-    )
+    for key in entryKeys {
+      let total = Entries.sharedInstance.totalDailyValueForEntry(key)
+      let label = "\(key): \(total)"
+      let entry = PieChartDataEntry(value: Double(1), label: label)
+      dataEntries.append(entry)
+    }
 
-    UIColor.white.setFill()
-    path.fill()
-  }
+    if entryKeys.isEmpty {
+      dataEntries.append(PieChartDataEntry(value: Double(1), label: ""))
+    }
 
-  // https://stackoverflow.com/questions/35388471/create-a-circle-with-multi-coloured-segments-in-core-graphics
-  func drawChart(with entries: [Int]) {
-    let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-    let radius: CGFloat = bounds.width/2
-    var angle: CGFloat = -CGFloat.pi/2
+    let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
+    chartDataSet.colors = chartColors
+    chartDataSet.sliceSpace = 0
+    chartDataSet.selectionShift = 0
+    chartDataSet.drawValuesEnabled = false
 
-    let uniqueEntryCount = entries.count
+    let chartData = PieChartData(dataSet: chartDataSet)
+    pieChart.data = chartData
 
-    for index in 0...maxValues {
-      let path = UIBezierPath()
-      let value: CGFloat = 1 // just set this to any number to get even values
-
-      let sliceAngle = CGFloat.pi * 2 * value/totalValues
-
-      let fillColor = index > uniqueEntryCount ? UIColor.chartGrey : colours[index]
-      fillColor.setFill()
-
-      path.move(to: center)
-      path.addArc(
-        withCenter: center,
-        radius: radius,
-        startAngle: angle,
-        endAngle: angle - sliceAngle,
-        clockwise: false
-      )
-      path.move(to: center)
-      path.close()
-      path.fill()
-
-      angle -= sliceAngle
+    if animate {
+      pieChart.animate(xAxisDuration: 1.3, yAxisDuration: 1.3)
     }
   }
+}
+
+extension DailyCircleChart: ChartViewDelegate {
+
+  func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+    print("Selected")
+    chartValueSelected?()
+  }
+
 }
