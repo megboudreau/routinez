@@ -9,10 +9,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--FirstEntryController-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="routinez_WatchKit_App" customModuleProvider="target">
+                <controller identifier="FirstEntryController" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="routinez_WatchKit_App" customModuleProvider="target">
                     <items>
                         <group width="1" height="83" alignment="left" id="HKW-dS-zWd">
                             <items>

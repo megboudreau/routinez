@@ -10,6 +10,9 @@ import UIKit
 import CloudKit
 import WatchConnectivity
 
+let NotificationEntryAddedOnPhone = "EntryAddedOnPhone"
+let NotificationEntryAddedOnWatch = "EntryAddedOnWatch"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -18,8 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
-
-//    WatchSessionManager.sharedManager.startSession()
 
     setupWatchConnectivity()
     application.registerForRemoteNotifications()
@@ -50,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //      }
 //    }
   }
+
 }
 
 extension AppDelegate: WCSessionDelegate {
@@ -86,8 +88,7 @@ extension AppDelegate: WCSessionDelegate {
   }
 
   func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-    if let entries = applicationContext["entries"] as? [[String:Any]] {
-
+    if let entries = applicationContext["Entries"] as? [[String:Any]] {
 
       for dict in entries {
         if let timestamp = dict["timestamp"] as? Date,
@@ -98,6 +99,12 @@ extension AppDelegate: WCSessionDelegate {
           Entries.sharedInstance.cacheNewEntry(entry)
           // CKManager.saveEntry(entry: entry, viaWC: true) // TO DO
         }
+      }
+
+      DispatchQueue.main.async {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(
+          name: NSNotification.Name(rawValue: NotificationEntryAddedOnWatch), object: nil)
       }
     }
   }

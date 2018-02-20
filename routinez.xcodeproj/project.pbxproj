@@ -11,6 +11,10 @@
 		151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */; };
 		154CB8BF201552CB006A3E05 /* routinez.ckcomplication in Resources */ = {isa = PBXBuildFile; fileRef = 154CB8BE201552CB006A3E05 /* routinez.ckcomplication */; };
 		15607EC22016CA800071C9FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
+		15D1CEC1203B6B900046731B /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D1CEC0203B6B900046731B /* Style.swift */; };
+		15D1CEC4203B73130046731B /* DateBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D1CEC3203B73130046731B /* DateBanner.swift */; };
+		15D1CEC6203B83360046731B /* DailyCircleChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D1CEC5203B83360046731B /* DailyCircleChart.swift */; };
+		15D1CEC8203BA90A0046731B /* BezierButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D1CEC7203BA90A0046731B /* BezierButton.swift */; };
 		15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFE9420225C780051947B /* CloudKitManager.swift */; };
 		15EAFE9620278C0A0051947B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFE9420225C780051947B /* CloudKitManager.swift */; };
 		15EAFEE0202BA3980051947B /* Entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAFEDF202BA3980051947B /* Entries.swift */; };
@@ -78,6 +82,10 @@
 		150A6B631FE5A02B00435670 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		154CB8BE201552CB006A3E05 /* routinez.ckcomplication */ = {isa = PBXFileReference; lastKnownFileType = folder; path = routinez.ckcomplication; sourceTree = "<group>"; };
+		15D1CEC0203B6B900046731B /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		15D1CEC3203B73130046731B /* DateBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBanner.swift; sourceTree = "<group>"; };
+		15D1CEC5203B83360046731B /* DailyCircleChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCircleChart.swift; sourceTree = "<group>"; };
+		15D1CEC7203BA90A0046731B /* BezierButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierButton.swift; sourceTree = "<group>"; };
 		15EAFE9420225C780051947B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		15EAFEDF202BA3980051947B /* Entries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entries.swift; sourceTree = "<group>"; };
 		15FD43581FC27E6600D069BD /* routinez.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = routinez.entitlements; sourceTree = "<group>"; };
@@ -127,8 +135,19 @@
 			children = (
 				150A6B631FE5A02B00435670 /* Entry.swift */,
 				15EAFEDF202BA3980051947B /* Entries.swift */,
+				15D1CEC0203B6B900046731B /* Style.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		15D1CEC2203B72CD0046731B /* views */ = {
+			isa = PBXGroup;
+			children = (
+				15D1CEC3203B73130046731B /* DateBanner.swift */,
+				15D1CEC7203BA90A0046731B /* BezierButton.swift */,
+				15D1CEC5203B83360046731B /* DailyCircleChart.swift */,
+			);
+			path = views;
 			sourceTree = "<group>";
 		};
 		15FD43591FC27E8100D069BD /* Frameworks */ = {
@@ -166,6 +185,7 @@
 				15FD43581FC27E6600D069BD /* routinez.entitlements */,
 				154CB8BE201552CB006A3E05 /* routinez.ckcomplication */,
 				15FF87D81F96D39700686BEB /* AppDelegate.swift */,
+				15D1CEC2203B72CD0046731B /* views */,
 				1574FB7E2009A6E6009837C9 /* Shared */,
 				15EAFE9420225C780051947B /* CloudKitManager.swift */,
 				15FF87DA1F96D39700686BEB /* ViewController.swift */,
@@ -349,12 +369,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15D1CEC8203BA90A0046731B /* BezierButton.swift in Sources */,
 				150A6B641FE5A02B00435670 /* Entry.swift in Sources */,
 				15FF87DB1F96D39700686BEB /* ViewController.swift in Sources */,
 				15EAFEE0202BA3980051947B /* Entries.swift in Sources */,
 				15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */,
 				151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */,
+				15D1CEC1203B6B900046731B /* Style.swift in Sources */,
+				15D1CEC6203B83360046731B /* DailyCircleChart.swift in Sources */,
 				15FF87D91F96D39700686BEB /* AppDelegate.swift in Sources */,
+				15D1CEC4203B73130046731B /* DateBanner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

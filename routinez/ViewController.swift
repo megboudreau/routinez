@@ -14,26 +14,47 @@ class ViewController: UIViewController {
 
   static var subscriptionIsLocallyCached: Bool = false
 
-  let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
   var weekTableView = UITableView()
+  var dailyTotalLabel = UILabel()
+  let addButton = UIButton()
+
+  var currentFormattedDate: String {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    return formatter.string(from: Date())
+  }
+
+  // MARK: Notifications
+  lazy var notificationCenter: NotificationCenter = {
+    return NotificationCenter.default
+  }()
+  var notificationObserver: NSObjectProtocol?
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    weekTableView.tableFooterView = UIView(frame: CGRect.zero)
-    weekTableView.isScrollEnabled = false
-    weekTableView.separatorStyle = .none
+    notificationObserver = notificationCenter.addObserver(forName: NSNotification.Name(rawValue: NotificationEntryAddedOnWatch), object: nil, queue: nil) { (notification:Notification) -> Void in
+      self.updateDisplay()
+    }
 
-    view.addSubview(weekTableView)
-    weekTableView.translatesAutoresizingMaskIntoConstraints = false
-    weekTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
-    weekTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-    weekTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    weekTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    addButton.backgroundColor = .plum
+    addButton.setTitle("AddValue", for: .normal)
+    addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
+    view.addSubview(addButton)
 
-    weekTableView.delegate = self
-    weekTableView.dataSource = self
+    dailyTotalLabel.text = currentFormattedDate
+    dailyTotalLabel.sizeToFit()
+    view.addSubview(dailyTotalLabel)
+
+    addButton.translatesAutoresizingMaskIntoConstraints = false
+    addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    addButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+
+    dailyTotalLabel.translatesAutoresizingMaskIntoConstraints = false
+    dailyTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    dailyTotalLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor).isActive = true
+
+    addInitialViews()
 
     // record identifier of the user that's signed in on the device
     CKContainer.default().fetchUserRecordID { (recordID, error) in
@@ -50,26 +71,51 @@ class ViewController: UIViewController {
 
   }
 
+  func addInitialViews() {
+    let dateBanner = DateBanner()
+    view.addSubview(dateBanner)
+
+    dateBanner.translatesAutoresizingMaskIntoConstraints = false
+    dateBanner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    dateBanner.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    dateBanner.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
+    if #available(iOS 11.0, *) {
+      let safeArea = view.safeAreaLayoutGuide
+      dateBanner.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 65).isActive = true
+    } else {
+      dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 65).isActive = true
+    }
+
+    let dailyCircleChart = DailyCircleChart()
+    view.addSubview(dailyCircleChart)
+
+    dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
+    dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    dailyCircleChart.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
+    dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
+  }
+
+  func updateDisplay() {
+    let total = Entries.sharedInstance.totalDailyValueForEntry("Calories")
+    dailyTotalLabel.text = "Total: \(total)"
+  }
+
+  func successHandler() {
+    print("success")
+  }
+
+  func errorHandler() {
+    print("error")
+  }
+
+  @objc func didTapAdd() {
+    Entries.sharedInstance.cacheNewEntry(Entry(name: "Calories", timestamp: Date(), value: 100))
+    AppDelegate.sendEntryToWatch(successHandler: successHandler, errorHandler: errorHandler)
+    updateDisplay()
+  }
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
-
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 7
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-    cell.textLabel?.text = days[indexPath.row]
-    cell.detailTextLabel?.text = "\(Entries.sharedInstance.totalDailyValueForEntry("Calories"))"
-    cell.selectionStyle = .none
-    return cell
-  }
-
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return (view.bounds.height - 60) / 7
-  }
-}
 
 // CLOUDKIT STUFF
 

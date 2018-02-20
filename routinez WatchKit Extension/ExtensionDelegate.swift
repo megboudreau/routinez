@@ -75,14 +75,13 @@ extension ExtensionDelegate: WCSessionDelegate {
 
   // this might need to be updated at some point to userInfo to send multiple entries
   static func sendEntryToPhone(successHandler: (() -> Void), errorHandler: @escaping (()-> Void)) {
-    let session = WCSession.default
 
     // Here you want to get all the locally cached entries and send them over.
     let entriesDict = Entries.sharedInstance.entriesDict
 
     if WCSession.isSupported() {
       do {
-        try session.updateApplicationContext(entriesDict)
+        try WCSession.default.updateApplicationContext(entriesDict)
         ExtensionDelegate.reloadComplications()
         successHandler()
       } catch {
@@ -115,6 +114,13 @@ extension ExtensionDelegate: WCSessionDelegate {
             let entry = Entry(name: name, timestamp: timestamp, value: value, isBoolValue: isBoolValue)
             Entries.sharedInstance.cacheNewEntry(entry)
         }
+      }
+
+      DispatchQueue.main.async {
+        WKInterfaceController.reloadRootPageControllers(withNames: ["FirstEntryController"],
+                                                        contexts: nil,
+                                                        orientation: WKPageOrientation.vertical,
+                                                        pageIndex: 0)
       }
     }
   }
