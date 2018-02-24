@@ -21,10 +21,10 @@ class DateBanner: UIView {
     super.init(frame: .zero)
 
     clipsToBounds = true
-    backgroundColor = .plum
-    dateLabel.textColor = .white
+    backgroundColor = .white
+    dateLabel.textColor = .plum
     dateLabel.adjustsFontSizeToFitWidth = true
-    dateLabel.font = UIFont.systemFont(ofSize: 20)
+    dateLabel.font = UIFont.systemFont(ofSize: 30)
     dateLabel.text = currentFormattedDate
     dateLabel.sizeToFit()
 
@@ -43,6 +43,27 @@ class DateBanner: UIView {
 
     super.layoutSubviews()
   }
+}
+
+class CircularButton: UIButton {
+
+  init() {
+
+    super.init(frame: .zero)
+  }
+
+
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func draw(_ rect: CGRect) {
+    let path = UIBezierPath(ovalIn: rect)
+    UIColor.plum.setFill()
+    path.fill()
+  }
+
 }
 
 class AddCircle: UIButton {

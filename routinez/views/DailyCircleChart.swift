@@ -11,9 +11,8 @@ import Charts
 
 class DailyCircleChart: UIView {
 
-  var chartValueSelected: (() -> Void)?
+  var chartValueSelected: ((String) -> Void)?
   let chartColors: [UIColor] = [
-    .chartGrey,
     .chartBlue1,
     .chartBlue2,
     .chartBlue3,
@@ -30,7 +29,7 @@ class DailyCircleChart: UIView {
     let p = PieChartView()
     p.legend.enabled = false
     p.chartDescription?.enabled = false
-    p.holeRadiusPercent = 0.65
+    p.holeRadiusPercent = 0.70
 
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.alignment = .center
@@ -70,9 +69,7 @@ class DailyCircleChart: UIView {
     var dataEntries = [PieChartDataEntry]()
 
     for key in entryKeys {
-      let total = Entries.sharedInstance.totalDailyValueForEntry(key)
-      let label = "\(key): \(total)"
-      let entry = PieChartDataEntry(value: Double(1), label: label)
+      let entry = PieChartDataEntry(value: Double(1), label: key)
       dataEntries.append(entry)
     }
 
@@ -83,14 +80,14 @@ class DailyCircleChart: UIView {
     let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
     chartDataSet.colors = chartColors
     chartDataSet.sliceSpace = 0
-    chartDataSet.selectionShift = 0
+    chartDataSet.selectionShift = 10
     chartDataSet.drawValuesEnabled = false
 
     let chartData = PieChartData(dataSet: chartDataSet)
     pieChart.data = chartData
 
     if animate {
-      pieChart.animate(xAxisDuration: 1.3, yAxisDuration: 1.3)
+      pieChart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
     }
   }
 }
@@ -98,8 +95,11 @@ class DailyCircleChart: UIView {
 extension DailyCircleChart: ChartViewDelegate {
 
   func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-    print("Selected")
-    chartValueSelected?()
-  }
+    guard let entry = entry as? PieChartDataEntry,
+    let entryName = entry.label else {
+      return
+    }
 
+    chartValueSelected?(entryName)
+  }
 }

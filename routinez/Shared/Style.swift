@@ -10,7 +10,8 @@ import UIKit
 
 extension UIColor {
 
-  static var chartGrey = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
+  static var teal = UIColor(red:0.02, green:0.74, blue:0.74, alpha:1.0)
+  static var chartGrey = UIColor(red:0.93, green:0.91, blue:0.91, alpha:1.0)
   static var plum = UIColor(red:0.39, green:0.38, blue:0.89, alpha:1.0)
   static var chartBlue1 = UIColor(red:0.01, green:0.62, blue:0.87, alpha:1.0)
   static var chartBlue8 = UIColor(red:0.01, green:0.62, blue:0.83, alpha:1.0)

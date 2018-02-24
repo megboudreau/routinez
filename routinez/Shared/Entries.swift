@@ -96,6 +96,20 @@ class Entries {
     return todaysEntries.map { $0.value }.reduce(0, +)
   }
 
+  // TODO
+  func entriesForDay(_ name: String) -> [Entry] {
+    return []
+  }
+
+  func entriesForWeek(_ name: String) -> [Entry] {
+    return []
+  }
+
+  func entriesForMonth(_ name: String) -> [Entry] {
+    return []
+  }
+
+
   func cacheNewEntry(_ entry: Entry) {
     let defaults = UserDefaults.standard
 

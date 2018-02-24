@@ -17,6 +17,8 @@ class ViewController: UIViewController {
   var weekTableView = UITableView()
   var dailyTotalLabel = UILabel()
   let dailyCircleChart = DailyCircleChart()
+  let circularButton = CircularButton()
+  let selectedTotalLabel = UILabel()
 
   var currentFormattedDate: String {
     let formatter = DateFormatter()
@@ -69,12 +71,20 @@ class ViewController: UIViewController {
     }
 
     view.addSubview(dailyCircleChart)
-
+    dailyCircleChart.chartValueSelected = didSelectEntry
     dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
     dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 36).isActive = true
     dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
     dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
+
+    view.addSubview(selectedTotalLabel)
+    selectedTotalLabel.sizeToFit()
+    selectedTotalLabel.font = UIFont.systemFont(ofSize: 24)
+    selectedTotalLabel.textColor = .plum
+    selectedTotalLabel.translatesAutoresizingMaskIntoConstraints = false
+    selectedTotalLabel.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 16).isActive = true
+    selectedTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     let addCircle = AddCircle()
     addCircle.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
@@ -84,13 +94,22 @@ class ViewController: UIViewController {
     addCircle.heightAnchor.constraint(equalToConstant: 80).isActive = true
     addCircle.widthAnchor.constraint(equalToConstant: 80).isActive = true
     addCircle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    addCircle.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 36).isActive = true
+    addCircle.topAnchor.constraint(equalTo: selectedTotalLabel.bottomAnchor, constant: 16).isActive = true
   }
 
   func updateDisplay() {
     let total = Entries.sharedInstance.totalDailyValueForEntry("Calories")
     dailyTotalLabel.text = "Total: \(total)"
     dailyCircleChart.fillChart(animate: false)
+  }
+
+  func didSelectEntry(entryName: String) {
+    let total = Entries.sharedInstance.totalDailyValueForEntry(entryName)
+    let text = "\(entryName): \(total)"
+    selectedTotalLabel.text = text
+
+    let viewController = LineChartViewController(entryName: entryName)
+    navigationController?.pushViewController(viewController, animated: true)
   }
 
   func successHandler() {
@@ -100,6 +119,7 @@ class ViewController: UIViewController {
   func errorHandler() {
     print("error")
   }
+
 
   @objc func didTapAdd() {
     print("Adding 100")
