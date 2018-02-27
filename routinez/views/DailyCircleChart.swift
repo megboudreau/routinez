@@ -12,24 +12,12 @@ import Charts
 class DailyCircleChart: UIView {
 
   var chartValueSelected: ((String) -> Void)?
-  let chartColors: [UIColor] = [
-    .lightTeal,
-    .duskBlue,
-    .tangerine,
-    .cherry,
-    .mutedPurple,
-    .lightBlue,
-    .darkTeal,
-    .bubblegum,
-    .banana,
-    .fuschia
-  ]
 
   let pieChart: PieChartView = {
     let p = PieChartView()
     p.legend.enabled = false
     p.chartDescription?.enabled = false
-    p.holeRadiusPercent = 0.70
+    p.holeRadiusPercent = 0.75
 
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.alignment = .center
@@ -78,7 +66,7 @@ class DailyCircleChart: UIView {
     }
 
     let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
-    chartDataSet.colors = chartColors
+    chartDataSet.colors = UIColor.chartColors
     chartDataSet.sliceSpace = 2
     chartDataSet.selectionShift = 10
     chartDataSet.drawValuesEnabled = false

@@ -24,9 +24,6 @@ class LineChartTabBarController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    tabBar.backgroundColor = .white
-    tabBar.backgroundImage = nil
-
     viewControllers = [
       LineChartViewController(entryName: entryName),
       LineChartViewController(entryName: entryName, dateRange: .week),
@@ -49,13 +46,9 @@ class LineChartTabBarController: UITabBarController {
     tabBar.items?[0].selectedImage = daySelectedImage
     tabBar.items?[1].selectedImage = weekSelectedImage
     tabBar.items?[2].selectedImage = monthSelectedImage
-  }
-}
 
-extension UITabBar {
-  override open func sizeThatFits(_ size: CGSize) -> CGSize {
-    var sizeThatFits = super.sizeThatFits(size)
-    sizeThatFits.height = 60
-    return sizeThatFits
+    tabBar.items?[0].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+    tabBar.items?[1].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+    tabBar.items?[2].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
   }
 }

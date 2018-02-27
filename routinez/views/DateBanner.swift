@@ -68,10 +68,16 @@ class CircularButton: UIButton {
 
 class AddCircle: UIButton {
 
-  init() {
+  var circleFill: UIColor
+  var plusFill: UIColor
+
+  init(circleFill: UIColor = .plum, plusFill: UIColor = .white) {
+    self.circleFill = circleFill
+    self.plusFill = plusFill
+
     super.init(frame: .zero)
 
-    backgroundColor = .white
+    backgroundColor = UIColor.white.withAlphaComponent(0)
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -94,7 +100,7 @@ class AddCircle: UIButton {
 
   override func draw(_ rect: CGRect) {
     let path = UIBezierPath(ovalIn: rect)
-    UIColor.plum.setFill()
+    circleFill.setFill()
     path.fill()
 
     let plusWidth: CGFloat = min(bounds.width, bounds.height) * Constants.plusButtonScale
@@ -118,7 +124,7 @@ class AddCircle: UIButton {
       x: halfWidth + Constants.halfPointShift,
       y: halfHeight + halfPlusWidth + Constants.halfPointShift))
 
-    UIColor.white.setStroke()
+    plusFill.setStroke()
     plusPath.stroke()
   }
 }

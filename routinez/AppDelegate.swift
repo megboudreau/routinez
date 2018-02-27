@@ -22,7 +22,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
 
-    ThemeManager.applyTheme()
+    let window = UIWindow(frame: UIScreen.main.bounds)
+    self.window = window
+    window.applyTheme()
+    self.window?.makeKeyAndVisible()
+
+    let navController = UINavigationController(rootViewController: MainTabBarController())
+    window.rootViewController = navController
+
     setupWatchConnectivity()
     application.registerForRemoteNotifications()
     

@@ -35,6 +35,8 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    view.backgroundColor = .white
+
     notificationObserver = notificationCenter.addObserver(forName: NSNotification.Name(rawValue: NotificationEntryAddedOnWatch), object: nil, queue: nil) { (notification:Notification) -> Void in
       self.updateDisplay()
     }
@@ -85,16 +87,6 @@ class ViewController: UIViewController {
     selectedTotalLabel.translatesAutoresizingMaskIntoConstraints = false
     selectedTotalLabel.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 16).isActive = true
     selectedTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-    let addCircle = AddCircle()
-    addCircle.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
-    view.addSubview(addCircle)
-
-    addCircle.translatesAutoresizingMaskIntoConstraints = false
-    addCircle.heightAnchor.constraint(equalToConstant: 80).isActive = true
-    addCircle.widthAnchor.constraint(equalToConstant: 80).isActive = true
-    addCircle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    addCircle.topAnchor.constraint(equalTo: selectedTotalLabel.bottomAnchor, constant: 16).isActive = true
   }
 
   func updateDisplay() {

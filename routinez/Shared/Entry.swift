@@ -16,6 +16,10 @@ func ==(lhs: Entry, rhs: Entry) -> Bool {
     lhs.isBoolValue == rhs.isBoolValue
 }
 
+//TODO:
+// Entry with name, isBoolValue, unitOfMeasurement, values: EntryValues
+// ENtryValues: timestamp, value
+
 class Entry: Equatable {
 
   var name: String = "Calories"
@@ -37,9 +41,6 @@ class Entry: Equatable {
     self.timestamp = timestamp
     self.value = value
     self.isBoolValue = isBoolValue
-    print(name)
-    print(value)
-    print(timestamp)
   }
 }
 
