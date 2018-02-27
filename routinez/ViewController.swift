@@ -61,13 +61,13 @@ class ViewController: UIViewController {
 
     dateBanner.translatesAutoresizingMaskIntoConstraints = false
     dateBanner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    dateBanner.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    dateBanner.heightAnchor.constraint(equalToConstant: 50).isActive = true
     dateBanner.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
     if #available(iOS 11.0, *) {
       let safeArea = view.safeAreaLayoutGuide
-      dateBanner.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 65).isActive = true
+      dateBanner.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
     } else {
-      dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 65).isActive = true
+      dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
     }
 
     view.addSubview(dailyCircleChart)
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
     let text = "\(entryName): \(total)"
     selectedTotalLabel.text = text
 
-    let viewController = LineChartViewController(entryName: entryName)
+    let viewController = LineChartTabBarController(entryName: entryName)
     navigationController?.pushViewController(viewController, animated: true)
   }
 
@@ -127,6 +127,7 @@ class ViewController: UIViewController {
     AppDelegate.sendEntryToWatch(successHandler: successHandler, errorHandler: errorHandler)
     updateDisplay()
   }
+
 }
 
 

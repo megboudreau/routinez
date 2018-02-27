@@ -8,16 +8,36 @@
 
 import UIKit
 
+enum LineChartDateRange {
+  case day, week, month
+
+  var description: String {
+    switch self {
+    case .day:
+      return "today"
+    case .week:
+      return "this week"
+    case .month:
+      return "this month"
+    }
+  }
+
+//  TODO
+//  var dateRangeString: String
+}
+
 class LineChartViewController: UIViewController {
 
   var lineChartView: LineChart
   var entryName: String
+  var dateRange: LineChartDateRange
   let dateBanner = DateBanner()
   let totalLabel = UILabel()
 
-  init(entryName: String) {
+  init(entryName: String, dateRange: LineChartDateRange = .day) {
     self.entryName = entryName
-    lineChartView = LineChart(entryName: entryName)
+    self.dateRange = dateRange
+    lineChartView = LineChart(entryName: entryName, dateRange: dateRange)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -34,7 +54,7 @@ class LineChartViewController: UIViewController {
     view.addSubview(dateBanner)
     dateBanner.translatesAutoresizingMaskIntoConstraints = false
     dateBanner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    dateBanner.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    dateBanner.heightAnchor.constraint(equalToConstant: 50).isActive = true
     dateBanner.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
     if #available(iOS 11.0, *) {
       let safeArea = view.safeAreaLayoutGuide
@@ -58,6 +78,6 @@ class LineChartViewController: UIViewController {
     lineChartView.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 24).isActive = true
     lineChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     lineChartView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    lineChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+    lineChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70).isActive = true
   }
 }

@@ -12,6 +12,7 @@ import Charts
 class LineChart: UIView {
 
   let entryName: String
+  let dateRange: LineChartDateRange
 
   let lineChart: LineChartView = {
     let l = LineChartView()
@@ -45,8 +46,9 @@ class LineChart: UIView {
     return dateFormatter
   }()
 
-  init(entryName: String) {
+  init(entryName: String, dateRange: LineChartDateRange = .day) {
     self.entryName = entryName
+    self.dateRange = dateRange
 
     super.init(frame: .zero)
 
@@ -61,7 +63,14 @@ class LineChart: UIView {
 
   func drawChart() {
 
-    let entries: [Entry] = Entries.sharedInstance.entriesByName(name: entryName)
+    let entries: [Entry] = Entries.sharedInstance.entriesForDay(entryName)
+
+    guard entries.count > 0 else {
+      lineChart.noDataText = "No values recorded yet \(self.dateRange.description)."
+      lineChart.noDataFont = UIFont.systemFont(ofSize: 24)
+      lineChart.noDataTextColor = .plum
+      return
+    }
 
     var referenceTimeInterval: TimeInterval = 0
     if let minTimeInterval = (entries.map { $0.timestamp.timeIntervalSince1970 }).min() {
@@ -91,7 +100,7 @@ class LineChart: UIView {
     let lineChartDataSet = LineChartDataSet(values: dataEntries, label: entryName)
     lineChartDataSet.circleColors = [UIColor.teal]
     lineChartDataSet.circleHoleRadius = 3
-    lineChartDataSet.lineWidth = 1
+    lineChartDataSet.lineWidth = 2
     lineChartDataSet.valueTextColor = .clear
 
     let gradientColours = [

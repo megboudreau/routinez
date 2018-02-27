@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		150A6B641FE5A02B00435670 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
 		151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */; };
+		152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */; };
 		154CB8BF201552CB006A3E05 /* routinez.ckcomplication in Resources */ = {isa = PBXBuildFile; fileRef = 154CB8BE201552CB006A3E05 /* routinez.ckcomplication */; };
 		15607EC22016CA800071C9FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
 		159C6CDE203FB0C8007965EF /* LineChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159C6CDD203FB0C8007965EF /* LineChartViewController.swift */; };
@@ -90,6 +91,7 @@
 		13E1FAEF665C10A941BAC8A7 /* Pods-routinez.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-routinez.debug.xcconfig"; path = "Pods/Target Support Files/Pods-routinez/Pods-routinez.debug.xcconfig"; sourceTree = "<group>"; };
 		150A6B631FE5A02B00435670 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
+		152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartTabBarController.swift; sourceTree = "<group>"; };
 		154CB8BE201552CB006A3E05 /* routinez.ckcomplication */ = {isa = PBXFileReference; lastKnownFileType = folder; path = routinez.ckcomplication; sourceTree = "<group>"; };
 		159C6CDD203FB0C8007965EF /* LineChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartViewController.swift; sourceTree = "<group>"; };
 		159C6CDF20410EC0007965EF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				15EAFE9420225C780051947B /* CloudKitManager.swift */,
 				15FF87DA1F96D39700686BEB /* ViewController.swift */,
 				159C6CDD203FB0C8007965EF /* LineChartViewController.swift */,
+				152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */,
 				151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */,
 				15FF87DC1F96D39700686BEB /* Main.storyboard */,
 				15FF87DF1F96D39700686BEB /* Assets.xcassets */,
@@ -568,6 +571,7 @@
 				15D1CED3203E55160046731B /* LineChart.swift in Sources */,
 				15EAFEE0202BA3980051947B /* Entries.swift in Sources */,
 				15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */,
+				152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */,
 				151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */,
 				15D1CEC1203B6B900046731B /* Style.swift in Sources */,
 				159C6CE020410EC0007965EF /* Extensions.swift in Sources */,

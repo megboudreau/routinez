@@ -13,16 +13,16 @@ class DailyCircleChart: UIView {
 
   var chartValueSelected: ((String) -> Void)?
   let chartColors: [UIColor] = [
-    .chartBlue1,
-    .chartBlue2,
-    .chartBlue3,
-    .chartBlue4,
-    .chartBlue5,
-    .chartBlue6,
-    .chartBlue7,
-    .chartBlue8,
-    .chartBlue9,
-    .chartBlue10
+    .lightTeal,
+    .duskBlue,
+    .tangerine,
+    .cherry,
+    .mutedPurple,
+    .lightBlue,
+    .darkTeal,
+    .bubblegum,
+    .banana,
+    .fuschia
   ]
 
   let pieChart: PieChartView = {
@@ -79,7 +79,7 @@ class DailyCircleChart: UIView {
 
     let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
     chartDataSet.colors = chartColors
-    chartDataSet.sliceSpace = 0
+    chartDataSet.sliceSpace = 2
     chartDataSet.selectionShift = 10
     chartDataSet.drawValuesEnabled = false
 

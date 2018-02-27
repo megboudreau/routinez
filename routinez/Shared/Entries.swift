@@ -87,28 +87,39 @@ class Entries {
     return currentCachedEntries.filter{ $0.name == name }
   }
 
-  func totalDailyValueForEntry(_ name: String) -> Int {
-    let calendar = Calendar.current
-    let todaysEntries = entriesByName(name: name).filter {
-      calendar.isDateInToday($0.timestamp)
-    }
-
-    return todaysEntries.map { $0.value }.reduce(0, +)
-  }
-
   // TODO
   func entriesForDay(_ name: String) -> [Entry] {
-    return []
+    return entriesByName(name: name).filter {
+      Calendar.current.isDateInToday($0.timestamp)
+    }
   }
 
   func entriesForWeek(_ name: String) -> [Entry] {
-    return []
+    return entriesByName(name: name).filter {
+      $0.timestamp.isInThisWeek
+    }
   }
 
   func entriesForMonth(_ name: String) -> [Entry] {
-    return []
+    return entriesByName(name: name).filter {
+      $0.timestamp.isInThisMonth
+    }
   }
 
+  func totalDailyValueForEntry(_ name: String) -> Int {
+    let todaysEntries = entriesForDay(name)
+    return todaysEntries.map { $0.value }.reduce(0, +)
+  }
+
+  func totalWeeklyValueForEntry(_ name: String) -> Int {
+    let todaysEntries = entriesForWeek(name)
+    return todaysEntries.map { $0.value }.reduce(0, +)
+  }
+
+  func totalMonthlyValueForEntry(_ name: String) -> Int {
+    let todaysEntries = entriesForMonth(name)
+    return todaysEntries.map { $0.value }.reduce(0, +)
+  }
 
   func cacheNewEntry(_ entry: Entry) {
     let defaults = UserDefaults.standard
