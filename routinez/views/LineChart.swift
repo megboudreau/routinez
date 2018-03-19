@@ -13,6 +13,7 @@ class LineChart: UIView {
 
   let entryName: String
   let dateRange: LineChartDateRange
+  var data: LineChartData?
 
   let lineChart: LineChartView = {
     let l = LineChartView()
@@ -40,6 +41,7 @@ class LineChart: UIView {
 
   lazy private var dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
+    let calendar = Calendar(identifier: .gregorian)
     dateFormatter.locale = Locale.current
     dateFormatter.dateStyle = .none
     dateFormatter.timeStyle = .short
@@ -63,7 +65,19 @@ class LineChart: UIView {
 
   func drawChart() {
 
-    let entries: [Entry] = Entries.sharedInstance.entriesForDay(entryName)
+    var entries: [Entry]
+    switch dateRange {
+    case .day:
+      entries = Entries.sharedInstance.entriesForDay(entryName)
+    case .week:
+      // TODO
+      // daily totals for the week
+      entries = Entries.sharedInstance.entriesForWeek(entryName)
+    case .month:
+      // TODO
+      // weekly totals for each week 
+      entries = Entries.sharedInstance.entriesForMonth(entryName)
+    }
 
     guard entries.count > 0 else {
       lineChart.noDataText = "No values recorded yet \(self.dateRange.description)."
@@ -83,6 +97,7 @@ class LineChart: UIView {
     )
 
     lineChart.xAxis.valueFormatter = xValuesNumberFormatter
+    lineChart.xAxis.granularity = 1.0 //
     lineChart.xAxis.labelCount = entries.count
     lineChart.xAxis.labelRotationAngle = -90
 
@@ -90,6 +105,7 @@ class LineChart: UIView {
     var dataEntries = [ChartDataEntry]()
     let sortedEntries = entries.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending })
     for entry in sortedEntries {
+      getDayOfWeek(todayDate: entry.timestamp)
       let timeInterval = entry.timestamp.timeIntervalSince1970
       let xValue = (timeInterval - referenceTimeInterval)
       let yValue = entry.value
@@ -115,9 +131,17 @@ class LineChart: UIView {
 
     let data = LineChartData()
     data.addDataSet(lineChartDataSet)
-    lineChart.data = data
 
-    lineChart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
+    self.data = data
+  }
+
+  func getDayOfWeek(todayDate: Date) {
+
+    let formatter  = DateFormatter()
+
+    let myComponents = Calendar(identifier: .gregorian).component(.weekday, from: todayDate)
+    let weekDay = myComponents.day
+    print(weekDay, "!!!")
   }
 }
 

@@ -17,7 +17,7 @@ class DailyCircleChart: UIView {
     let p = PieChartView()
     p.legend.enabled = false
     p.chartDescription?.enabled = false
-    p.holeRadiusPercent = 0.75
+    p.holeRadiusPercent = 0.70
 
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.alignment = .center
@@ -67,7 +67,7 @@ class DailyCircleChart: UIView {
 
     let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
     chartDataSet.colors = UIColor.chartColors
-    chartDataSet.sliceSpace = 2
+    chartDataSet.sliceSpace = 4
     chartDataSet.selectionShift = 10
     chartDataSet.drawValuesEnabled = false
 

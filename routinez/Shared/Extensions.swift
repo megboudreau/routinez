@@ -10,19 +10,19 @@ import UIKit
 
 extension Date {
   func isInSameWeek(date: Date) -> Bool {
-    return Calendar.current.isDate(self, equalTo: date, toGranularity: .weekOfYear)
+    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .weekOfYear)
   }
 
   func isInSameMonth(date: Date) -> Bool {
-    return Calendar.current.isDate(self, equalTo: date, toGranularity: .month)
+    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .month)
   }
 
   func isInSameYear(date: Date) -> Bool {
-    return Calendar.current.isDate(self, equalTo: date, toGranularity: .year)
+    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .year)
   }
 
   func isInSameDay(date: Date) -> Bool {
-    return Calendar.current.isDate(self, equalTo: date, toGranularity: .day)
+    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .day)
   }
 
   var isInThisWeek: Bool {
@@ -34,7 +34,7 @@ extension Date {
   }
 
   var isInToday: Bool {
-    return Calendar.current.isDateInToday(self)
+    return Calendar.autoupdatingCurrent.isDateInToday(self)
   }
 
   var isInTheFuture: Bool {

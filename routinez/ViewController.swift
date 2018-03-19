@@ -75,10 +75,10 @@ class ViewController: UIViewController {
     view.addSubview(dailyCircleChart)
     dailyCircleChart.chartValueSelected = didSelectEntry
     dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
-    dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 36).isActive = true
+    dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 44).isActive = true
     dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
-    dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90).isActive = true
+    dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
+    dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
 
     view.addSubview(selectedTotalLabel)
     selectedTotalLabel.sizeToFit()
