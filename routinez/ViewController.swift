@@ -19,8 +19,6 @@ class ViewController: UIViewController {
   let circularButton = CircularButton()
   let selectedTotalLabel = UILabel()
 
-  let BUTTON = UIButton()
-
   var currentFormattedDate: String {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
@@ -90,15 +88,6 @@ class ViewController: UIViewController {
     selectedTotalLabel.translatesAutoresizingMaskIntoConstraints = false
     selectedTotalLabel.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 16).isActive = true
     selectedTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-
-    view.addSubview(BUTTON)
-    BUTTON.setTitle("ADD 100", for: .normal)
-    BUTTON.setTitleColor(.black, for: .normal)
-    BUTTON.translatesAutoresizingMaskIntoConstraints = false
-    BUTTON.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    BUTTON.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    BUTTON.addTarget(self, action: #selector(add), for: .touchUpInside)
   }
 
   func updateDisplay() {
@@ -123,17 +112,6 @@ class ViewController: UIViewController {
 
   func errorHandler() {
     print("error")
-  }
-
-  @objc func add() {
-    print("Adding 100")
-    let entry = Entry(timestamp: Date(), value: 100)
-    guard let activity = Entries.sharedInstance.activityForName("Calories") else {
-      return
-    }
-    Entries.sharedInstance.cacheNewEntry(entry, for: activity)
-    AppDelegate.sendEntryToWatch(successHandler: successHandler, errorHandler: errorHandler)
-    updateDisplay()
   }
 }
 
