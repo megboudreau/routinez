@@ -18,11 +18,8 @@ class MainTabBarController: UITabBarController {
       CreateEntryViewController()
     ]
 
-    let ringImage = UIImage(named: "deselectedRing")
-    let ringSelectedImage = UIImage(named: "selectedRing")
-
-    let plusImage = UIImage(named: "plusIcon")
-    let plusSelectedImage = UIImage(named: "selectedPlusIcon")
+    let ringImage = UIImage(named: "ringIcon")
+    let plusImage = UIImage(named: "addActivityIcon")
 
     tabBar.items?[0].image = ringImage
     tabBar.items?[1].image = plusImage
@@ -30,7 +27,6 @@ class MainTabBarController: UITabBarController {
     tabBar.items?[0].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
     tabBar.items?[1].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
 
-    tabBar.items?[0].selectedImage = ringSelectedImage
-    tabBar.items?[1].selectedImage = plusSelectedImage
+    tabBar.tintColor = .plum
   }
 }

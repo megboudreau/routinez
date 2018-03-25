@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "deselectedMonthCalendar.png"
+      "filename" : "addActivityIcon.png"
     }
   ],
   "info" : {
@@ -10,6 +10,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template"
   }
 }

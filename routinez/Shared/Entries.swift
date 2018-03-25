@@ -20,13 +20,6 @@ class Entries {
 
   private init() {}
 
-//  var allEntries: [Entry] {
-//    return [Entry]()
-//
-//
-//    // TODO: check cache and return all the current entries saved to icloud
-//  }
-
   var currentCachedEntries: [Entry]? {
     guard let currentEntriesArray = UserDefaults.standard.array(forKey: defaultsEntryKey) else {
       return nil

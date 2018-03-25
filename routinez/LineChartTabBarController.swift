@@ -30,25 +30,18 @@ class LineChartTabBarController: UITabBarController {
       LineChartViewController(entryName: entryName, dateRange: .month)
     ]
 
-    let dayImage = UIImage(named: "deselectedDayCalendar")
-    let daySelectedImage = UIImage(named: "dayCalendar")?.withRenderingMode(.alwaysOriginal)
-
-    let weekImage = UIImage(named: "deselectedWeekCalendar")?.withRenderingMode(.alwaysOriginal)
-    let weekSelectedImage = UIImage(named: "weekCalendar")?.withRenderingMode(.alwaysOriginal)
-
-    let monthImage = UIImage(named: "deselectedMonthCalendar")?.withRenderingMode(.alwaysOriginal)
-    let monthSelectedImage = UIImage(named: "monthCalendar")?.withRenderingMode(.alwaysOriginal)
+    let dayImage = UIImage(named: "dayCalendar")
+    let weekImage = UIImage(named: "weekCalendar")
+    let monthImage = UIImage(named: "monthCalendar")
 
     tabBar.items?[0].image = dayImage
     tabBar.items?[1].image = weekImage
     tabBar.items?[2].image = monthImage
 
-    tabBar.items?[0].selectedImage = daySelectedImage
-    tabBar.items?[1].selectedImage = weekSelectedImage
-    tabBar.items?[2].selectedImage = monthSelectedImage
-
     tabBar.items?[0].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
     tabBar.items?[1].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
     tabBar.items?[2].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+
+    tabBar.tintColor = .plum
   }
 }
