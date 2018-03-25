@@ -77,14 +77,15 @@ extension ExtensionDelegate: WCSessionDelegate {
   static func sendEntryToPhone(successHandler: (() -> Void), errorHandler: @escaping (()-> Void)) {
 
     // Here you want to get all the locally cached entries and send them over.
-    let entriesDict = Entries.sharedInstance.entriesDict
+    let entriesDict = Entries.sharedInstance.activitiesAndEntriesDict
 
     if WCSession.isSupported() {
       do {
         try WCSession.default.updateApplicationContext(entriesDict)
         ExtensionDelegate.reloadComplications()
         successHandler()
-      } catch {
+      } catch let error {
+        print(error.localizedDescription)
         errorHandler()
       }
     }
@@ -105,24 +106,41 @@ extension ExtensionDelegate: WCSessionDelegate {
   func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
     print("didReceiveApplicationContext")
 
-    if let entries = applicationContext["Entries"] as? [[String:Any]] {
-      for dict in entries {
-        if let timestamp = dict["timestamp"] as? Date,
-          let name = dict["name"] as? String,
-          let value = dict["value"] as? Int,
-          let isBoolValue = dict["isBoolValue"] as? Bool {
-            let entry = Entry(name: name, timestamp: timestamp, value: value, isBoolValue: isBoolValue)
-            Entries.sharedInstance.cacheNewEntry(entry)
+    if let activities = applicationContext[watchConnectivityActivitiesKey] as? [[String: Any]],
+      let entries = applicationContext[watchConnectivityEntriesKey] as? [String: Any] {
+
+
+      for activityDict in activities {
+        if let name = activityDict["name"] as? String,
+          let isBool = activityDict["isBoolValue"] as? Bool,
+          let unit = activityDict["unitOfMeasurement"] as? String {
+          let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: unit)
+          Entries.sharedInstance.cacheNewActivity(activity)
+
+          if entries.keys.contains(activity.name),
+            let activityEntries = entries[activity.name] as? [[String: Any]] {
+            for entry in activityEntries {
+              if let time = entry["timestamp"] as? Date,
+                let value = entry["value"] as? Int {
+                let newEntry = Entry(timestamp: time, value: value)
+                Entries.sharedInstance.cacheNewEntry(newEntry, for: activity)
+              }
+            }
+          }
         }
       }
-
-      DispatchQueue.main.async {
-        WKInterfaceController.reloadRootPageControllers(withNames: ["FirstEntryController"],
-                                                        contexts: nil,
-                                                        orientation: WKPageOrientation.vertical,
-                                                        pageIndex: 0)
-      }
+      reloadRootController()
     }
+  }
+
+  func reloadRootController() {
+    DispatchQueue.main.async {
+      WKInterfaceController.reloadRootPageControllers(withNames: ["FirstEntryController"],
+                                                      contexts: nil,
+                                                      orientation: WKPageOrientation.vertical,
+                                                      pageIndex: 0)
+    }
+
   }
 
   func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {

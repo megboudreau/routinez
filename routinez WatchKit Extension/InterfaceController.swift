@@ -17,7 +17,7 @@ class InterfaceController: WKInterfaceController {
   @IBOutlet var addButton: WKInterfaceButton!
 
   var selectedItem: Int = 0
-  var entry: Entry?
+  var activity: Activity?
 
 //  let ckManager = CloudKitManager.sharedInstance()
 
@@ -29,17 +29,19 @@ class InterfaceController: WKInterfaceController {
   override func willActivate() {
     super.willActivate()
 
-    if let currentEntry = Entries.sharedInstance.currentCachedEntries?.first {
-      self.entry = currentEntry
+    if let currentActivity = Entries.sharedInstance.cachedActivities?.first {
+      self.activity = currentActivity
     } else {
-      self.entry = Entry(name: "Calories", timestamp: Date(), value: 0)
+      let a = Activity(name: "Calories")
+      self.activity = a
+      Entries.sharedInstance.cacheNewActivity(a)
     }
 
     let entryValues = stride(from:0, to: 2500, by: 10)
     let pickerItems: [WKPickerItem] = entryValues.map {
       let pickerItem = WKPickerItem()
       pickerItem.title = "\($0)"
-      pickerItem.caption = entry?.name
+      pickerItem.caption = activity?.name
       return pickerItem
     }
 
@@ -54,22 +56,23 @@ class InterfaceController: WKInterfaceController {
   }
 
   func updateDisplay() {
-    guard let entry = entry else {
+    guard let activity = activity else {
       return
     }
 
-    let currentDailyTotal = Entries.sharedInstance.totalDailyValueForEntry(entry.name)
+    let currentDailyTotal = Entries.sharedInstance.totalDailyValue(for: activity)
     updateDailyTotal(with: currentDailyTotal)
 
     // TODO create different view controllers based on entries
   }
 
   @IBAction func didTapAddButton() {
-    guard let entry = entry else {
+    guard let activity = activity else {
       return
     }
 
-    Entries.sharedInstance.cacheNewEntry(Entry(name: entry.name, timestamp: Date(), value: selectedItem, isBoolValue: false))
+    let entry = Entry(timestamp: Date(), value: selectedItem)
+    Entries.sharedInstance.cacheNewEntry(entry, for: activity)
 
     addButton.setTitle("Sending...")
     ExtensionDelegate.sendEntryToPhone(
@@ -90,12 +93,12 @@ class InterfaceController: WKInterfaceController {
   }
 
   func setSuccessTitle() {
-    guard let entry = entry else {
+    guard let activity = activity else {
       return
     }
 
     addButton.setTitle("Success!")
-    updateDailyTotal(with: Entries.sharedInstance.totalDailyValueForEntry(entry.name))
+    updateDailyTotal(with: Entries.sharedInstance.totalDailyValue(for: activity))
     delay(1) {
       self.addButton.setTitle("Add")
     }

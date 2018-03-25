@@ -113,16 +113,16 @@ class CloudKitManager {
   }
 
   func saveEntry(entry: Entry, viaWC: Bool) {
-    let record = CKRecord(recordType: recordType, zoneID: zoneID)
-    record["timestamp"] = entry.timestamp as NSDate
-    record["value"] = entry.value as NSNumber
-    record["name"] = entry.name as NSString
-    record["isBoolValue"] = entry.isBoolValue as NSNumber
-
-    privateDB.save(record) { _, error in
-      if let error = error {
-        print("saveEntry to \(self.zoneID) ERROR \(error.localizedDescription)")
-      } else {
+//    let record = CKRecord(recordType: recordType, zoneID: zoneID)
+//    record["timestamp"] = entry.timestamp as NSDate
+//    record["value"] = entry.value as NSNumber
+//    record["name"] = entry.name as NSString
+//    record["isBoolValue"] = entry.isBoolValue as NSNumber
+//
+//    privateDB.save(record) { _, error in
+//      if let error = error {
+//        print("saveEntry to \(self.zoneID) ERROR \(error.localizedDescription)")
+//      } else {
 //        print("saveDate to \(self.zoneID) success")
 //        if viaWC, let update = self.updateLocalData {
 //          update(record)
@@ -132,8 +132,8 @@ class CloudKitManager {
 //            self.subscribeToChanges()
 //          }
 //        #endif
-      }
-    }
+//      }
+//    }
   }
 
   // Example query to get all photos from an album

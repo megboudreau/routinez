@@ -10,10 +10,10 @@ import UIKit
 
 class LineChartTabBarController: UITabBarController {
 
-  let entryName: String
+  let activity: Activity
 
-  init(entryName: String) {
-    self.entryName = entryName
+  init(activity: Activity) {
+    self.activity = activity
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -25,9 +25,9 @@ class LineChartTabBarController: UITabBarController {
     super.viewDidLoad()
 
     viewControllers = [
-      LineChartViewController(entryName: entryName),
-      LineChartViewController(entryName: entryName, dateRange: .week),
-      LineChartViewController(entryName: entryName, dateRange: .month)
+      LineChartViewController(activity: activity),
+      LineChartViewController(activity: activity, dateRange: .week),
+      LineChartViewController(activity: activity, dateRange: .month)
     ]
 
     let dayImage = UIImage(named: "dayCalendar")

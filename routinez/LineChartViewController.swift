@@ -29,15 +29,15 @@ enum LineChartDateRange {
 class LineChartViewController: UIViewController {
 
   var lineChartView: LineChart
-  var entryName: String
+  var activity: Activity
   var dateRange: LineChartDateRange
   let dateBanner = UILabel()
   let totalLabel = UILabel()
 
-  init(entryName: String, dateRange: LineChartDateRange = .day) {
-    self.entryName = entryName
+  init(activity: Activity, dateRange: LineChartDateRange = .day) {
+    self.activity = activity
     self.dateRange = dateRange
-    lineChartView = LineChart(entryName: entryName, dateRange: dateRange)
+    lineChartView = LineChart(activity: activity, dateRange: dateRange)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -66,7 +66,7 @@ class LineChartViewController: UIViewController {
       dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
     }
 
-    setTotalForDateRange(entryName: entryName, dateRange: dateRange)
+    setTotalForDateRange(activity: activity, dateRange: dateRange)
     totalLabel.font = UIFont.systemFont(ofSize: 20)
     totalLabel.adjustsFontSizeToFitWidth = true
     totalLabel.sizeToFit()
@@ -94,17 +94,17 @@ class LineChartViewController: UIViewController {
     lineChartView.lineChart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
   }
 
-  func setTotalForDateRange(entryName: String, dateRange: LineChartDateRange) {
+  func setTotalForDateRange(activity: Activity, dateRange: LineChartDateRange) {
     switch dateRange {
     case .day:
-      let total = Entries.sharedInstance.totalDailyValueForEntry(entryName)
-      totalLabel.text = "\(entryName) for \(dateRange.description): \(total)"
+      let total = Entries.sharedInstance.totalDailyValue(for: activity)
+      totalLabel.text = "\(activity.name) for \(dateRange.description): \(total)"
     case .week:
-      let total = Entries.sharedInstance.totalWeeklyValueForEntry(entryName)
-      totalLabel.text = "\(entryName) for \(dateRange.description): \(total)"
+      let total = Entries.sharedInstance.totalWeeklyValue(for: activity)
+      totalLabel.text = "\(activity.name) for \(dateRange.description): \(total)"
     case .month:
-      let total = Entries.sharedInstance.totalMonthlyValueForEntry(entryName)
-      totalLabel.text = "\(entryName) for \(dateRange.description): \(total)"
+      let total = Entries.sharedInstance.totalMonthlyValue(for: activity)
+      totalLabel.text = "\(activity.name) for \(dateRange.description): \(total)"
     }
   }
 

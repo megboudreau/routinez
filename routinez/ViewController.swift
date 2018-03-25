@@ -15,10 +15,11 @@ class ViewController: UIViewController {
   static var subscriptionIsLocallyCached: Bool = false
 
   var weekTableView = UITableView()
-  var dailyTotalLabel = UILabel()
   let dailyCircleChart = DailyCircleChart()
   let circularButton = CircularButton()
   let selectedTotalLabel = UILabel()
+
+  let BUTTON = UIButton()
 
   var currentFormattedDate: String {
     let formatter = DateFormatter()
@@ -41,8 +42,9 @@ class ViewController: UIViewController {
       self.updateDisplay()
     }
 
-    if Entries.sharedInstance.currentCachedEntries == nil {
-      Entries.sharedInstance.cacheNewEntry(Entry(name: "Calories", timestamp: Date(), value: 0))
+    if Entries.sharedInstance.cachedActivities == nil {
+      let activity = Activity(name: "Calories")
+      Entries.sharedInstance.cacheNewActivity(activity)
     }
 
     addInitialViews()
@@ -73,12 +75,13 @@ class ViewController: UIViewController {
     }
 
     view.addSubview(dailyCircleChart)
-    dailyCircleChart.chartValueSelected = didSelectEntry
+    dailyCircleChart.chartValueSelected = didSelectActivity
     dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
     dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 44).isActive = true
     dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
     dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
+    dailyCircleChart.fillChart()
 
     view.addSubview(selectedTotalLabel)
     selectedTotalLabel.sizeToFit()
@@ -87,20 +90,30 @@ class ViewController: UIViewController {
     selectedTotalLabel.translatesAutoresizingMaskIntoConstraints = false
     selectedTotalLabel.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 16).isActive = true
     selectedTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+
+
+    view.addSubview(BUTTON)
+    BUTTON.setTitle("ADD 100", for: .normal)
+    BUTTON.setTitleColor(.black, for: .normal)
+    BUTTON.translatesAutoresizingMaskIntoConstraints = false
+    BUTTON.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    BUTTON.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    BUTTON.addTarget(self, action: #selector(add), for: .touchUpInside)
   }
 
   func updateDisplay() {
-    let total = Entries.sharedInstance.totalDailyValueForEntry("Calories")
-    dailyTotalLabel.text = "Total: \(total)"
     dailyCircleChart.fillChart(animate: false)
   }
 
-  func didSelectEntry(entryName: String) {
-    let total = Entries.sharedInstance.totalDailyValueForEntry(entryName)
-    let text = "\(entryName): \(total)"
+  func didSelectActivity(activityName: String) {
+    guard let activity = Entries.sharedInstance.activityForName(activityName) else {
+      return
+    }
+    let total = Entries.sharedInstance.totalDailyValue(for: activity)
+    let text = "\(activityName): \(total)"
     selectedTotalLabel.text = text
 
-    let viewController = LineChartTabBarController(entryName: entryName)
+    let viewController = LineChartTabBarController(activity: activity)
     navigationController?.pushViewController(viewController, animated: true)
   }
 
@@ -112,14 +125,16 @@ class ViewController: UIViewController {
     print("error")
   }
 
-
-  @objc func didTapAdd() {
+  @objc func add() {
     print("Adding 100")
-    Entries.sharedInstance.cacheNewEntry(Entry(name: "Calories", timestamp: Date(), value: 100))
+    let entry = Entry(timestamp: Date(), value: 100)
+    guard let activity = Entries.sharedInstance.activityForName("Calories") else {
+      return
+    }
+    Entries.sharedInstance.cacheNewEntry(entry, for: activity)
     AppDelegate.sendEntryToWatch(successHandler: successHandler, errorHandler: errorHandler)
     updateDisplay()
   }
-
 }
 
 

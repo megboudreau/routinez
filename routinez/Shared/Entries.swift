@@ -12,7 +12,9 @@ enum EntryCacheKeys: String {
   case timestamp, value, name, isBoolValue
 }
 
-let defaultsEntryKey = "Entries"
+let watchConnectivityActivitiesKey = "Activities"
+let watchConnectivityEntriesKey = "Entries"
+let defaultsActivitiesKey = "Activities"
 
 class Entries {
 
@@ -20,121 +22,157 @@ class Entries {
 
   private init() {}
 
-  var currentCachedEntries: [Entry]? {
-    guard let currentEntriesArray = UserDefaults.standard.array(forKey: defaultsEntryKey) else {
+  var cachedActivities: [Activity]? {
+    let defaults = UserDefaults.standard
+    if let data = defaults.value(forKey: defaultsActivitiesKey) as? Data {
+      let activities = try? PropertyListDecoder().decode(Array<Activity>.self, from: data)
+      return activities
+    }
+
+    return nil
+  }
+
+  var activityKeys: [String]? {
+    guard let cachedActivities = cachedActivities else {
+      return nil
+    }
+    return cachedActivities.map { $0.name }
+  }
+
+  func currentCachedEntries(for activity: Activity) -> [Entry]? {
+    let key = activity.name
+    let defaults = UserDefaults.standard
+
+    if let data = defaults.value(forKey: key) as? Data {
+      let entries = try? PropertyListDecoder().decode(Array<Entry>.self, from: data)
+        return entries
+    }
+
+    return nil
+  }
+
+  func activityForName(_ name: String) -> Activity? {
+    guard let cachedActivities = cachedActivities else {
       return nil
     }
 
-    var cachedEntries: [Entry] = [Entry]()
+    return cachedActivities.filter { $0.name == name }.first
+  }
 
-    for cachedEntry in currentEntriesArray {
-      if let cachedEntry = cachedEntry as? NSDictionary,
-        let timestamp = cachedEntry["timestamp"] as? Date,
-        let name = cachedEntry["name"] as? String,
-        let value = cachedEntry["value"] as? Int,
-        let isBoolValue = cachedEntry["isBoolValue"] as? Bool {
-        let entry = Entry(name: name, timestamp: timestamp, value: value, isBoolValue: isBoolValue)
-        cachedEntries.append(entry)
-      }
+  func entriesForDay(_ activity: Activity) -> [Entry] {
+    guard let currentCachedEntries = currentCachedEntries(for: activity) else {
+      return [Entry]()
     }
-
-    return cachedEntries
-  }
-
-  var sortedEntriesByName: [String: [Entry]] {
-    var sortedEntries: [String: [Entry]] = [:]
-
-    if let currentCachedEntries = currentCachedEntries {
-      for entry in currentCachedEntries {
-        if !sortedEntries.keys.contains(entry.name) {
-          sortedEntries[entry.name] = [entry]
-        } else {
-          sortedEntries[entry.name]?.append(entry)
-        }
-      }
-    }
-
-    return sortedEntries
-  }
-
-  var totalEntryCount: Int {
-    return sortedEntriesByName.keys.count
-  }
-
-  var entriesDict: [String: Any] {
-    var entriesArray: [[String: Any]] = []
-
-    if let currentCachedEntries = currentCachedEntries {
-      for entry in currentCachedEntries {
-        entriesArray.append(entry.dictValue)
-      }
-    }
-
-    return [defaultsEntryKey: entriesArray]
-  }
-
-  func entriesByName(name: String) -> [Entry] {
-    guard let currentCachedEntries = currentCachedEntries else {
-      return []
-    }
-    return currentCachedEntries.filter{ $0.name == name }
-  }
-
-  // TODO
-  func entriesForDay(_ name: String) -> [Entry] {
-    return entriesByName(name: name).filter {
+    return currentCachedEntries.filter {
       Calendar.current.isDateInToday($0.timestamp)
     }
   }
 
-  func entriesForWeek(_ name: String) -> [Entry] {
-    return entriesByName(name: name).filter {
+  func entriesForWeek(_ activity: Activity) -> [Entry] {
+    guard let currentCachedEntries = currentCachedEntries(for: activity) else {
+      return [Entry]()
+    }
+    return currentCachedEntries.filter {
       $0.timestamp.isInThisWeek
     }
   }
 
-  func entriesForMonth(_ name: String) -> [Entry] {
-    return entriesByName(name: name).filter {
+  func entriesForMonth(_ activity: Activity) -> [Entry] {
+    guard let currentCachedEntries = currentCachedEntries(for: activity) else {
+      return [Entry]()
+    }
+    return currentCachedEntries.filter {
       $0.timestamp.isInThisMonth
     }
   }
 
-  func totalDailyValueForEntry(_ name: String) -> Int {
-    let todaysEntries = entriesForDay(name)
+  func totalDailyValue(for activity: Activity) -> Int {
+    let todaysEntries = entriesForDay(activity)
     return todaysEntries.map { $0.value }.reduce(0, +)
   }
 
-  func totalWeeklyValueForEntry(_ name: String) -> Int {
-    let todaysEntries = entriesForWeek(name)
+  func totalWeeklyValue(for activity: Activity) -> Int {
+    let todaysEntries = entriesForWeek(activity)
     return todaysEntries.map { $0.value }.reduce(0, +)
   }
 
-  func totalMonthlyValueForEntry(_ name: String) -> Int {
-    let todaysEntries = entriesForMonth(name)
+  func totalMonthlyValue(for activity: Activity) -> Int {
+    let todaysEntries = entriesForMonth(activity)
     return todaysEntries.map { $0.value }.reduce(0, +)
   }
 
-  func cacheNewEntry(_ entry: Entry) {
+  func cacheEntries(_ entries: [Entry], for activity: Activity) {
     let defaults = UserDefaults.standard
+    let encoder = PropertyListEncoder()
+    let key = activity.name
 
-    guard let currentCachedEntries = currentCachedEntries else {
-      defaults.setValue([entry.dictValue], forKey: defaultsEntryKey)
+    guard var _ = currentCachedEntries(for: activity) else {
+      defaults.set(try? encoder.encode(entries), forKey: key)
+      defaults.synchronize()
+      return
+    }
+  }
+
+  func cacheNewEntry(_ entry: Entry, for activity: Activity) {
+    let defaults = UserDefaults.standard
+    let encoder = PropertyListEncoder()
+    let key = activity.name
+
+    guard var currentCachedEntries = currentCachedEntries(for: activity) else {
+      defaults.set(try? encoder.encode([entry]), forKey: key)
       defaults.synchronize()
       return
     }
 
     if !currentCachedEntries.contains(entry) {
-
-      var entriesDictArray = [[String: Any]]()
-      entriesDictArray.append(entry.dictValue)
-      for entry in currentCachedEntries {
-        entriesDictArray.append(entry.dictValue)
-      }
-
-      defaults.setValue(entriesDictArray, forKey: defaultsEntryKey)
+      currentCachedEntries.append(entry)
+      defaults.set(try? encoder.encode(currentCachedEntries), forKey: key)
       defaults.synchronize()
     }
-
-    let _ = defaults.array(forKey: defaultsEntryKey)
   }
+
+  func cacheNewActivity(_ activity: Activity) {
+    let defaults = UserDefaults.standard
+    let encoder = PropertyListEncoder()
+
+    guard var cachedActivities = cachedActivities else {
+      defaults.set(try? encoder.encode([activity]), forKey: defaultsActivitiesKey)
+      defaults.synchronize()
+      return
+    }
+
+    if !cachedActivities.contains(activity) {
+      cachedActivities.append(activity)
+
+      defaults.set(try? encoder.encode(cachedActivities), forKey: defaultsActivitiesKey)
+      defaults.synchronize()
+    }
+  }
+
+  var activitiesAndEntriesDict: [String: Any] {
+    guard let cachedActivities = cachedActivities else {
+      return [watchConnectivityActivitiesKey: [],
+              watchConnectivityEntriesKey: []]
+    }
+
+    var activityEntriesDict = [String: Any]()
+    for activity in cachedActivities {
+      if let entries = currentCachedEntries(for: activity) {
+        var entriesDict = [[String:Any]]()
+        for entry in entries {
+          entriesDict.append(entry.dictValue)
+        }
+        activityEntriesDict[activity.name] = entriesDict
+      }
+    }
+
+    var activitiesDict = [[String: Any]]()
+    for activity in cachedActivities {
+      activitiesDict.append(activity.dictValue)
+    }
+
+    return [watchConnectivityActivitiesKey: activitiesDict,
+            watchConnectivityEntriesKey: activityEntriesDict]
+  }
+
 }

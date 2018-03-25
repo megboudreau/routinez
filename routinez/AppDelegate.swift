@@ -83,29 +83,39 @@ extension AppDelegate: WCSessionDelegate {
     let session = WCSession.default
 
     // Here you want to get all the locally cached entries and send them over.
-    let entriesDict = Entries.sharedInstance.entriesDict
+    let activitiesAndEntriesDict = Entries.sharedInstance.activitiesAndEntriesDict
 
     if WCSession.isSupported() {
       do {
-        try session.updateApplicationContext(entriesDict)
+        try session.updateApplicationContext(activitiesAndEntriesDict)
         successHandler()
-      } catch {
+      } catch let error {
+        print(error.localizedDescription)
         errorHandler()
       }
     }
   }
 
   func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-    if let entries = applicationContext["Entries"] as? [[String:Any]] {
+    if let activities = applicationContext[watchConnectivityActivitiesKey] as? [String: Any],
+      let entries = applicationContext[watchConnectivityEntriesKey] as? [String: Any] {
 
-      for dict in entries {
-        if let timestamp = dict["timestamp"] as? Date,
-          let name = dict["name"] as? String,
-          let value = dict["value"] as? Int,
-          let isBoolValue = dict["isBoolValue"] as? Bool {
-          let entry = Entry(name: name, timestamp: timestamp, value: value, isBoolValue: isBoolValue)
-          Entries.sharedInstance.cacheNewEntry(entry)
-          // CKManager.saveEntry(entry: entry, viaWC: true) // TO DO
+      for key in activities.keys {
+        if let values = activities[key] as? [String: Any],
+          let name = values["name"] as? String,
+          let isBool = values["isBoolValue"] as? Bool,
+          let unit = values["unitOfMeasurement"] as? String {
+          let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: unit)
+          Entries.sharedInstance.cacheNewActivity(activity)
+
+          if entries.keys.contains(activity.name),
+            let e = entries[key] as? [String: Any] {
+            if let time = e["timestamp"] as? Date,
+              let value = e["value"] as? Int {
+              let newEntry = Entry(timestamp: time, value: value)
+              Entries.sharedInstance.cacheNewEntry(newEntry, for: activity)
+            }
+          }
         }
       }
 
