@@ -32,7 +32,7 @@ class DailyCircleChart: UIView {
   }()
 
   var entryKeys: [String] {
-    return Entries.sharedInstance.sortedEntriesByName.map { $0.key }
+    return Entries.sharedInstance.activityKeys ?? []
   }
 
   init() {
@@ -41,7 +41,6 @@ class DailyCircleChart: UIView {
     pieChart.delegate = self
     backgroundColor = .white
     drawChart()
-    fillChart()
   }
 
   required init?(coder aDecoder: NSCoder) {

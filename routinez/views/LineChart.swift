@@ -11,7 +11,7 @@ import Charts
 
 class LineChart: UIView {
 
-  let entryName: String
+  let activity: Activity
   let dateRange: LineChartDateRange
   var data: LineChartData?
 
@@ -48,8 +48,8 @@ class LineChart: UIView {
     return dateFormatter
   }()
 
-  init(entryName: String, dateRange: LineChartDateRange = .day) {
-    self.entryName = entryName
+  init(activity: Activity, dateRange: LineChartDateRange = .day) {
+    self.activity = activity
     self.dateRange = dateRange
 
     super.init(frame: .zero)
@@ -68,15 +68,15 @@ class LineChart: UIView {
     var entries: [Entry]
     switch dateRange {
     case .day:
-      entries = Entries.sharedInstance.entriesForDay(entryName)
+      entries = Entries.sharedInstance.entriesForDay(activity)
     case .week:
       // TODO
       // daily totals for the week
-      entries = Entries.sharedInstance.entriesForWeek(entryName)
+      entries = Entries.sharedInstance.entriesForWeek(activity)
     case .month:
       // TODO
       // weekly totals for each week 
-      entries = Entries.sharedInstance.entriesForMonth(entryName)
+      entries = Entries.sharedInstance.entriesForMonth(activity)
     }
 
     guard entries.count > 0 else {
@@ -113,7 +113,7 @@ class LineChart: UIView {
       dataEntries.append(entry)
     }
 
-    let lineChartDataSet = LineChartDataSet(values: dataEntries, label: entryName)
+    let lineChartDataSet = LineChartDataSet(values: dataEntries, label: activity.name)
     lineChartDataSet.circleColors = [UIColor.teal]
     lineChartDataSet.circleHoleRadius = 3
     lineChartDataSet.lineWidth = 2
@@ -138,10 +138,9 @@ class LineChart: UIView {
   func getDayOfWeek(todayDate: Date) {
 
     let formatter  = DateFormatter()
-
     let myComponents = Calendar(identifier: .gregorian).component(.weekday, from: todayDate)
     let weekDay = myComponents.day
-    print(weekDay, "!!!")
+
   }
 }
 

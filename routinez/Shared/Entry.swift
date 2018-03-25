@@ -9,57 +9,87 @@
 import Foundation
 import CloudKit
 
-func ==(lhs: Entry, rhs: Entry) -> Bool {
+func ==(lhs: Activity, rhs: Activity) -> Bool {
   return lhs.name == rhs.name &&
-    lhs.value == rhs.value &&
-    lhs.timestamp == rhs.timestamp &&
+    lhs.entries == rhs.entries &&
     lhs.isBoolValue == rhs.isBoolValue
 }
 
-//TODO:
-// Entry with name, isBoolValue, unitOfMeasurement, values: EntryValues
-// ENtryValues: timestamp, value
+class Activity: Codable, Equatable {
 
-class Entry: Equatable {
-
-  var name: String = "Calories"
-  var timestamp: Date
-  var value: Int
-  var isBoolValue: Bool = false //consider changing this to enum ValueType
-  // var unitOfMeasurement consider for future
-
-  var dictValue: [String: Any] {
-    return [ "name": name,
-             "timestamp": timestamp,
-             "value": value,
-             "isBoolValue": isBoolValue
-            ]
+  enum Unit: String {
+    case noUnit = ""
+    case grams = "g"
+    case kilometres = "km"
   }
 
-  init(name: String, timestamp: Date, value: Int, isBoolValue: Bool = false) {
+  var name: String
+  var entries: [Entry] = [Entry]()
+  var isBoolValue: Bool = false
+  var unitOfMeasurement: String = Unit.noUnit.rawValue
+
+  var dictValue: [String: Any] {
+    return [
+      "name": name,
+      "isBoolValue": isBoolValue,
+      "unitOfMeasurement": unitOfMeasurement]
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case name, isBoolValue, unitOfMeasurement
+  }
+
+  init(name: String) {
     self.name = name
-    self.timestamp = timestamp
-    self.value = value
+  }
+
+  init(name: String, isBoolValue: Bool, unitOfMeasurement: String) {
+    self.name = name
     self.isBoolValue = isBoolValue
+    self.unitOfMeasurement = unitOfMeasurement
+  }
+
+  required init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    self.name = try values.decode(String.self, forKey: .name)
+    self.isBoolValue = try values.decode(Bool.self, forKey: .isBoolValue)
+    self.unitOfMeasurement = try values.decode(String.self, forKey: .unitOfMeasurement)
+  }
+
+  func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encode(name, forKey: .name)
+    try container.encode(isBoolValue, forKey: .isBoolValue)
+    try container.encode(unitOfMeasurement, forKey: .unitOfMeasurement)
   }
 }
 
-//  private enum CodingKeys: String, CodingKey {
-//    case timestamp, value, name, isBoolValue
-//  }
-//  init(from decoder: Decoder) throws {
-//    let values = try decoder.container(keyedBy: CodingKeys.self)
-//    timestamp = try values.decode(Date.self, forKey: .timestamp)
-//    value = try values.decode(Int.self, forKey: .value)
-//    name = try values.decode(String.self, forKey: .name)
-//    isBoolValue = try values.decode(Bool.self, forKey: .isBoolValue)
-//  }
-//
-//  func encode(to encoder: Encoder) throws {
-//    var container = encoder.container(keyedBy: CodingKeys.self)
-//    try container.encode(timestamp, forKey: .timestamp)
-//    try container.encode(value, forKey: .value)
-//    try container.encode(name, forKey: .name)
-//    try container.encode(isBoolValue, forKey: .isBoolValue)
-//  }
+func ==(lhs: Entry, rhs: Entry) -> Bool {
+  return lhs.value == rhs.value &&
+    lhs.timestamp == rhs.timestamp
+}
 
+class Entry: Equatable, Codable {
+
+  var timestamp: Date
+  var value: Int
+
+  var dictValue: [String: Any] {
+    return ["timestamp": timestamp, "value": value]
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case timestamp, value
+  }
+
+  init(timestamp: Date, value: Int) {
+    self.timestamp = timestamp
+    self.value = value
+  }
+
+  required init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    self.timestamp = try values.decode(Date.self, forKey: .timestamp)
+    self.value = try values.decode(Int.self, forKey: .value)
+  }
+}
