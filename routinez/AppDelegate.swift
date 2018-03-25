@@ -97,23 +97,24 @@ extension AppDelegate: WCSessionDelegate {
   }
 
   func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-    if let activities = applicationContext[watchConnectivityActivitiesKey] as? [String: Any],
+    if let activities = applicationContext[watchConnectivityActivitiesKey] as? [[String: Any]],
       let entries = applicationContext[watchConnectivityEntriesKey] as? [String: Any] {
 
-      for key in activities.keys {
-        if let values = activities[key] as? [String: Any],
-          let name = values["name"] as? String,
-          let isBool = values["isBoolValue"] as? Bool,
-          let unit = values["unitOfMeasurement"] as? String {
+      for activityDict in activities {
+        if let name = activityDict["name"] as? String,
+          let isBool = activityDict["isBoolValue"] as? Bool,
+          let unit = activityDict["unitOfMeasurement"] as? String {
           let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: unit)
           Entries.sharedInstance.cacheNewActivity(activity)
 
           if entries.keys.contains(activity.name),
-            let e = entries[key] as? [String: Any] {
-            if let time = e["timestamp"] as? Date,
-              let value = e["value"] as? Int {
-              let newEntry = Entry(timestamp: time, value: value)
-              Entries.sharedInstance.cacheNewEntry(newEntry, for: activity)
+            let activityEntries = entries[activity.name] as? [[String: Any]] {
+            for entry in activityEntries {
+              if let time = entry["timestamp"] as? Date,
+                let value = entry["value"] as? Int {
+                let newEntry = Entry(timestamp: time, value: value)
+                Entries.sharedInstance.cacheNewEntry(newEntry, for: activity)
+              }
             }
           }
         }
