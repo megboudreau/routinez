@@ -131,6 +131,26 @@ class Entries {
     }
   }
 
+  func deleteActivityAndEntries(_ activity: Activity) {
+    guard var cachedActivities = cachedActivities else {
+      return
+    }
+
+    let defaults = UserDefaults.standard
+    let encoder = PropertyListEncoder()
+
+    defaults.removeObject(forKey: activity.name)
+
+    if cachedActivities.contains(activity),
+      let index = cachedActivities.index(of: activity) {
+      cachedActivities.remove(at: index)
+
+      defaults.set(try? encoder.encode(cachedActivities), forKey: defaultsActivitiesKey)
+    }
+
+    defaults.synchronize()
+  }
+
   func cacheNewActivity(_ activity: Activity) {
     let defaults = UserDefaults.standard
     let encoder = PropertyListEncoder()

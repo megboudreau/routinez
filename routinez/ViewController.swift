@@ -18,6 +18,9 @@ class ViewController: UIViewController {
   let dailyCircleChart = DailyCircleChart()
   let circularButton = CircularButton()
   let selectedTotalLabel = UILabel()
+  let seeActivityData = CircularButton()
+
+  var selectedActivity: Activity?
 
   var currentFormattedDate: String {
     let formatter = DateFormatter()
@@ -57,6 +60,12 @@ class ViewController: UIViewController {
     }
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    dailyCircleChart.fillChart(animate: false)
+  }
+
   func addInitialViews() {
     let dateBanner = DateBanner()
     view.addSubview(dateBanner)
@@ -74,12 +83,22 @@ class ViewController: UIViewController {
 
     view.addSubview(dailyCircleChart)
     dailyCircleChart.chartValueSelected = didSelectActivity
+    dailyCircleChart.chartNothingSelected = nothingSelected
     dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
-    dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 44).isActive = true
+    dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 36).isActive = true
     dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     dailyCircleChart.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
     dailyCircleChart.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
     dailyCircleChart.fillChart()
+
+    seeActivityData.setTitleColor(.white, for: .normal)
+    seeActivityData.addTarget(self, action: #selector(seeDataForActivity), for: .touchUpInside)
+    seeActivityData.isHidden = true
+    view.addSubviewForAutoLayout(seeActivityData)
+    seeActivityData.centerXAnchor.constraint(equalTo: dailyCircleChart.centerXAnchor).isActive = true
+    seeActivityData.centerYAnchor.constraint(equalTo: dailyCircleChart.centerYAnchor).isActive = true
+    seeActivityData.heightAnchor.constraint(equalTo: dailyCircleChart.heightAnchor, multiplier: 0.35).isActive = true
+    seeActivityData.widthAnchor.constraint(equalTo: dailyCircleChart.heightAnchor, multiplier: 0.35).isActive = true
 
     view.addSubview(selectedTotalLabel)
     selectedTotalLabel.sizeToFit()
@@ -99,8 +118,26 @@ class ViewController: UIViewController {
       return
     }
     let total = Entries.sharedInstance.totalDailyValue(for: activity)
-    let text = "\(activityName): \(total)"
+    let text = "\(activityName): \(total)\(activity.unitOfMeasurement.shortForm)"
     selectedTotalLabel.text = text
+
+    seeActivityData.isHidden = false
+    seeActivityData.setTitle("View data: \(activityName)", for: .normal)
+    seeActivityData.titleLabel?.numberOfLines = 2
+    seeActivityData.titleLabel?.adjustsFontSizeToFitWidth = true
+    seeActivityData.titleLabel?.textAlignment = .center
+    self.selectedActivity = Entries.sharedInstance.activityForName(activityName)
+  }
+
+  func nothingSelected() {
+    seeActivityData.isHidden = true
+    selectedTotalLabel.isHidden = true
+  }
+
+  @objc func seeDataForActivity() {
+    guard let activity = selectedActivity else {
+      return
+    }
 
     let viewController = LineChartTabBarController(activity: activity)
     navigationController?.pushViewController(viewController, animated: true)

@@ -12,6 +12,7 @@ import Charts
 class DailyCircleChart: UIView {
 
   var chartValueSelected: ((String) -> Void)?
+  var chartNothingSelected: (() -> Void)?
 
   let pieChart: PieChartView = {
     let p = PieChartView()
@@ -66,6 +67,7 @@ class DailyCircleChart: UIView {
 
     let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
     chartDataSet.colors = UIColor.chartColors
+    chartDataSet.entryLabelColor = .clear
     chartDataSet.sliceSpace = 4
     chartDataSet.selectionShift = 10
     chartDataSet.drawValuesEnabled = false
@@ -88,5 +90,9 @@ extension DailyCircleChart: ChartViewDelegate {
     }
 
     chartValueSelected?(entryName)
+  }
+
+  func chartValueNothingSelected(_ chartView: ChartViewBase) {
+    chartNothingSelected?()
   }
 }

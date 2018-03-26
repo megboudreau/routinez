@@ -114,7 +114,7 @@ extension ExtensionDelegate: WCSessionDelegate {
         if let name = activityDict["name"] as? String,
           let isBool = activityDict["isBoolValue"] as? Bool,
           let unit = activityDict["unitOfMeasurement"] as? String {
-          let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: unit)
+          let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: Unit.unitFromString(unit))
           Entries.sharedInstance.cacheNewActivity(activity)
 
           if entries.keys.contains(activity.name),

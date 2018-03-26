@@ -17,16 +17,14 @@ func ==(lhs: Activity, rhs: Activity) -> Bool {
 
 class Activity: Codable, Equatable {
 
-  enum Unit: String {
-    case noUnit = ""
-    case grams = "g"
-    case kilometres = "km"
-  }
-
   var name: String
   var entries: [Entry] = [Entry]()
   var isBoolValue: Bool = false
-  var unitOfMeasurement: String = Unit.noUnit.rawValue
+  var unitOfMeasurement: Unit = .noUnit
+
+  static var emptyActivity: Activity {
+    return Activity(name: "")
+  }
 
   var dictValue: [String: Any] {
     return [
@@ -43,7 +41,7 @@ class Activity: Codable, Equatable {
     self.name = name
   }
 
-  init(name: String, isBoolValue: Bool, unitOfMeasurement: String) {
+  init(name: String, isBoolValue: Bool, unitOfMeasurement: Unit) {
     self.name = name
     self.isBoolValue = isBoolValue
     self.unitOfMeasurement = unitOfMeasurement
@@ -53,15 +51,64 @@ class Activity: Codable, Equatable {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     self.name = try values.decode(String.self, forKey: .name)
     self.isBoolValue = try values.decode(Bool.self, forKey: .isBoolValue)
-    self.unitOfMeasurement = try values.decode(String.self, forKey: .unitOfMeasurement)
+    let unitString = try values.decode(String.self, forKey: .unitOfMeasurement)
+    self.unitOfMeasurement = Unit.unitFromString(unitString)
   }
 
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(name, forKey: .name)
     try container.encode(isBoolValue, forKey: .isBoolValue)
-    try container.encode(unitOfMeasurement, forKey: .unitOfMeasurement)
+    try container.encode(unitOfMeasurement.rawValue, forKey: .unitOfMeasurement)
   }
+
+}
+
+enum Unit: String {
+  case noUnit = "no unit"
+  case grams = "grams"
+  case milligrams = "milligrams"
+  case kilograms = "kilograms"
+  case kilometres = "kilometres"
+  case millilitres = "millilitres"
+  case litres = "litres"
+  case miles = "miles"
+  case metres = "metres"
+  case ounces = "ounces"
+  case pounds = "pounds"
+
+  static func unitFromString(_ string: String) -> Unit{
+    return allUnits.filter{ $0.rawValue == string }.first ?? .noUnit
+  }
+
+  var shortForm: String {
+    switch self {
+    case .grams:
+      return "g"
+    case .milligrams:
+      return "mg"
+    case .kilograms:
+      return "kg"
+    case .millilitres:
+      return "mL"
+    case .litres:
+      return "L"
+    case .miles:
+      return "mi"
+    case .ounces:
+      return "oz"
+    case .pounds:
+      return "lb"
+    case .metres:
+      return "m"
+    case .kilometres:
+      return "km"
+    default:
+      return ""
+    }
+  }
+
+  static let allUnits: [Unit] = [.noUnit, .pounds, .milligrams, .grams, .kilograms, .miles, .kilometres, .metres, .millilitres, .litres, .ounces]
 }
 
 func ==(lhs: Entry, rhs: Entry) -> Bool {

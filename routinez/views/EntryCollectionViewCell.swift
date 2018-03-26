@@ -1,5 +1,5 @@
 //
-//  EntryCollectionViewCell.swift
+//  ActivityCollectionViewCell.swift
 //  routinez
 //
 //  Created by Megan Boudreau on 2018-02-26.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum EntryCellType {
-  case filled(entryName: String)
+enum ActivityCellType {
+  case filled(activity: Activity, color: UIColor)
   case add
   case empty
 
-  static func == (_ lhs: EntryCellType, _ rhs: EntryCellType) -> Bool {
+  static func == (_ lhs: ActivityCellType, _ rhs: ActivityCellType) -> Bool {
     switch (lhs, rhs) {
     case (.add, .add):
       return true
@@ -27,34 +27,33 @@ enum EntryCellType {
   }
 }
 
-class EntryCollectionViewCell: UICollectionViewCell {
+class ActivityCollectionViewCell: UICollectionViewCell {
 
-  let entryNameLabel = UILabel()
+  let activityNameLabel = UILabel()
+  var activity: Activity?
   let plusButton = AddCircle(circleFill: .clear, plusFill: .white)
-  var cellType: EntryCellType? {
+  var cellType: ActivityCellType? {
     didSet {
       guard let cellType = cellType else {
         return
       }
-      if case .filled(let entryName) = cellType {
-        entryNameLabel.text = entryName
-      }
-    }
-  }
-  var index: Int? {
-    didSet {
-      guard let index = index,
-        let cellType = cellType else {
-        return
-      }
 
       switch cellType {
-      case .filled(let name):
-        print(name)
-        backgroundColor = UIColor.chartColors[index]
+      case .filled(let activity, let color):
+        self.activity = activity
+        activityNameLabel.isHidden = false
+        plusButton.isHidden = true
+        backgroundColor = color
+        activityNameLabel.text = activity.name
       case .add:
+        self.activity = nil
+        activityNameLabel.isHidden = true
+        backgroundColor = .chartGrey
         plusButton.isHidden = false
       case .empty:
+        self.activity = nil
+        activityNameLabel.isHidden = true
+        plusButton.isHidden = true
         backgroundColor = .chartGrey
       }
     }
@@ -75,18 +74,22 @@ class EntryCollectionViewCell: UICollectionViewCell {
     layer.cornerRadius = 5
 
     plusButton.isHidden = true
+    plusButton.isUserInteractionEnabled = true
     addSubviewForAutoLayout(plusButton)
     plusButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     plusButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     plusButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.40).isActive = true
     plusButton.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
 
-    entryNameLabel.textColor = .white
-    entryNameLabel.font = UIFont.systemFont(ofSize: 24)
-    entryNameLabel.adjustsFontSizeToFitWidth = true
-    entryNameLabel.sizeToFit()
-    addSubviewForAutoLayout(entryNameLabel)
-    entryNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-    entryNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    activityNameLabel.textColor = .white
+    activityNameLabel.font = UIFont.systemFont(ofSize: 24)
+    activityNameLabel.numberOfLines = 2
+    activityNameLabel.adjustsFontSizeToFitWidth = true
+    activityNameLabel.textAlignment = .center
+    addSubviewForAutoLayout(activityNameLabel)
+    activityNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    activityNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    activityNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4).isActive = true
+    activityNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
   }
 }

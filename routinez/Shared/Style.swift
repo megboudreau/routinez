@@ -43,7 +43,7 @@ extension UIColor {
 
   static var lighterGrey = UIColor(red:0.81, green:0.81, blue:0.81, alpha:1.0)
   static var teal = UIColor(red:0.02, green:0.74, blue:0.74, alpha:1.0)
-  static var chartGrey = UIColor(red:0.93, green:0.91, blue:0.91, alpha:1.0)
+  static var chartGrey = UIColor(red:0.81, green:0.81, blue:0.81, alpha:1.0)
   static var plum = UIColor(red:0.39, green:0.38, blue:0.89, alpha:1.0)
   static var bubblegum = UIColor(red:1.00, green:0.39, blue:0.58, alpha:1.0)
   static var tangerine = UIColor(red:1.00, green:0.59, blue:0.43, alpha:1.0)

@@ -15,7 +15,7 @@ class MainTabBarController: UITabBarController {
 
     viewControllers = [
       ViewController(),
-      CreateEntryViewController()
+      ActivitiesViewController()
     ]
 
     let ringImage = UIImage(named: "ringIcon")

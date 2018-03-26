@@ -48,11 +48,8 @@ class DateBanner: UIView {
 class CircularButton: UIButton {
 
   init() {
-
     super.init(frame: .zero)
   }
-
-
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -60,13 +57,12 @@ class CircularButton: UIButton {
 
   override func draw(_ rect: CGRect) {
     let path = UIBezierPath(ovalIn: rect)
-    UIColor.plum.setFill()
+    UIColor.chartGrey.setFill()
     path.fill()
   }
-
 }
 
-class AddCircle: UIButton {
+class AddCircle: UIView {
 
   var circleFill: UIColor
   var plusFill: UIColor
