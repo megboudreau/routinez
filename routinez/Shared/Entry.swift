@@ -30,7 +30,7 @@ class Activity: Codable, Equatable {
     return [
       "name": name,
       "isBoolValue": isBoolValue,
-      "unitOfMeasurement": unitOfMeasurement]
+      "unitOfMeasurement": unitOfMeasurement.rawValue]
   }
 
   private enum CodingKeys: String, CodingKey {

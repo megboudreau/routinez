@@ -122,6 +122,7 @@ class ViewController: UIViewController {
     selectedTotalLabel.text = text
 
     seeActivityData.isHidden = false
+    selectedTotalLabel.isHidden = false
     seeActivityData.setTitle("View data: \(activityName)", for: .normal)
     seeActivityData.titleLabel?.numberOfLines = 2
     seeActivityData.titleLabel?.adjustsFontSizeToFitWidth = true
