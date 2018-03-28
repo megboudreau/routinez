@@ -97,6 +97,10 @@ extension ActivitiesViewController: UICollectionViewDataSource {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ActivityCollectionViewCell
 
     guard let activities = ActivitiesViewController.activities else {
+      if indexPath.row == 0 {
+        cell.cellType = .add
+        return cell
+      }
       cell.cellType = .empty
       return cell
     }

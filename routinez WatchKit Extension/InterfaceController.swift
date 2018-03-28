@@ -17,6 +17,7 @@ class InterfaceController: WKInterfaceController {
   @IBOutlet var addButton: WKInterfaceButton!
 
   var selectedItem: Int = 0
+  var selectedBool: Bool = false
   var activity: Activity?
 
 //  let ckManager = CloudKitManager.sharedInstance()
@@ -24,25 +25,37 @@ class InterfaceController: WKInterfaceController {
   override func awake(withContext context: Any?) {
     super.awake(withContext: context)
 
+    if let activity = context as? Activity {
+      self.activity = activity
+    }
   }
 
   override func willActivate() {
     super.willActivate()
 
-    if let currentActivity = Entries.sharedInstance.cachedActivities?.first {
-      self.activity = currentActivity
-    } else {
-      let a = Activity(name: "Calories")
-      self.activity = a
-      Entries.sharedInstance.cacheNewActivity(a)
+    guard let activity = activity else {
+      return
     }
 
-    let entryValues = stride(from:0, to: 2500, by: 10)
-    let pickerItems: [WKPickerItem] = entryValues.map {
-      let pickerItem = WKPickerItem()
-      pickerItem.title = "\($0)"
-      pickerItem.caption = activity?.name
-      return pickerItem
+    var pickerItems: [WKPickerItem]
+    if activity.isBoolValue {
+      let trueItem = WKPickerItem()
+      trueItem.caption = activity.name
+      trueItem.title = "True"
+
+      let falseItem = WKPickerItem()
+      falseItem.caption = activity.name
+      falseItem.title = "False"
+
+      pickerItems = [trueItem, falseItem]
+    } else {
+      let entryValues = stride(from:0, to: 2500, by: 10)
+      pickerItems = entryValues.map {
+        let pickerItem = WKPickerItem()
+        pickerItem.title = "\($0)"
+        pickerItem.caption = activity.name
+        return pickerItem
+      }
     }
 
     entryValuesPicker.setItems(pickerItems)
@@ -62,8 +75,6 @@ class InterfaceController: WKInterfaceController {
 
     let currentDailyTotal = Entries.sharedInstance.totalDailyValue(for: activity)
     updateDailyTotal(with: currentDailyTotal)
-
-    // TODO create different view controllers based on entries
   }
 
   @IBAction func didTapAddButton() {
@@ -71,7 +82,11 @@ class InterfaceController: WKInterfaceController {
       return
     }
 
-    let entry = Entry(timestamp: Date(), value: selectedItem)
+    var value: Int = selectedItem
+    if activity.isBoolValue {
+      value = selectedBool == true ? 1 : 0
+    }
+    let entry = Entry(timestamp: Date(), value: value)
     Entries.sharedInstance.cacheNewEntry(entry, for: activity)
 
     addButton.setTitle("Sending...")
@@ -82,6 +97,11 @@ class InterfaceController: WKInterfaceController {
   }
 
   @IBAction func pickerSelectedItemChanged(_ value: Int) {
+    guard let activity = activity,
+      !activity.isBoolValue else {
+        selectedBool = value == 0 ? false : true
+        return
+    }
     selectedItem = (value * 10)
   }
 
@@ -105,8 +125,19 @@ class InterfaceController: WKInterfaceController {
   }
 
   func updateDailyTotal(with value: Int) {
-    DispatchQueue.main.async {
-      self.dailyTotalLabel.setText("\(value)")
+    guard let activity = activity else {
+      return
+    }
+
+    if activity.isBoolValue {
+      let boolValue: String = value == 0 ? "False" : "True"
+      DispatchQueue.main.async {
+        self.dailyTotalLabel.setText(boolValue)
+      }
+    } else {
+      DispatchQueue.main.async {
+        self.dailyTotalLabel.setText("\(value)")
+      }
     }
   }
 

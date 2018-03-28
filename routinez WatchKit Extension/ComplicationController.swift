@@ -17,7 +17,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     let template = CLKComplicationTemplateModularSmallSimpleText()
     template.tintColor = .magenta
     var total = 0
-    if let a = Entries.sharedInstance.activityForName("Calories") {
+    if let a = Entries.sharedInstance.defaultActivity {
       total = Entries.sharedInstance.totalDailyValue(for: a)
     }
     template.textProvider = CLKSimpleTextProvider(text: "\(total)")

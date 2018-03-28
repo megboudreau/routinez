@@ -43,11 +43,6 @@ class ViewController: UIViewController {
       self.updateDisplay()
     }
 
-    if Entries.sharedInstance.cachedActivities == nil {
-      let activity = Activity(name: "Calories")
-      Entries.sharedInstance.cacheNewActivity(activity)
-    }
-
     addInitialViews()
 
     // record identifier of the user that's signed in on the device
@@ -83,7 +78,7 @@ class ViewController: UIViewController {
 
     view.addSubview(dailyCircleChart)
     dailyCircleChart.chartValueSelected = didSelectActivity
-    dailyCircleChart.chartNothingSelected = nothingSelected
+    dailyCircleChart.chartNothingSelected = updateLabels
     dailyCircleChart.translatesAutoresizingMaskIntoConstraints = false
     dailyCircleChart.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 36).isActive = true
     dailyCircleChart.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -107,10 +102,18 @@ class ViewController: UIViewController {
     selectedTotalLabel.translatesAutoresizingMaskIntoConstraints = false
     selectedTotalLabel.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 16).isActive = true
     selectedTotalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+
+    seeActivityData.titleLabel?.numberOfLines = 2
+    seeActivityData.titleLabel?.adjustsFontSizeToFitWidth = true
+    seeActivityData.titleLabel?.textAlignment = .center
   }
 
   func updateDisplay() {
     dailyCircleChart.fillChart(animate: false)
+    updateLabels()
+    if let selectedActivity = selectedActivity {
+      didSelectActivity(activityName: selectedActivity.name)
+    }
   }
 
   func didSelectActivity(activityName: String) {
@@ -121,18 +124,14 @@ class ViewController: UIViewController {
     let text = "\(activityName): \(total)\(activity.unitOfMeasurement.shortForm)"
     selectedTotalLabel.text = text
 
-    seeActivityData.isHidden = false
-    selectedTotalLabel.isHidden = false
+    updateLabels()
     seeActivityData.setTitle("View data: \(activityName)", for: .normal)
-    seeActivityData.titleLabel?.numberOfLines = 2
-    seeActivityData.titleLabel?.adjustsFontSizeToFitWidth = true
-    seeActivityData.titleLabel?.textAlignment = .center
     self.selectedActivity = Entries.sharedInstance.activityForName(activityName)
   }
 
-  func nothingSelected() {
-    seeActivityData.isHidden = true
-    selectedTotalLabel.isHidden = true
+  func updateLabels() {
+    seeActivityData.isHidden = !dailyCircleChart.valueSelected
+    selectedTotalLabel.isHidden = !dailyCircleChart.valueSelected
   }
 
   @objc func seeDataForActivity() {

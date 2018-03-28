@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 //  var CKManager = CloudKitManager.sharedInstance()
+  lazy var notificationCenter: NotificationCenter = {
+    return NotificationCenter.default
+  }()
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
@@ -31,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window.rootViewController = navController
 
     setupWatchConnectivity()
+    setupNotificationCenter()
     application.registerForRemoteNotifications()
     
     return true
@@ -60,6 +64,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
   }
 
+  private func setupNotificationCenter() {
+    notificationCenter.addObserver(forName: NSNotification.Name(rawValue: NotificationEntryAddedOnPhone), object: nil, queue: nil) { (notification:Notification) -> Void in
+      self.sendEntryToWatch(successHandler: {
+        print("successfully sent to watch")
+      }, errorHandler: {
+        print("error sending to watch")
+      })
+    }
+  }
+
 }
 
 extension AppDelegate: WCSessionDelegate {
@@ -79,7 +93,7 @@ extension AppDelegate: WCSessionDelegate {
     print("WC Session activated with state: \(activationState.rawValue)")
   }
 
-  static func sendEntryToWatch(successHandler: (() -> Void), errorHandler: @escaping (()-> Void)) {
+  func sendEntryToWatch(successHandler: (() -> Void)? = nil, errorHandler: (()-> Void)? = nil) {
     let session = WCSession.default
 
     // Here you want to get all the locally cached entries and send them over.
@@ -88,10 +102,10 @@ extension AppDelegate: WCSessionDelegate {
     if WCSession.isSupported() {
       do {
         try session.updateApplicationContext(activitiesAndEntriesDict)
-        successHandler()
+        successHandler?()
       } catch let error {
         print(error.localizedDescription)
-        errorHandler()
+        errorHandler?()
       }
     }
   }
@@ -109,13 +123,15 @@ extension AppDelegate: WCSessionDelegate {
 
           if entries.keys.contains(activity.name),
             let activityEntries = entries[activity.name] as? [[String: Any]] {
+            var newEntries = [Entry]()
             for entry in activityEntries {
               if let time = entry["timestamp"] as? Date,
                 let value = entry["value"] as? Int {
                 let newEntry = Entry(timestamp: time, value: value)
-                Entries.sharedInstance.cacheNewEntry(newEntry, for: activity)
+                newEntries.append(newEntry)
               }
             }
+            Entries.sharedInstance.cacheEntries(newEntries, for: activity)
           }
         }
       }

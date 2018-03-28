@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150659832069D02400312A9E /* ActivitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150659822069D02400312A9E /* ActivitiesListViewController.swift */; };
+		150659852069D29700312A9E /* ActivityRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150659842069D29700312A9E /* ActivityRowController.swift */; };
 		150A6B641FE5A02B00435670 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
 		151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */; };
 		152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */; };
@@ -94,6 +96,8 @@
 /* Begin PBXFileReference section */
 		04E6A4A4AB83A866976A4919 /* Pods-routinez.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-routinez.release.xcconfig"; path = "Pods/Target Support Files/Pods-routinez/Pods-routinez.release.xcconfig"; sourceTree = "<group>"; };
 		13E1FAEF665C10A941BAC8A7 /* Pods-routinez.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-routinez.debug.xcconfig"; path = "Pods/Target Support Files/Pods-routinez/Pods-routinez.debug.xcconfig"; sourceTree = "<group>"; };
+		150659822069D02400312A9E /* ActivitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesListViewController.swift; sourceTree = "<group>"; };
+		150659842069D29700312A9E /* ActivityRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRowController.swift; sourceTree = "<group>"; };
 		150A6B631FE5A02B00435670 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartTabBarController.swift; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 			isa = PBXGroup;
 			children = (
 				15FF87FB1F96D39700686BEB /* InterfaceController.swift */,
+				150659842069D29700312A9E /* ActivityRowController.swift */,
+				150659822069D02400312A9E /* ActivitiesListViewController.swift */,
 				15FF87FD1F96D39700686BEB /* ExtensionDelegate.swift */,
 				15FF87FF1F96D39700686BEB /* NotificationController.swift */,
 				15FF88011F96D39700686BEB /* ComplicationController.swift */,
@@ -610,6 +616,8 @@
 				15EAFEE1202BAB560051947B /* Entries.swift in Sources */,
 				15FF88001F96D39700686BEB /* NotificationController.swift in Sources */,
 				159C6CE120410EC8007965EF /* Extensions.swift in Sources */,
+				150659832069D02400312A9E /* ActivitiesListViewController.swift in Sources */,
+				150659852069D29700312A9E /* ActivityRowController.swift in Sources */,
 				15EAFE9620278C0A0051947B /* CloudKitManager.swift in Sources */,
 				15FF88021F96D39700686BEB /* ComplicationController.swift in Sources */,
 				15FF87FE1F96D39700686BEB /* ExtensionDelegate.swift in Sources */,

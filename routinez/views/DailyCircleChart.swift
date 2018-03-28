@@ -13,6 +13,7 @@ class DailyCircleChart: UIView {
 
   var chartValueSelected: ((String) -> Void)?
   var chartNothingSelected: (() -> Void)?
+  var valueSelected: Bool = false
 
   let pieChart: PieChartView = {
     let p = PieChartView()
@@ -88,11 +89,12 @@ extension DailyCircleChart: ChartViewDelegate {
     let entryName = entry.label else {
       return
     }
-
+    valueSelected = true
     chartValueSelected?(entryName)
   }
 
   func chartValueNothingSelected(_ chartView: ChartViewBase) {
+    valueSelected = false
     chartNothingSelected?()
   }
 }

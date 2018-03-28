@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="7lw-8u-FpC">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,10 +9,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
-        <!--FirstEntryController-->
+        <!--ActivityDetail-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="FirstEntryController" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="routinez_WatchKit_App" customModuleProvider="target">
+                <controller identifier="ActivityDetail" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="routinez_WatchKit_App" customModuleProvider="target">
                     <items>
                         <group width="1" height="83" alignment="left" id="HKW-dS-zWd">
                             <items>
@@ -44,7 +44,41 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="220" y="342"/>
+            <point key="canvasLocation" x="508" y="341"/>
+        </scene>
+        <!--ActivitiesList-->
+        <scene sceneID="GPB-if-xbc">
+            <objects>
+                <controller identifier="ActivitiesList" id="7lw-8u-FpC" customClass="ActivitiesListViewController" customModule="routinez_WatchKit_Extension">
+                    <items>
+                        <label alignment="left" text="Tracking..." id="n21-0U-wvF">
+                            <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
+                        </label>
+                        <table alignment="left" id="UVE-5l-WQm">
+                            <items>
+                                <tableRow identifier="activityRowType" id="sil-jq-IhL" customClass="ActivityRowController" customModule="routinez_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="u7E-1q-E3f">
+                                        <items>
+                                            <label alignment="center" verticalAlignment="center" text="Label" textAlignment="left" numberOfLines="0" id="CDg-sx-5HC"/>
+                                        </items>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="8" bottom="8"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="activityLabel" destination="CDg-sx-5HC" id="TG6-ak-k8b"/>
+                                        <segue destination="AgC-eL-Hgc" kind="push" id="1dF-2E-qWW"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label alignment="center" verticalAlignment="center" text="Add an activity on your phone to start tracking!" textAlignment="center" numberOfLines="0" id="bKl-Xk-yde"/>
+                    </items>
+                    <connections>
+                        <outlet property="activityTable" destination="UVE-5l-WQm" id="GOx-Mq-XYE"/>
+                        <outlet property="noActivitiesLabel" destination="bKl-Xk-yde" id="gaW-Dy-qoL"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="341"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

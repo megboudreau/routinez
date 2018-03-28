@@ -6,7 +6,8 @@
 //  Copyright © 2018 Megan Boudreau. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import WatchConnectivity
 
 enum EntryCacheKeys: String {
   case timestamp, value, name, isBoolValue
@@ -21,6 +22,11 @@ class Entries {
   static let sharedInstance = Entries()
 
   private init() {}
+
+  var defaultActivity: Activity? {
+    // TODO let user choose default
+    return activityForName("Calories")
+  }
 
   var cachedActivities: [Activity]? {
     let defaults = UserDefaults.standard
@@ -106,11 +112,8 @@ class Entries {
     let encoder = PropertyListEncoder()
     let key = activity.name
 
-    guard var _ = currentCachedEntries(for: activity) else {
-      defaults.set(try? encoder.encode(entries), forKey: key)
-      defaults.synchronize()
-      return
-    }
+    defaults.set(try? encoder.encode(entries), forKey: key)
+    defaults.synchronize()
   }
 
   func cacheNewEntry(_ entry: Entry, for activity: Activity) {
@@ -128,6 +131,7 @@ class Entries {
       currentCachedEntries.append(entry)
       defaults.set(try? encoder.encode(currentCachedEntries), forKey: key)
       defaults.synchronize()
+      syncWatch()
     }
   }
 
@@ -149,6 +153,7 @@ class Entries {
     }
 
     defaults.synchronize()
+    syncWatch()
   }
 
   func cacheNewActivity(_ activity: Activity) {
@@ -158,6 +163,7 @@ class Entries {
     guard var cachedActivities = cachedActivities else {
       defaults.set(try? encoder.encode([activity]), forKey: defaultsActivitiesKey)
       defaults.synchronize()
+      syncWatch()
       return
     }
 
@@ -166,6 +172,7 @@ class Entries {
 
       defaults.set(try? encoder.encode(cachedActivities), forKey: defaultsActivitiesKey)
       defaults.synchronize()
+      syncWatch()
     }
   }
 
@@ -193,6 +200,12 @@ class Entries {
 
     return [watchConnectivityActivitiesKey: activitiesDict,
             watchConnectivityEntriesKey: activityEntriesDict]
+  }
+
+  func syncWatch() {
+    #if os(iOS)
+      NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationEntryAddedOnPhone), object: nil)
+    #endif
   }
 
 }

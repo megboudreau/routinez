@@ -110,23 +110,34 @@ extension ExtensionDelegate: WCSessionDelegate {
       let entries = applicationContext[watchConnectivityEntriesKey] as? [String: Any] {
 
 
+      var newActivities = [Activity]()
       for activityDict in activities {
         if let name = activityDict["name"] as? String,
           let isBool = activityDict["isBoolValue"] as? Bool,
           let unit = activityDict["unitOfMeasurement"] as? String {
           let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: Unit.unitFromString(unit))
+          newActivities.append(activity)
           Entries.sharedInstance.cacheNewActivity(activity)
 
           if entries.keys.contains(activity.name),
             let activityEntries = entries[activity.name] as? [[String: Any]] {
+            var newEntries = [Entry]()
             for entry in activityEntries {
               if let time = entry["timestamp"] as? Date,
                 let value = entry["value"] as? Int {
                 let newEntry = Entry(timestamp: time, value: value)
-                Entries.sharedInstance.cacheNewEntry(newEntry, for: activity)
+                newEntries.append(newEntry)
               }
             }
+            Entries.sharedInstance.cacheEntries(newEntries, for: activity)
           }
+        }
+      }
+
+      if let oldActivities = Entries.sharedInstance.cachedActivities {
+        let deletedActivities = oldActivities.filter { !newActivities.contains($0) }
+        deletedActivities.forEach { activity in
+          Entries.sharedInstance.deleteActivityAndEntries(activity)
         }
       }
       reloadRootController()
@@ -135,7 +146,7 @@ extension ExtensionDelegate: WCSessionDelegate {
 
   func reloadRootController() {
     DispatchQueue.main.async {
-      WKInterfaceController.reloadRootPageControllers(withNames: ["FirstEntryController"],
+      WKInterfaceController.reloadRootPageControllers(withNames: ["ActivitiesList"],
                                                       contexts: nil,
                                                       orientation: WKPageOrientation.vertical,
                                                       pageIndex: 0)
