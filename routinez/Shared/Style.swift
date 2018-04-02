@@ -12,7 +12,6 @@ extension UIWindow {
 
   func applyTheme() {
     let tabBar = UITabBar.appearance()
-    tabBar.backgroundImage = UIImage(named: "tabBar")
     tabBar.tintColor = .clear
     tabBar.shadowImage = UIImage()
 
@@ -61,6 +60,12 @@ extension UITabBar {
   override open func sizeThatFits(_ size: CGSize) -> CGSize {
     var sizeThatFits = super.sizeThatFits(size)
     sizeThatFits.height = 60
+    if #available(iOS 11.0, *),
+      let parent = superview {
+      let bottomInset = parent.safeAreaInsets.bottom
+      sizeThatFits.height += bottomInset
+    }
+
     return sizeThatFits
   }
 }

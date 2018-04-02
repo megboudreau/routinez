@@ -74,7 +74,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     let currentDailyTotal = Entries.sharedInstance.totalDailyValue(for: activity)
-    updateDailyTotal(with: currentDailyTotal)
+    updateDailyTotalLabel(with: currentDailyTotal)
   }
 
   @IBAction func didTapAddButton() {
@@ -118,19 +118,19 @@ class InterfaceController: WKInterfaceController {
     }
 
     addButton.setTitle("Success!")
-    updateDailyTotal(with: Entries.sharedInstance.totalDailyValue(for: activity))
+    updateDailyTotalLabel(with: Entries.sharedInstance.totalDailyValue(for: activity))
     delay(1) {
       self.addButton.setTitle("Add")
     }
   }
 
-  func updateDailyTotal(with value: Int) {
+  func updateDailyTotalLabel(with value: Int) {
     guard let activity = activity else {
       return
     }
 
     if activity.isBoolValue {
-      let boolValue: String = value == 0 ? "False" : "True"
+      let boolValue: String = value == 0 ? "True" : "False"
       DispatchQueue.main.async {
         self.dailyTotalLabel.setText(boolValue)
       }
@@ -145,7 +145,6 @@ class InterfaceController: WKInterfaceController {
     DispatchQueue.main.asyncAfter(
       deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
   }
-
   // MARK: - CloudKit
 
   func saveEntries() {

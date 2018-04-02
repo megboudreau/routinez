@@ -98,13 +98,13 @@ class LineChartViewController: UIViewController {
     switch dateRange {
     case .day:
       let total = Entries.sharedInstance.totalDailyValue(for: activity)
-      totalLabel.text = "\(activity.name) for \(dateRange.description): \(total)"
+      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
     case .week:
       let total = Entries.sharedInstance.totalWeeklyValue(for: activity)
-      totalLabel.text = "\(activity.name) for \(dateRange.description): \(total)"
+      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
     case .month:
       let total = Entries.sharedInstance.totalMonthlyValue(for: activity)
-      totalLabel.text = "\(activity.name) for \(dateRange.description): \(total)"
+      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
     }
   }
 

@@ -20,6 +20,7 @@ class Activity: Codable, Equatable {
   var name: String
   var entries: [Entry] = [Entry]()
   var isBoolValue: Bool = false
+  var isDefault: Bool = false
   var unitOfMeasurement: Unit = .noUnit
 
   static var emptyActivity: Activity {
@@ -61,7 +62,6 @@ class Activity: Codable, Equatable {
     try container.encode(isBoolValue, forKey: .isBoolValue)
     try container.encode(unitOfMeasurement.rawValue, forKey: .unitOfMeasurement)
   }
-
 }
 
 enum Unit: String {

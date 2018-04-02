@@ -94,7 +94,19 @@ class Entries {
 
   func totalDailyValue(for activity: Activity) -> Int {
     let todaysEntries = entriesForDay(activity)
+    if activity.isBoolValue {
+      return todaysEntries.last?.value ?? 0
+    }
     return todaysEntries.map { $0.value }.reduce(0, +)
+  }
+
+  func stringTotalDailyValue(for activity: Activity) -> String {
+    if activity.isBoolValue {
+      return totalDailyValue(for: activity) == 1 ? "True" : "False"
+    }
+
+    let total = totalDailyValue(for: activity)
+    return "\(total)\(activity.unitOfMeasurement.shortForm)"
   }
 
   func totalWeeklyValue(for activity: Activity) -> Int {

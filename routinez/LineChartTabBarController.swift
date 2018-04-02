@@ -44,4 +44,15 @@ class LineChartTabBarController: UITabBarController {
 
     tabBar.tintColor = .plum
   }
+
+  override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
+
+    let topBorder = CALayer()
+    let borderHeight: CGFloat = 1
+    topBorder.borderWidth = borderHeight
+    topBorder.borderColor = UIColor.gray.cgColor
+    topBorder.frame = CGRect(x: 0, y: -1, width: tabBar.frame.width, height: borderHeight)
+    tabBar.layer.addSublayer(topBorder)
+  }
 }

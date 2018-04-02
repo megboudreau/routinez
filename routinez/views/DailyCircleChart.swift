@@ -11,7 +11,7 @@ import Charts
 
 class DailyCircleChart: UIView {
 
-  var chartValueSelected: ((String) -> Void)?
+  var chartValueSelected: ((String, UIColor) -> Void)?
   var chartNothingSelected: (() -> Void)?
   var valueSelected: Bool = false
 
@@ -19,17 +19,11 @@ class DailyCircleChart: UIView {
     let p = PieChartView()
     p.legend.enabled = false
     p.chartDescription?.enabled = false
-    p.holeRadiusPercent = 0.70
+    p.holeRadiusPercent = 0.60
 
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .center
-    let centerText = NSAttributedString(
-      string: "Today's\ndata",
-      attributes: [
-        NSAttributedStringKey.font: UIFont.systemFont(ofSize: 30),
-        NSAttributedStringKey.foregroundColor: UIColor.plum,
-        NSAttributedStringKey.paragraphStyle: paragraphStyle])
-    p.centerAttributedText = centerText
+    p.noDataFont = UIFont.systemFont(ofSize: 18)
+    p.noDataTextColor = .black
+
     return p
   }()
 
@@ -41,7 +35,7 @@ class DailyCircleChart: UIView {
     super.init(frame: .zero)
 
     pieChart.delegate = self
-    backgroundColor = .white
+    backgroundColor = .clear
     drawChart()
   }
 
@@ -51,10 +45,27 @@ class DailyCircleChart: UIView {
 
   func drawChart() {
     addSubview(pieChart)
+    pieChart.clipsToBounds = false
+    pieChart.layer.masksToBounds = false
     pieChart.pinToSuperviewEdges()
   }
 
   func fillChart(animate: Bool = true) {
+    guard !entryKeys.isEmpty else {
+      pieChart.noDataText = "Add an activity to start tracking!"
+      return
+    }
+
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = .center
+    let centerText = NSAttributedString(
+      string: "Today's\ndata",
+      attributes: [
+        NSAttributedStringKey.font: UIFont.systemFont(ofSize: 30),
+        NSAttributedStringKey.foregroundColor: UIColor.plum,
+        NSAttributedStringKey.paragraphStyle: paragraphStyle])
+    pieChart.centerAttributedText = centerText
+
     var dataEntries = [PieChartDataEntry]()
 
     for key in entryKeys {
@@ -62,19 +73,22 @@ class DailyCircleChart: UIView {
       dataEntries.append(entry)
     }
 
-    if entryKeys.isEmpty {
-      dataEntries.append(PieChartDataEntry(value: Double(1), label: ""))
-    }
-
     let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
     chartDataSet.colors = UIColor.chartColors
-    chartDataSet.entryLabelColor = .clear
+    chartDataSet.entryLabelColor = .black
+    chartDataSet.entryLabelFont = UIFont.systemFont(ofSize: 12)
     chartDataSet.sliceSpace = 4
     chartDataSet.selectionShift = 10
     chartDataSet.drawValuesEnabled = false
+    chartDataSet.xValuePosition = .outsideSlice
+    chartDataSet.valueLineVariableLength = false
+    chartDataSet.valueLineColor = .clear
+    chartDataSet.valueLinePart1Length = 0
+    chartDataSet.valueLinePart2Length = -0.25
 
     let chartData = PieChartData(dataSet: chartDataSet)
     pieChart.data = chartData
+    pieChart.sizeToFit()
 
     if animate {
       pieChart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
@@ -86,11 +100,14 @@ extension DailyCircleChart: ChartViewDelegate {
 
   func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
     guard let entry = entry as? PieChartDataEntry,
-    let entryName = entry.label else {
+    let entryName = entry.label,
+    let dataSet = pieChart.data?.dataSets[ highlight.dataSetIndex] else {
       return
     }
     valueSelected = true
-    chartValueSelected?(entryName)
+
+    let sliceIndex: Int = dataSet.entryIndex( entry: entry)
+    chartValueSelected?(entryName, UIColor.chartColors[sliceIndex])
   }
 
   func chartValueNothingSelected(_ chartView: ChartViewBase) {

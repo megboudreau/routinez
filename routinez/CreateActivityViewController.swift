@@ -68,12 +68,16 @@ class CreateActivityViewController: UIViewController {
 
     nameLabel.text = "Name: "
     nameLabel.font = UIFont.systemFont(ofSize: 24)
+    nameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     nameLabel.sizeToFit()
     view.addSubviewForAutoLayout(nameLabel)
     nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     nameLabel.topAnchor.constraint(equalTo: plusIcon.bottomAnchor, constant: 24).isActive = true
 
     view.addSubviewForAutoLayout(nameTextField)
+    nameTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    nameTextField.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     nameTextField.delegate = self
     nameTextField.placeholder = "What would you like to track?"
     nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
@@ -83,6 +87,7 @@ class CreateActivityViewController: UIViewController {
     isBoolValueLabel.text = "Is this a true/false value?"
     isBoolValueLabel.font = UIFont.systemFont(ofSize: 24)
     isBoolValueLabel.sizeToFit()
+    isBoolValueLabel.adjustsFontSizeToFitWidth = true
     view.addSubviewForAutoLayout(isBoolValueLabel)
     isBoolValueLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     isBoolValueLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 36).isActive = true
@@ -91,6 +96,7 @@ class CreateActivityViewController: UIViewController {
     isBoolValueSwitch.isOn = isBoolValue
     isBoolValueSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
     view.addSubviewForAutoLayout(isBoolValueSwitch)
+    isBoolValueSwitch.leadingAnchor.constraint(equalTo: isBoolValueLabel.trailingAnchor, constant: 4).isActive = true
     isBoolValueSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     isBoolValueSwitch.centerYAnchor.constraint(equalTo: isBoolValueLabel.centerYAnchor).isActive = true
 

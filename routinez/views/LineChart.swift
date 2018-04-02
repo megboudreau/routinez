@@ -115,7 +115,8 @@ class LineChart: UIView {
 
     let lineChartDataSet = LineChartDataSet(values: dataEntries, label: activity.name)
     lineChartDataSet.circleColors = [UIColor.teal]
-    lineChartDataSet.circleHoleRadius = 3
+    lineChartDataSet.circleHoleRadius = 0
+    lineChartDataSet.circleRadius = 4
     lineChartDataSet.lineWidth = 2
     lineChartDataSet.valueTextColor = .clear
 
@@ -136,10 +137,10 @@ class LineChart: UIView {
   }
 
   func getDayOfWeek(todayDate: Date) {
-
-    let formatter  = DateFormatter()
-    let myComponents = Calendar(identifier: .gregorian).component(.weekday, from: todayDate)
-    let weekDay = myComponents.day
+//
+//    let formatter  = DateFormatter()
+//    let myComponents = Calendar(identifier: .gregorian).component(.weekday, from: todayDate)
+//    let weekDay = myComponents.day
 
   }
 }

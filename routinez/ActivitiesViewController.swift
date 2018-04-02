@@ -51,11 +51,17 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
     collectionView.dataSource = self
     collectionView.register(ActivityCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     collectionView.backgroundColor = .white
+    collectionView.showsVerticalScrollIndicator = false
     view.addSubviewForAutoLayout(collectionView)
     collectionView.topAnchor.constraint(equalTo: trackingLabel.bottomAnchor, constant: 24).isActive = true
     collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).isActive = true
-    collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 48).isActive = true
+    if #available(iOS 11.0, *) {
+      let bottomInset = view.safeAreaInsets.bottom + 60
+      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomInset).isActive = true
+    } else {
+      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
+    }
 
     let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
     longPress.delegate = self
