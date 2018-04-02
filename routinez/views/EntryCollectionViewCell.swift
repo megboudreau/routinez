@@ -82,7 +82,7 @@ class ActivityCollectionViewCell: UICollectionViewCell {
     plusButton.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
 
     activityNameLabel.textColor = .white
-    activityNameLabel.font = UIFont.systemFont(ofSize: 24)
+    activityNameLabel.font = UIFont.systemFont(ofSize: 18)
     activityNameLabel.numberOfLines = 2
     activityNameLabel.adjustsFontSizeToFitWidth = true
     activityNameLabel.textAlignment = .center

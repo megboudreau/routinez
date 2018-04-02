@@ -25,7 +25,10 @@ class Entries {
 
   var defaultActivity: Activity? {
     // TODO let user choose default
-    return activityForName("Calories")
+    guard let activities = cachedActivities else {
+      return nil
+    }
+    return activities.filter { $0.isDefault }.first
   }
 
   var cachedActivities: [Activity]? {
@@ -172,7 +175,7 @@ class Entries {
     let defaults = UserDefaults.standard
     let encoder = PropertyListEncoder()
 
-    guard var cachedActivities = cachedActivities else {
+    guard var cachedActivities: [Activity] = cachedActivities else {
       defaults.set(try? encoder.encode([activity]), forKey: defaultsActivitiesKey)
       defaults.synchronize()
       syncWatch()
@@ -180,6 +183,13 @@ class Entries {
     }
 
     if !cachedActivities.contains(activity) {
+      if activity.isDefault {
+        cachedActivities = cachedActivities.map { activity in
+          activity.isDefault = false
+          return activity
+        }
+      }
+
       cachedActivities.append(activity)
 
       defaults.set(try? encoder.encode(cachedActivities), forKey: defaultsActivitiesKey)

@@ -31,20 +31,22 @@ class Activity: Codable, Equatable {
     return [
       "name": name,
       "isBoolValue": isBoolValue,
+      "isDefault": isDefault,
       "unitOfMeasurement": unitOfMeasurement.rawValue]
   }
 
   private enum CodingKeys: String, CodingKey {
-    case name, isBoolValue, unitOfMeasurement
+    case name, isBoolValue, unitOfMeasurement, isDefault
   }
 
   init(name: String) {
     self.name = name
   }
 
-  init(name: String, isBoolValue: Bool, unitOfMeasurement: Unit) {
+  init(name: String, isBoolValue: Bool, unitOfMeasurement: Unit, isDefault: Bool) {
     self.name = name
     self.isBoolValue = isBoolValue
+    self.isDefault = isDefault
     self.unitOfMeasurement = unitOfMeasurement
   }
 
@@ -52,6 +54,7 @@ class Activity: Codable, Equatable {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     self.name = try values.decode(String.self, forKey: .name)
     self.isBoolValue = try values.decode(Bool.self, forKey: .isBoolValue)
+    self.isDefault = try values.decode(Bool.self, forKey: .isDefault)
     let unitString = try values.decode(String.self, forKey: .unitOfMeasurement)
     self.unitOfMeasurement = Unit.unitFromString(unitString)
   }
@@ -60,6 +63,7 @@ class Activity: Codable, Equatable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(name, forKey: .name)
     try container.encode(isBoolValue, forKey: .isBoolValue)
+    try container.encode(isDefault, forKey: .isDefault)
     try container.encode(unitOfMeasurement.rawValue, forKey: .unitOfMeasurement)
   }
 }
