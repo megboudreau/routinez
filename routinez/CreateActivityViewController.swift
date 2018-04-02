@@ -125,7 +125,7 @@ class CreateActivityViewController: UIViewController {
     isDefaultValueLabel.sizeToFit()
     isDefaultValueLabel.adjustsFontSizeToFitWidth = true
     isDefaultValueLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-    isDefaultValueLabel.topAnchor.constraint(equalTo: isBoolValueLabel.bottomAnchor, constant: 30).isActive = true
+    isDefaultValueLabel.topAnchor.constraint(equalTo: isBoolValueLabel.bottomAnchor, constant: 36).isActive = true
 
     isDefaultValueSubLabel.text = "This will be the value tracked on the watch complication"
     isDefaultValueSubLabel.textColor = .darkGray
@@ -158,9 +158,9 @@ class CreateActivityViewController: UIViewController {
     unitLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     unitLabel.centerYAnchor.constraint(equalTo: unitOfMeasurementLabel.centerYAnchor).isActive = true
 
-    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: unitLabel.bottomAnchor, constant: 8).isActive = true
+    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: unitLabel.bottomAnchor, constant: 6).isActive = true
     unitOfMeasurementPickerView.leadingAnchor.constraint(equalTo: unitOfMeasurementLabel.trailingAnchor, constant: 4)
-    unitOfMeasurementPickerView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -16).isActive = true
+    unitOfMeasurementPickerView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -6).isActive = true
     unitOfMeasurementPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     saveButton.setTitle("Save", for: .normal)

@@ -12,7 +12,6 @@ class AddEntryView: UIView {
 
   let addEntryLabel = UILabel()
   let addEntryPickerView = UIPickerView()
-  let trueFalseSwitch = UISwitch()
   let saveButton = UIButton()
   var selectedValue: Int = 0
   var newEntrySaved: (() -> Void)?
@@ -64,14 +63,13 @@ class AddEntryView: UIView {
     saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
     saveButton.setTitle("Save", for: .normal)
     saveButton.setTitleColor(.white, for: .normal)
-    saveButton.layer.cornerRadius = 17
+    saveButton.layer.cornerRadius = 18
     saveButton.backgroundColor = .plum
     saveButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
     saveButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
     saveButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     saveButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
-    trueFalseSwitch.tintColor = .plum // TODO change to match activity. Add color to activity
     updateViews()
   }
 
@@ -79,13 +77,11 @@ class AddEntryView: UIView {
     guard let activity = activity else {
       addEntryLabel.isHidden = true
       addEntryPickerView.isHidden = true
-      trueFalseSwitch.isHidden = true
       saveButton.isHidden = true
       return
     }
 
-    trueFalseSwitch.isHidden = !activity.isBoolValue
-    addEntryPickerView.isHidden = activity.isBoolValue
+    addEntryPickerView.isHidden = false
     addEntryLabel.isHidden = false
     saveButton.isHidden = false
     addEntryPickerView.reloadAllComponents()
@@ -125,17 +121,32 @@ extension AddEntryView: UIPickerViewDataSource, UIPickerViewDelegate {
   }
 
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return 100
+    guard let activity = self.activity else {
+      return 100
+    }
+    return activity.isBoolValue ? 2 : 100
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    self.selectedValue = row*10
+    guard let activity = activity else {
+      return
+    }
+
+    self.selectedValue = activity.isBoolValue ? row : row * 10
+
   }
 
   func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+    var text = "\(row * 10)"
+
+    if let activity = activity,
+      activity.isBoolValue {
+      text = row == 0 ? "false" : "true"
+    }
+
     let textColor: UIColor = self.color != nil ? color! : UIColor.plum
     return NSAttributedString(
-      string: "\(row*10)",
+      string: text,
       attributes: [
         NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18),
         NSAttributedStringKey.foregroundColor: textColor])
