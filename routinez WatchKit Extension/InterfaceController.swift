@@ -49,7 +49,7 @@ class InterfaceController: WKInterfaceController {
 
       pickerItems = [trueItem, falseItem]
     } else {
-      let entryValues = stride(from:0, to: 2500, by: 10)
+      let entryValues = stride(from:0, to: 2500, by: 1)
       pickerItems = entryValues.map {
         let pickerItem = WKPickerItem()
         pickerItem.title = "\($0)"
@@ -102,7 +102,7 @@ class InterfaceController: WKInterfaceController {
         selectedBool = value == 0 ? false : true
         return
     }
-    selectedItem = (value * 10)
+    selectedItem = value
   }
 
   func setErrorTitle() {

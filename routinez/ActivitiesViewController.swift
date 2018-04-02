@@ -134,6 +134,10 @@ extension ActivitiesViewController: UICollectionViewDataSource {
     }
     switch cellType {
     case .add:
+      let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+      feedbackGenerator.prepare()
+      feedbackGenerator.impactOccurred()
+
       let color = UIColor.chartColors[indexPath.item]
       let vc = CreateActivityViewController(color: color)
       navigationController?.pushViewController(vc, animated: true)

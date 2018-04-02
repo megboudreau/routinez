@@ -74,7 +74,7 @@ class AddEntryView: UIView {
   }
 
   func updateViews() {
-    guard let activity = activity else {
+    guard self.activity != nil else {
       addEntryLabel.isHidden = true
       addEntryPickerView.isHidden = true
       saveButton.isHidden = true
@@ -91,6 +91,10 @@ class AddEntryView: UIView {
     guard let activity = activity else {
       return
     }
+
+    let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    feedbackGenerator.prepare()
+    feedbackGenerator.impactOccurred()
 
     let entry = Entry(timestamp: Date(), value: selectedValue)
     Entries.sharedInstance.cacheNewEntry(entry, for: activity)
@@ -122,26 +126,21 @@ extension AddEntryView: UIPickerViewDataSource, UIPickerViewDelegate {
 
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     guard let activity = self.activity else {
-      return 100
+      return 2500
     }
-    return activity.isBoolValue ? 2 : 100
+    return activity.isBoolValue ? 2 : 2500
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    guard let activity = activity else {
-      return
-    }
-
-    self.selectedValue = activity.isBoolValue ? row : row * 10
-
+    self.selectedValue = row
   }
 
   func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-    var text = "\(row * 10)"
+    var text = "\(row)"
 
     if let activity = activity,
       activity.isBoolValue {
-      text = row == 0 ? "false" : "true"
+      text = row == 0 ? "False" : "True"
     }
 
     let textColor: UIColor = self.color != nil ? color! : UIColor.plum

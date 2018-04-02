@@ -160,6 +160,10 @@ class ViewController: UIViewController {
       return
     }
 
+    let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    feedbackGenerator.prepare()
+    feedbackGenerator.impactOccurred()
+
     let viewController = LineChartTabBarController(activity: activity)
     navigationController?.pushViewController(viewController, animated: true)
   }
