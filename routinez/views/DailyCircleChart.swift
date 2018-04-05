@@ -19,7 +19,7 @@ class DailyCircleChart: UIView {
     let p = PieChartView()
     p.legend.enabled = false
     p.chartDescription?.enabled = false
-    p.holeRadiusPercent = 0.60
+    p.holeRadiusPercent = 0.70
 
     p.noDataFont = UIFont.systemFont(ofSize: 18)
     p.noDataTextColor = .black
@@ -83,8 +83,8 @@ class DailyCircleChart: UIView {
     chartDataSet.xValuePosition = .outsideSlice
     chartDataSet.valueLineVariableLength = false
     chartDataSet.valueLineColor = .clear
-    chartDataSet.valueLinePart1Length = 0
-    chartDataSet.valueLinePart2Length = -0.25
+    chartDataSet.valueLinePart1Length = 0.0
+    chartDataSet.valueLinePart2Length = -0.15
 
     let chartData = PieChartData(dataSet: chartDataSet)
     pieChart.data = chartData

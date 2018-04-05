@@ -116,8 +116,8 @@ class ViewController: UIViewController {
     view.addSubviewForAutoLayout(addEntryView)
     addEntryView.newEntrySaved = updateDisplay
     addEntryView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    addEntryView.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 16).isActive = true
-    addEntryView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -76).isActive = true
+    addEntryView.topAnchor.constraint(equalTo: dailyCircleChart.bottomAnchor, constant: 8).isActive = true
+    addEntryView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
     addEntryView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
   }
 
@@ -137,7 +137,9 @@ class ViewController: UIViewController {
     let stringTotal = Entries.sharedInstance.stringTotalDailyValue(for: activity)
     selectedTotalLabel.text = "\(activity.name): \(stringTotal)"
 
-    seeActivityData.setTitle("View data:\n \(activityName)", for: .normal)
+//    seeActivityData.setTitle("View data:\n \(activityName)", for: .normal)
+    seeActivityData.setTitle("View\nData", for: .normal)
+    seeActivityData.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
     self.selectedActivity = Entries.sharedInstance.activityForName(activityName)
     self.selectedActivityColor = color
     updateLabels()

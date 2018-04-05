@@ -17,19 +17,19 @@ extension Encodable {
 
 extension Date {
   func isInSameWeek(date: Date) -> Bool {
-    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .weekOfYear)
+    return Calendar.current.isDate(self, equalTo: date, toGranularity: .weekOfYear)
   }
 
   func isInSameMonth(date: Date) -> Bool {
-    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .month)
+    return Calendar.current.isDate(self, equalTo: date, toGranularity: .month)
   }
 
   func isInSameYear(date: Date) -> Bool {
-    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .year)
+    return Calendar.current.isDate(self, equalTo: date, toGranularity: .year)
   }
 
   func isInSameDay(date: Date) -> Bool {
-    return Calendar.autoupdatingCurrent.isDate(self, equalTo: date, toGranularity: .day)
+    return Calendar.current.isDate(self, equalTo: date, toGranularity: .day)
   }
 
   var isInThisWeek: Bool {
@@ -41,7 +41,7 @@ extension Date {
   }
 
   var isInToday: Bool {
-    return Calendar.autoupdatingCurrent.isDateInToday(self)
+    return Calendar.current.isDateInToday(self)
   }
 
   var isInTheFuture: Bool {
@@ -50,6 +50,14 @@ extension Date {
 
   var isInThePast: Bool {
     return self < Date()
+  }
+
+  var weekNumber: Int {
+    return Calendar.current.component(.weekOfMonth, from: self)
+  }
+
+  var weekdayNumber: Int {
+    return Calendar.current.component(.weekday, from: self)
   }
 }
 

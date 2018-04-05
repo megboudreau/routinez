@@ -85,16 +85,16 @@ class CreateActivityViewController: UIViewController {
 
     nameLabel.text = "Name: "
     nameLabel.font = UIFont.systemFont(ofSize: 24)
+    nameLabel.sizeToFit()
     nameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    nameLabel.sizeToFit()
     nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     nameLabel.topAnchor.constraint(equalTo: plusIcon.bottomAnchor, constant: 24).isActive = true
 
-    nameTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    nameTextField.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     nameTextField.delegate = self
     nameTextField.placeholder = "What would you like to track?"
+    nameTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    nameTextField.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 4).isActive = true
     nameTextField.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
@@ -103,8 +103,10 @@ class CreateActivityViewController: UIViewController {
     isBoolValueLabel.font = UIFont.systemFont(ofSize: 24)
     isBoolValueLabel.sizeToFit()
     isBoolValueLabel.adjustsFontSizeToFitWidth = true
+    isBoolValueLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    isBoolValueLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     isBoolValueLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-    isBoolValueLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 36).isActive = true
+    isBoolValueLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 16).isActive = true
 
     isBoolValueSubLabel.text = "Ex: Went to gym"
     isBoolValueSubLabel.textColor = UIColor.darkGray
@@ -124,6 +126,8 @@ class CreateActivityViewController: UIViewController {
     isDefaultValueLabel.font = UIFont.systemFont(ofSize: 24)
     isDefaultValueLabel.sizeToFit()
     isDefaultValueLabel.adjustsFontSizeToFitWidth = true
+    isDefaultValueLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    isDefaultValueLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     isDefaultValueLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     isDefaultValueLabel.topAnchor.constraint(equalTo: isBoolValueLabel.bottomAnchor, constant: 36).isActive = true
 
@@ -147,7 +151,10 @@ class CreateActivityViewController: UIViewController {
     unitOfMeasurementLabel.font = UIFont.systemFont(ofSize: 24)
     unitOfMeasurementLabel.sizeToFit()
     unitOfMeasurementLabel.adjustsFontSizeToFitWidth = true
+    unitOfMeasurementLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    unitOfMeasurementLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     unitOfMeasurementLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+    unitOfMeasurementLabel.trailingAnchor.constraint(equalTo: unitLabel.leadingAnchor, constant: -4).isActive = true
     unitOfMeasurementLabel.topAnchor.constraint(equalTo: isDefaultValueLabel.bottomAnchor, constant: 30).isActive = true
 
     unitLabel.text = "no unit"
@@ -158,9 +165,11 @@ class CreateActivityViewController: UIViewController {
     unitLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     unitLabel.centerYAnchor.constraint(equalTo: unitOfMeasurementLabel.centerYAnchor).isActive = true
 
-    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: unitLabel.bottomAnchor, constant: 6).isActive = true
-    unitOfMeasurementPickerView.leadingAnchor.constraint(equalTo: unitOfMeasurementLabel.trailingAnchor, constant: 4)
-    unitOfMeasurementPickerView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -6).isActive = true
+    unitOfMeasurementPickerView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+    unitOfMeasurementPickerView.setContentHuggingPriority(.defaultLow, for: .vertical)
+    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: unitLabel.bottomAnchor, constant: 16).isActive = true
+    unitOfMeasurementPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+    unitOfMeasurementPickerView.heightAnchor.constraint(lessThanOrEqualToConstant: 120).isActive = true
     unitOfMeasurementPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     saveButton.setTitle("Save", for: .normal)

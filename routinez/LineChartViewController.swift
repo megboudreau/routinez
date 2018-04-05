@@ -22,8 +22,6 @@ enum LineChartDateRange {
     }
   }
 
-//  TODO
-//  var dateRangeString: String
 }
 
 class LineChartViewController: UIViewController {
@@ -52,7 +50,7 @@ class LineChartViewController: UIViewController {
     view.backgroundColor = .white
 
     dateBanner.textColor = .plum
-    dateBanner.font = UIFont.systemFont(ofSize: 24)
+    dateBanner.font = UIFont.boldSystemFont(ofSize: 24)
     dateBanner.text = dateString(for: dateRange)
     dateBanner.adjustsFontSizeToFitWidth = true
     dateBanner.sizeToFit()
@@ -111,7 +109,7 @@ class LineChartViewController: UIViewController {
   func dateString(for dateRange: LineChartDateRange) -> String {
     let formatter = DateFormatter()
     formatter.dateStyle = .long
-    let calendar = Calendar.autoupdatingCurrent
+    let calendar = Calendar.current
 
     switch dateRange {
     case .day:

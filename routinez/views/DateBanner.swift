@@ -24,7 +24,7 @@ class DateBanner: UIView {
     backgroundColor = .white
     dateLabel.textColor = .plum
     dateLabel.adjustsFontSizeToFitWidth = true
-    dateLabel.font = UIFont.systemFont(ofSize: 30)
+    dateLabel.font = UIFont.boldSystemFont(ofSize: 30)
     dateLabel.text = currentFormattedDate
     dateLabel.sizeToFit()
 

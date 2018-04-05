@@ -56,8 +56,8 @@ class AddEntryView: UIView {
     addEntryPickerView.dataSource = self
     addEntryPickerView.delegate = self
     addEntryPickerView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-    addEntryPickerView.leadingAnchor.constraint(equalTo: addEntryLabel.trailingAnchor, constant: 8).isActive = true
-    addEntryPickerView.trailingAnchor.constraint(equalTo: saveButton.leadingAnchor, constant: -8).isActive = true
+    addEntryPickerView.leadingAnchor.constraint(equalTo: addEntryLabel.trailingAnchor, constant: 16).isActive = true
+    addEntryPickerView.trailingAnchor.constraint(equalTo: saveButton.leadingAnchor, constant: -16).isActive = true
     addEntryPickerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
     saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
