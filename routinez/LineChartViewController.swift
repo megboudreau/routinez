@@ -117,7 +117,7 @@ class LineChartViewController: UIViewController {
     case .week:
       let weekInterval = calendar.dateInterval(of: .weekOfYear, for: Date())
       guard let startDate = weekInterval?.start,
-        let endDate = weekInterval?.end else {
+        let endDate = weekInterval?.end.addingTimeInterval(-1.day) else {
           return ""
       }
       let startDateString = formatter.string(from: startDate)
@@ -126,7 +126,7 @@ class LineChartViewController: UIViewController {
     case .month:
       let monthInterval = calendar.dateInterval(of: .month, for: Date())
       guard let startDate =  monthInterval?.start,
-        let endDate = monthInterval?.end else {
+        let endDate = monthInterval?.end.addingTimeInterval(-1.day) else {
           return ""
       }
       let startDateString = formatter.string(from: startDate)

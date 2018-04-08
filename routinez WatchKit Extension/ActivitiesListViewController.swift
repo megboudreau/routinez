@@ -54,6 +54,11 @@ class ActivitiesListViewController: WKInterfaceController {
     }
   }
 
+  override func didDeactivate() {
+    ExtensionDelegate.reloadComplications()
+    super.didDeactivate()
+  }
+
   override func contextForSegue(withIdentifier
     segueIdentifier: String, in table: WKInterfaceTable,
                              rowIndex: Int) -> Any? {
