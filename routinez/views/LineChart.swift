@@ -237,7 +237,7 @@ extension MonthChartXAxisFormatter: IAxisValueFormatter {
 
     let weekInterval = Calendar.current.dateInterval(of: .weekOfMonth, for: date.addingTimeInterval(2.days))
     guard let startDate =  weekInterval?.start,
-      let endDate = weekInterval?.end else {
+      let endDate = weekInterval?.end.addingTimeInterval(-1.day) else {
         return ""
     }
     let startDateString = dateFormatter.string(from: startDate)

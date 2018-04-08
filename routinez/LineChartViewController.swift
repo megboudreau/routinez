@@ -93,17 +93,17 @@ class LineChartViewController: UIViewController {
   }
 
   func setTotalForDateRange(activity: Activity, dateRange: LineChartDateRange) {
+    var total: Int = 0
     switch dateRange {
     case .day:
-      let total = Entries.sharedInstance.totalDailyValue(for: activity)
-      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
+      total = Entries.sharedInstance.totalDailyValue(for: activity)
     case .week:
-      let total = Entries.sharedInstance.totalWeeklyValue(for: activity)
-      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
+      total = Entries.sharedInstance.totalWeeklyValue(for: activity)
     case .month:
-      let total = Entries.sharedInstance.totalMonthlyValue(for: activity)
-      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
+      total = Entries.sharedInstance.totalMonthlyValue(for: activity)
     }
+
+    totalLabel.text = activity.isBoolValue ? "\(activity.name) \(dateRange.description): \(Bool(total))" : "\(activity.name) \(dateRange.description): \(total)"
   }
 
   func dateString(for dateRange: LineChartDateRange) -> String {

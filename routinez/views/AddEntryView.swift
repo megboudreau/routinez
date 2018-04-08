@@ -140,7 +140,7 @@ extension AddEntryView: UIPickerViewDataSource, UIPickerViewDelegate {
 
     if let activity = activity,
       activity.isBoolValue {
-      text = row == 0 ? "False" : "True"
+      text = row == 0 ? "false" : "true"
     }
 
     let textColor: UIColor = self.color != nil ? color! : UIColor.plum

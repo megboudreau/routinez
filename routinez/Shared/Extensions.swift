@@ -61,6 +61,12 @@ extension Date {
   }
 }
 
+extension Bool {
+  init(_ int: Int) {
+    self = int > 0 ? true : false
+  }
+}
+
 extension Int {
   var second: TimeInterval {
     return TimeInterval(self)
