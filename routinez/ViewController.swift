@@ -166,6 +166,12 @@ class ViewController: UIViewController {
     feedbackGenerator.prepare()
     feedbackGenerator.impactOccurred()
 
+    if activity.isBoolValue {
+      let viewController = CalendarViewController()
+      navigationController?.pushViewController(viewController, animated: true)
+      return
+    }
+
     let viewController = LineChartTabBarController(activity: activity)
     navigationController?.pushViewController(viewController, animated: true)
   }
