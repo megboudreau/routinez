@@ -41,11 +41,11 @@ class InterfaceController: WKInterfaceController {
     if activity.isBoolValue {
       let trueItem = WKPickerItem()
       trueItem.caption = activity.name
-      trueItem.title = "True"
+      trueItem.title = "true"
 
       let falseItem = WKPickerItem()
       falseItem.caption = activity.name
-      falseItem.title = "False"
+      falseItem.title = "false"
 
       pickerItems = [trueItem, falseItem]
     } else {
@@ -130,7 +130,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     if activity.isBoolValue {
-      let boolValue: String = value == 0 ? "True" : "False"
+      let boolValue: String = value == 0 ? "true" : "false"
       DispatchQueue.main.async {
         self.dailyTotalLabel.setText(boolValue)
       }

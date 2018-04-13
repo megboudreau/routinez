@@ -62,6 +62,32 @@ class CircularButton: UIButton {
   }
 }
 
+class CircleView: UIView {
+
+  var circleFill: UIColor {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
+
+  init(circleFill: UIColor = .plum) {
+    self.circleFill = circleFill
+    super.init(frame: .zero)
+
+    backgroundColor = .white
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func draw(_ rect: CGRect) {
+    let path = UIBezierPath(ovalIn: rect)
+    circleFill.setFill()
+    path.fill()
+  }
+}
+
 class AddCircle: UIView {
 
   var circleFill: UIColor

@@ -141,6 +141,7 @@ extension ExtensionDelegate: WCSessionDelegate {
           Entries.sharedInstance.deleteActivityAndEntries(activity)
         }
       }
+      ExtensionDelegate.reloadComplications()
       reloadRootController()
     }
   }

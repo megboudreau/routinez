@@ -105,7 +105,7 @@ class Entries {
 
   func stringTotalDailyValue(for activity: Activity) -> String {
     if activity.isBoolValue {
-      return totalDailyValue(for: activity) == 1 ? "True" : "False"
+      return totalDailyValue(for: activity) == 1 ? "true" : "false"
     }
 
     let total = totalDailyValue(for: activity)
