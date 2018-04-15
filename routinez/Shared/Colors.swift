@@ -1,44 +1,38 @@
 //
-//  Style.swift
+//  Colors.swift
 //  routinez
 //
-//  Created by Megan Boudreau on 2018-02-19.
+//  Created by Megan Boudreau on 2018-04-15.
 //  Copyright © 2018 Megan Boudreau. All rights reserved.
 //
 
 import UIKit
 
-extension UIWindow {
-
-  func applyTheme() {
-    let tabBar = UITabBar.appearance()
-    tabBar.tintColor = .clear
-    tabBar.shadowImage = UIImage()
-
-    let barButtonItem = UIBarButtonItem.appearance()
-    barButtonItem.tintColor = .darkGray
-
-    let navigationBar = UINavigationBar.appearance()
-    navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-    navigationBar.shadowImage = UIImage()
-
-    backgroundColor = .white
-  }
-}
-
 extension UIColor {
 
-  static let chartColors: [UIColor] = [
-    .lightTeal,
-    .duskBlue,
-    .tangerine,
-    .cherry,
-    .mutedPurple,
-    .lightBlue,
-    .darkTeal,
-    .bubblegum,
-    .banana,
-    .fuschia]
+//  static let chartColors: [UIColor] = [
+//    .lightTeal,
+//    .duskBlue,
+//    .tangerine,
+//    .cherry,
+//    .mutedPurple,
+//    .lightBlue,
+//    .darkTeal,
+//    .bubblegum,
+//    .banana,
+//    .fuschia]
+
+  static let activityColors: [UIColor] = [
+    .paradisePink,
+    .blueberry,
+    .spanishSkyBlue,
+    .veryLightBlue,
+    .yellowOrange,
+    .paradisePink,
+    .blueberry,
+    .spanishSkyBlue,
+    .veryLightBlue,
+    .yellowOrange]
 
   static var lighterGrey = UIColor(red:0.81, green:0.81, blue:0.81, alpha:1.0)
   static var teal = UIColor(red:0.02, green:0.74, blue:0.74, alpha:1.0)
@@ -54,18 +48,10 @@ extension UIColor {
   static var lightTeal = UIColor(red:0.40, green:0.84, blue:0.83, alpha:1.0)
   static var darkTeal = UIColor(red:0.06, green:0.62, blue:0.60, alpha:1.0)
   static var mutedPurple = UIColor(red:0.60, green:0.49, blue:0.80, alpha:1.0)
-}
 
-extension UITabBar {
-  override open func sizeThatFits(_ size: CGSize) -> CGSize {
-    var sizeThatFits = super.sizeThatFits(size)
-    sizeThatFits.height = 60
-    if #available(iOS 11.0, *),
-      let parent = superview {
-      let bottomInset = parent.safeAreaInsets.bottom
-      sizeThatFits.height += bottomInset
-    }
-
-    return sizeThatFits
-  }
+  static var paradisePink = UIColor(red:0.93, green:0.26, blue:0.40, alpha:1.0)
+  static var blueberry = UIColor(red:0.26, green:0.57, blue:0.95, alpha:1.0)
+  static var spanishSkyBlue = UIColor(red:0.11, green:0.91, blue:1.00, alpha:1.0)
+  static var veryLightBlue = UIColor(red:0.44, green:0.35, blue:1.00, alpha:1.0)
+  static var yellowOrange = UIColor(red:0.96, green:0.67, blue:0.21, alpha:1.0)
 }

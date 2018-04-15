@@ -22,7 +22,6 @@ class ViewController: UIViewController {
   let addEntryView = AddEntryView()
 
   var selectedActivity: Activity?
-  var selectedActivityColor: UIColor?
 
   var currentFormattedDate: String {
     let formatter = DateFormatter()
@@ -124,24 +123,21 @@ class ViewController: UIViewController {
   func updateDisplay() {
     dailyCircleChart.fillChart(animate: false)
     updateLabels()
-    if let selectedActivity = selectedActivity,
-      let selectedActivityColor = selectedActivityColor {
-      didSelectActivity(activityName: selectedActivity.name, color: selectedActivityColor)
+    if let selectedActivity = selectedActivity {
+      didSelectActivity(activityName: selectedActivity.name)
     }
   }
 
-  func didSelectActivity(activityName: String, color: UIColor) {
+  func didSelectActivity(activityName: String) {
     guard let activity = Entries.sharedInstance.activityForName(activityName) else {
       return
     }
     let stringTotal = Entries.sharedInstance.stringTotalDailyValue(for: activity)
     selectedTotalLabel.text = "\(activity.name): \(stringTotal)"
 
-//    seeActivityData.setTitle("View data:\n \(activityName)", for: .normal)
     seeActivityData.setTitle("View\nData", for: .normal)
     seeActivityData.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
     self.selectedActivity = Entries.sharedInstance.activityForName(activityName)
-    self.selectedActivityColor = color
     updateLabels()
   }
 
@@ -152,7 +148,7 @@ class ViewController: UIViewController {
 
   func updateLabels() {
     addEntryView.activity = selectedActivity
-    addEntryView.color = selectedActivityColor
+    addEntryView.color = selectedActivity?.color
     seeActivityData.isHidden = !dailyCircleChart.valueSelected
     selectedTotalLabel.isHidden = !dailyCircleChart.valueSelected
   }
