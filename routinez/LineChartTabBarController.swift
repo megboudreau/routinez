@@ -57,7 +57,7 @@ class LineChartTabBarController: UITabBarController {
       tabBar.items?[2].title = "This Month"
     }
 
-    tabBar.tintColor = .plum
+    tabBar.tintColor = .darkBluePigment
   }
 
   override func viewWillLayoutSubviews() {

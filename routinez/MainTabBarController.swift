@@ -27,7 +27,7 @@ class MainTabBarController: UITabBarController {
     tabBar.items?[0].title = "Data"
     tabBar.items?[1].title = "Add Activity"
 
-    tabBar.tintColor = .plum
+    tabBar.tintColor = .darkBluePigment
   }
 
   override func viewWillLayoutSubviews() {

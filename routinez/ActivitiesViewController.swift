@@ -41,7 +41,7 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
 
     trackingLabel.text = "I am tracking..."
     trackingLabel.font = UIFont.systemFont(ofSize: 24)
-    trackingLabel.textColor = .plum
+    trackingLabel.textColor = .darkBluePigment
     trackingLabel.sizeToFit()
     view.addSubviewForAutoLayout(trackingLabel)
     trackingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true

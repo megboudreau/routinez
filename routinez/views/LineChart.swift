@@ -27,11 +27,11 @@ class LineChart: UIView {
     l.leftAxis.drawBottomYLabelEntryEnabled = true
     l.leftAxis.drawGridLinesEnabled = false
     l.leftAxis.labelFont = UIFont.boldSystemFont(ofSize: 12)
-    l.leftAxis.labelTextColor = .plum
+    l.leftAxis.labelTextColor = .black
     l.leftAxis.axisLineWidth = 1
 
     // Xaxis formatting
-    l.xAxis.labelTextColor = .plum
+    l.xAxis.labelTextColor = .black
     l.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 12)
     l.xAxis.drawGridLinesEnabled = false
     l.xAxis.axisLineWidth = 1
@@ -86,7 +86,7 @@ class LineChart: UIView {
     guard entries.count > 0 else {
       lineChart.noDataText = "No values recorded yet \(self.dateRange.description)."
       lineChart.noDataFont = UIFont.systemFont(ofSize: 24)
-      lineChart.noDataTextColor = .plum
+      lineChart.noDataTextColor = .darkBluePigment
       return
     }
 
@@ -144,7 +144,8 @@ class LineChart: UIView {
     lineChart.xAxis.avoidFirstLastClippingEnabled = true
 
     let lineChartDataSet = LineChartDataSet(values: dataEntries, label: activity.name)
-    lineChartDataSet.circleColors = [UIColor.teal]
+    lineChartDataSet.setCircleColor(activity.color)
+    lineChartDataSet.setColor(activity.color.withAlphaComponent(0.7))
     lineChartDataSet.circleHoleRadius = 0
     lineChartDataSet.circleRadius = 4
     lineChartDataSet.lineWidth = 2

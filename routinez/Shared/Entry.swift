@@ -71,6 +71,7 @@ class Activity: Codable, Equatable {
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(name, forKey: .name)
+    try container.encode(colorIndex, forKey: .colorIndex)
     try container.encode(isBoolValue, forKey: .isBoolValue)
     try container.encode(isDefault, forKey: .isDefault)
     try container.encode(unitOfMeasurement.rawValue, forKey: .unitOfMeasurement)

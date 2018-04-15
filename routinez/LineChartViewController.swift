@@ -49,7 +49,7 @@ class LineChartViewController: UIViewController {
 
     view.backgroundColor = .white
 
-    dateBanner.textColor = .plum
+    dateBanner.textColor = .darkBluePigment
     dateBanner.font = UIFont.boldSystemFont(ofSize: 24)
     dateBanner.text = dateString(for: dateRange)
     dateBanner.adjustsFontSizeToFitWidth = true

@@ -64,7 +64,7 @@ class AddEntryView: UIView {
     saveButton.setTitle("Save", for: .normal)
     saveButton.setTitleColor(.white, for: .normal)
     saveButton.layer.cornerRadius = 18
-    saveButton.backgroundColor = .plum
+    saveButton.backgroundColor = .darkBluePigment
     saveButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
     saveButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
     saveButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
@@ -143,7 +143,7 @@ extension AddEntryView: UIPickerViewDataSource, UIPickerViewDelegate {
       text = row == 0 ? "false" : "true"
     }
 
-    let textColor: UIColor = self.color != nil ? color! : UIColor.plum
+    let textColor: UIColor = self.color != nil ? color! : UIColor.darkBluePigment
     return NSAttributedString(
       string: text,
       attributes: [

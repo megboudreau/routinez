@@ -62,7 +62,7 @@ class DailyCircleChart: UIView {
       string: "Today's\ndata",
       attributes: [
         NSAttributedStringKey.font: UIFont.systemFont(ofSize: 30),
-        NSAttributedStringKey.foregroundColor: UIColor.plum,
+        NSAttributedStringKey.foregroundColor: UIColor.black,
         NSAttributedStringKey.paragraphStyle: paragraphStyle])
     pieChart.centerAttributedText = centerText
 
