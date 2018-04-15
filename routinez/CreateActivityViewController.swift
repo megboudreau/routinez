@@ -190,7 +190,14 @@ class CreateActivityViewController: UIViewController {
       return
     }
 
-    let activity = Activity(name: name, isBoolValue: isBoolValue, unitOfMeasurement: selectedUnit, isDefault: isDefaultValue)
+    let colorIndex = Entries.sharedInstance.activityCount
+
+    let activity = Activity(
+      colorIndex: colorIndex,
+      name: name,
+      isBoolValue: isBoolValue,
+      unitOfMeasurement: selectedUnit,
+      isDefault: isDefaultValue)
     Entries.sharedInstance.cacheNewActivity(activity)
 
     ActivitiesViewController.activities = nil

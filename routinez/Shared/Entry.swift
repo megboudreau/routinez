@@ -6,7 +6,7 @@
 //  Copyright © 2017 Megan Boudreau. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CloudKit
 
 func ==(lhs: Activity, rhs: Activity) -> Bool {
@@ -17,18 +17,24 @@ func ==(lhs: Activity, rhs: Activity) -> Bool {
 
 class Activity: Codable, Equatable {
 
+  var colorIndex: Int
   var name: String
   var entries: [Entry] = [Entry]()
   var isBoolValue: Bool = false
   var isDefault: Bool = false
   var unitOfMeasurement: Unit = .noUnit
 
+  var color: UIColor {
+    return UIColor.activityColors[colorIndex]
+  }
+
   static var emptyActivity: Activity {
-    return Activity(name: "")
+    return Activity(colorIndex: -1, name: "")
   }
 
   var dictValue: [String: Any] {
     return [
+      "colorIndex": colorIndex,
       "name": name,
       "isBoolValue": isBoolValue,
       "isDefault": isDefault,
@@ -36,14 +42,16 @@ class Activity: Codable, Equatable {
   }
 
   private enum CodingKeys: String, CodingKey {
-    case name, isBoolValue, unitOfMeasurement, isDefault
+    case colorIndex, name, isBoolValue, unitOfMeasurement, isDefault
   }
 
-  init(name: String) {
+  init(colorIndex: Int, name: String) {
+    self.colorIndex = colorIndex
     self.name = name
   }
 
-  init(name: String, isBoolValue: Bool, unitOfMeasurement: Unit, isDefault: Bool) {
+  init(colorIndex: Int, name: String, isBoolValue: Bool, unitOfMeasurement: Unit, isDefault: Bool) {
+    self.colorIndex = colorIndex
     self.name = name
     self.isBoolValue = isBoolValue
     self.isDefault = isDefault
@@ -52,6 +60,7 @@ class Activity: Codable, Equatable {
 
   required init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
+    self.colorIndex = try values.decode(Int.self, forKey: .colorIndex)
     self.name = try values.decode(String.self, forKey: .name)
     self.isBoolValue = try values.decode(Bool.self, forKey: .isBoolValue)
     self.isDefault = try values.decode(Bool.self, forKey: .isDefault)
@@ -62,6 +71,7 @@ class Activity: Codable, Equatable {
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(name, forKey: .name)
+    try container.encode(colorIndex, forKey: .colorIndex)
     try container.encode(isBoolValue, forKey: .isBoolValue)
     try container.encode(isDefault, forKey: .isDefault)
     try container.encode(unitOfMeasurement.rawValue, forKey: .unitOfMeasurement)

@@ -115,8 +115,9 @@ extension ExtensionDelegate: WCSessionDelegate {
         if let name = activityDict["name"] as? String,
           let isBool = activityDict["isBoolValue"] as? Bool,
           let isDefault = activityDict["isDefault"] as? Bool,
+          let colorIndex = activityDict["colorIndex"] as? Int,
           let unit = activityDict["unitOfMeasurement"] as? String {
-          let activity = Activity(name: name, isBoolValue: isBool, unitOfMeasurement: Unit.unitFromString(unit), isDefault: isDefault)
+          let activity = Activity(colorIndex: colorIndex, name: name, isBoolValue: isBool, unitOfMeasurement: Unit.unitFromString(unit), isDefault: isDefault)
           newActivities.append(activity)
           Entries.sharedInstance.cacheNewActivity(activity)
 
@@ -141,6 +142,7 @@ extension ExtensionDelegate: WCSessionDelegate {
           Entries.sharedInstance.deleteActivityAndEntries(activity)
         }
       }
+      ExtensionDelegate.reloadComplications()
       reloadRootController()
     }
   }

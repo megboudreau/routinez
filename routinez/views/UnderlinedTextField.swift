@@ -13,7 +13,7 @@ class UnderlinedTextField: UITextField {
   var underlineView = UIView()
   private let insets: (x: CGFloat, y: CGFloat) = (12.0, 12.0)
 
-  var underlineColor: UIColor = .plum {
+  var underlineColor: UIColor = .darkBluePigment {
     didSet {
       underlineView.backgroundColor = underlineColor
     }

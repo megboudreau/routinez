@@ -41,7 +41,7 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
 
     trackingLabel.text = "I am tracking..."
     trackingLabel.font = UIFont.systemFont(ofSize: 24)
-    trackingLabel.textColor = .plum
+    trackingLabel.textColor = .darkBluePigment
     trackingLabel.sizeToFit()
     view.addSubviewForAutoLayout(trackingLabel)
     trackingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
@@ -115,8 +115,7 @@ extension ActivitiesViewController: UICollectionViewDataSource {
     if activities.count > indexPath.item {
       let activity = activities[indexPath.item]
       cell.activity = activity
-      let color = UIColor.chartColors[indexPath.item]
-      cell.cellType = .filled(activity: activity, color: color)
+      cell.cellType = .filled(activity: activity, color: activity.color)
       return cell
     } else if indexPath.item == addIndex {
       cell.cellType = .add
@@ -138,7 +137,7 @@ extension ActivitiesViewController: UICollectionViewDataSource {
       feedbackGenerator.prepare()
       feedbackGenerator.impactOccurred()
 
-      let color = UIColor.chartColors[indexPath.item]
+      let color = UIColor.activityColors[indexPath.item]
       let vc = CreateActivityViewController(color: color)
       navigationController?.pushViewController(vc, animated: true)
     case .filled(let activity, _):

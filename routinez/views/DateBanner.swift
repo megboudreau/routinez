@@ -17,12 +17,12 @@ class DateBanner: UIView {
     return formatter.string(from: Date())
   }
 
-  init() {
+  init(fontColor: UIColor = .darkBluePigment, backgroundColor: UIColor = .white) {
     super.init(frame: .zero)
 
     clipsToBounds = true
-    backgroundColor = .white
-    dateLabel.textColor = .plum
+    self.backgroundColor = backgroundColor
+    dateLabel.textColor = fontColor
     dateLabel.adjustsFontSizeToFitWidth = true
     dateLabel.font = UIFont.boldSystemFont(ofSize: 30)
     dateLabel.text = currentFormattedDate
@@ -67,7 +67,7 @@ class AddCircle: UIView {
   var circleFill: UIColor
   var plusFill: UIColor
 
-  init(circleFill: UIColor = .plum, plusFill: UIColor = .white) {
+  init(circleFill: UIColor = .darkBluePigment, plusFill: UIColor = .white) {
     self.circleFill = circleFill
     self.plusFill = plusFill
 

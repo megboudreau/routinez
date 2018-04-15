@@ -49,7 +49,7 @@ class LineChartViewController: UIViewController {
 
     view.backgroundColor = .white
 
-    dateBanner.textColor = .plum
+    dateBanner.textColor = .darkBluePigment
     dateBanner.font = UIFont.boldSystemFont(ofSize: 24)
     dateBanner.text = dateString(for: dateRange)
     dateBanner.adjustsFontSizeToFitWidth = true
@@ -93,17 +93,17 @@ class LineChartViewController: UIViewController {
   }
 
   func setTotalForDateRange(activity: Activity, dateRange: LineChartDateRange) {
+    var total: Int = 0
     switch dateRange {
     case .day:
-      let total = Entries.sharedInstance.totalDailyValue(for: activity)
-      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
+      total = Entries.sharedInstance.totalDailyValue(for: activity)
     case .week:
-      let total = Entries.sharedInstance.totalWeeklyValue(for: activity)
-      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
+      total = Entries.sharedInstance.totalWeeklyValue(for: activity)
     case .month:
-      let total = Entries.sharedInstance.totalMonthlyValue(for: activity)
-      totalLabel.text = "\(activity.name) \(dateRange.description): \(total)"
+      total = Entries.sharedInstance.totalMonthlyValue(for: activity)
     }
+
+    totalLabel.text = activity.isBoolValue ? "\(activity.name) \(dateRange.description): \(Bool(total))" : "\(activity.name) \(dateRange.description): \(total)"
   }
 
   func dateString(for dateRange: LineChartDateRange) -> String {
@@ -117,7 +117,7 @@ class LineChartViewController: UIViewController {
     case .week:
       let weekInterval = calendar.dateInterval(of: .weekOfYear, for: Date())
       guard let startDate = weekInterval?.start,
-        let endDate = weekInterval?.end else {
+        let endDate = weekInterval?.end.addingTimeInterval(-1.day) else {
           return ""
       }
       let startDateString = formatter.string(from: startDate)
@@ -126,7 +126,7 @@ class LineChartViewController: UIViewController {
     case .month:
       let monthInterval = calendar.dateInterval(of: .month, for: Date())
       guard let startDate =  monthInterval?.start,
-        let endDate = monthInterval?.end else {
+        let endDate = monthInterval?.end.addingTimeInterval(-1.day) else {
           return ""
       }
       let startDateString = formatter.string(from: startDate)

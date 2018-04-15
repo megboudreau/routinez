@@ -10,6 +10,8 @@
 		150659832069D02400312A9E /* ActivitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150659822069D02400312A9E /* ActivitiesListViewController.swift */; };
 		150659852069D29700312A9E /* ActivityRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150659842069D29700312A9E /* ActivityRowController.swift */; };
 		150A6B641FE5A02B00435670 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
+		150AE0382083C0C600A78098 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AE0372083C0C600A78098 /* Colors.swift */; };
+		150AE0392083C0D000A78098 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AE0372083C0C600A78098 /* Colors.swift */; };
 		151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */; };
 		152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */; };
 		152450582044FE54004FBDC7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152450572044FE54004FBDC7 /* MainTabBarController.swift */; };
@@ -100,6 +102,7 @@
 		150659822069D02400312A9E /* ActivitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesListViewController.swift; sourceTree = "<group>"; };
 		150659842069D29700312A9E /* ActivityRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRowController.swift; sourceTree = "<group>"; };
 		150A6B631FE5A02B00435670 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		150AE0372083C0C600A78098 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartTabBarController.swift; sourceTree = "<group>"; };
 		152450572044FE54004FBDC7 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -183,7 +186,7 @@
 				150A6B631FE5A02B00435670 /* Entry.swift */,
 				159C6CDF20410EC0007965EF /* Extensions.swift */,
 				15EAFEDF202BA3980051947B /* Entries.swift */,
-				15D1CEC0203B6B900046731B /* Style.swift */,
+				150AE0372083C0C600A78098 /* Colors.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				159C6CDD203FB0C8007965EF /* LineChartViewController.swift */,
 				152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */,
 				151C7E6F1FDB2F43009DEF0C /* DayTableViewCell.swift */,
+				15D1CEC0203B6B900046731B /* Style.swift */,
 				15FF87DC1F96D39700686BEB /* Main.storyboard */,
 				15FF87DF1F96D39700686BEB /* Assets.xcassets */,
 				15FF87E11F96D39700686BEB /* LaunchScreen.storyboard */,
@@ -599,6 +603,7 @@
 				153F970E207178E1006D588C /* AddEntryView.swift in Sources */,
 				15EAFEE0202BA3980051947B /* Entries.swift in Sources */,
 				15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */,
+				150AE0382083C0C600A78098 /* Colors.swift in Sources */,
 				152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */,
 				1524505C20450892004FBDC7 /* EntryCollectionViewCell.swift in Sources */,
 				151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */,
@@ -617,6 +622,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15607EC22016CA800071C9FB /* Entry.swift in Sources */,
+				150AE0392083C0D000A78098 /* Colors.swift in Sources */,
 				15EAFEE1202BAB560051947B /* Entries.swift in Sources */,
 				15FF88001F96D39700686BEB /* NotificationController.swift in Sources */,
 				159C6CE120410EC8007965EF /* Extensions.swift in Sources */,

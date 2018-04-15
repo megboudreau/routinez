@@ -24,10 +24,10 @@ class MainTabBarController: UITabBarController {
     tabBar.items?[0].image = ringImage
     tabBar.items?[1].image = plusImage
 
-    tabBar.items?[0].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
-    tabBar.items?[1].imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+    tabBar.items?[0].title = "Data"
+    tabBar.items?[1].title = "Add Activity"
 
-    tabBar.tintColor = .plum
+    tabBar.tintColor = .darkBluePigment
   }
 
   override func viewWillLayoutSubviews() {

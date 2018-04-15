@@ -23,6 +23,10 @@ class Entries {
 
   private init() {}
 
+  var activityCount: Int {
+    return cachedActivities?.count ?? 0
+  }
+
   var defaultActivity: Activity? {
     // TODO let user choose default
     guard let activities = cachedActivities else {
@@ -105,7 +109,7 @@ class Entries {
 
   func stringTotalDailyValue(for activity: Activity) -> String {
     if activity.isBoolValue {
-      return totalDailyValue(for: activity) == 1 ? "True" : "False"
+      return totalDailyValue(for: activity) == 1 ? "true" : "false"
     }
 
     let total = totalDailyValue(for: activity)
