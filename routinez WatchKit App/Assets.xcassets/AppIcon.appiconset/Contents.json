@@ -9,6 +9,21 @@
       "subtype" : "38mm"
     },
     {
+      "size" : "24x24",
+      "idiom" : "watch",
+      "scale" : "2x",
+      "role" : "notificationCenter",
+      "subtype" : "38mm"
+    },
+    {
+      "size" : "27.5x27.5",
+      "idiom" : "watch",
+      "filename" : "watchIcon55-1.png",
+      "scale" : "2x",
+      "role" : "notificationCenter",
+      "subtype" : "42mm"
+    },
+    {
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "filename" : "watchIcon55.png",
@@ -39,6 +54,14 @@
       "subtype" : "38mm"
     },
     {
+      "size" : "44x44",
+      "idiom" : "watch",
+      "filename" : "watchicon402x.png",
+      "scale" : "2x",
+      "role" : "longLook",
+      "subtype" : "42mm"
+    },
+    {
       "size" : "86x86",
       "idiom" : "watch",
       "filename" : "icon862x.png",
@@ -53,6 +76,12 @@
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "42mm"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "watch-marketing",
+      "filename" : "icon1024.png",
+      "scale" : "1x"
     }
   ],
   "info" : {
