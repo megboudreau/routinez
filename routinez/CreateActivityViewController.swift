@@ -21,9 +21,14 @@ class CreateActivityViewController: UIViewController {
   let isDefaultValueSwitch = UISwitch()
   let unitOfMeasurementLabel = UILabel()
   let unitLabel = UILabel()
+  let rangeLabel = UILabel()
+  let rangeValueLabel = UILabel()
   let unitOfMeasurementPickerView = UIPickerView()
   let color: UIColor
   let saveButton = UIButton()
+
+  let disabledFontColor = UIColor.black.withAlphaComponent(0.5)
+  let ranges = [1, 10, 100, 1000]
 
   // MARK - Activity Stuff
   var isBoolValue: Bool = false
@@ -31,6 +36,12 @@ class CreateActivityViewController: UIViewController {
   var selectedUnit: Unit = .noUnit {
     didSet {
       unitLabel.text = selectedUnit.rawValue
+    }
+  }
+
+  var selectedRange: Int = 1 {
+    didSet {
+      rangeValueLabel.text = "\(selectedRange)"
     }
   }
 
@@ -71,6 +82,8 @@ class CreateActivityViewController: UIViewController {
     view.addSubviewForAutoLayout(unitOfMeasurementPickerView)
     view.addSubviewForAutoLayout(isDefaultValueLabel)
     view.addSubviewForAutoLayout(unitLabel)
+    view.addSubviewForAutoLayout(rangeLabel)
+    view.addSubviewForAutoLayout(rangeValueLabel)
 
     plusIcon.tintColor = color
     plusIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -113,7 +126,7 @@ class CreateActivityViewController: UIViewController {
     isBoolValueSubLabel.font = UIFont.systemFont(ofSize: 12)
     isBoolValueSubLabel.sizeToFit()
     isBoolValueSubLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-    isBoolValueSubLabel.topAnchor.constraint(equalTo: isBoolValueLabel.bottomAnchor, constant: 4).isActive = true
+    isBoolValueSubLabel.topAnchor.constraint(equalTo: isBoolValueLabel.bottomAnchor, constant: 2).isActive = true
 
     isBoolValueSwitch.onTintColor = color
     isBoolValueSwitch.isOn = isBoolValue
@@ -129,7 +142,7 @@ class CreateActivityViewController: UIViewController {
     isDefaultValueLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     isDefaultValueLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     isDefaultValueLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-    isDefaultValueLabel.topAnchor.constraint(equalTo: isBoolValueLabel.bottomAnchor, constant: 36).isActive = true
+    isDefaultValueLabel.topAnchor.constraint(equalTo: isBoolValueSubLabel.bottomAnchor, constant: 16).isActive = true
 
     isDefaultValueSubLabel.text = "This will be the value tracked on the watch complication"
     isDefaultValueSubLabel.textColor = .darkGray
@@ -137,7 +150,7 @@ class CreateActivityViewController: UIViewController {
     isDefaultValueSubLabel.adjustsFontSizeToFitWidth = true
     isDefaultValueSubLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     isDefaultValueSubLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-    isDefaultValueSubLabel.topAnchor.constraint(equalTo: isDefaultValueLabel.bottomAnchor, constant: 4).isActive = true
+    isDefaultValueSubLabel.topAnchor.constraint(equalTo: isDefaultValueLabel.bottomAnchor, constant: 2).isActive = true
 
     isDefaultValueSwitch.onTintColor = color
     isDefaultValueSwitch.isOn = isDefaultValue
@@ -155,21 +168,40 @@ class CreateActivityViewController: UIViewController {
     unitOfMeasurementLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     unitOfMeasurementLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     unitOfMeasurementLabel.trailingAnchor.constraint(equalTo: unitLabel.leadingAnchor, constant: -4).isActive = true
-    unitOfMeasurementLabel.topAnchor.constraint(equalTo: isDefaultValueLabel.bottomAnchor, constant: 30).isActive = true
+    unitOfMeasurementLabel.topAnchor.constraint(equalTo: isDefaultValueSubLabel.bottomAnchor, constant: 16).isActive = true
 
     unitLabel.text = "no unit"
     unitLabel.textColor = color
     unitLabel.font = UIFont.systemFont(ofSize: 24)
     unitLabel.sizeToFit()
+    unitLabel.adjustsFontSizeToFitWidth = true
     unitLabel.leadingAnchor.constraint(equalTo: unitOfMeasurementLabel.trailingAnchor, constant: 4).isActive = true
-    unitLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+    unitLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
     unitLabel.centerYAnchor.constraint(equalTo: unitOfMeasurementLabel.centerYAnchor).isActive = true
+
+    rangeLabel.text = "Increments by:"
+    rangeLabel.font = UIFont.systemFont(ofSize: 24)
+    rangeLabel.sizeToFit()
+    rangeLabel.adjustsFontSizeToFitWidth = true
+    rangeLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    rangeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    rangeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+    rangeLabel.trailingAnchor.constraint(equalTo: unitLabel.leadingAnchor, constant: -4).isActive = true
+    rangeLabel.topAnchor.constraint(equalTo: unitOfMeasurementLabel.bottomAnchor, constant: 16).isActive = true
+
+    rangeValueLabel.text = "1"
+    rangeValueLabel.font = UIFont.systemFont(ofSize: 24)
+    rangeValueLabel.sizeToFit()
+    rangeValueLabel.textColor = color
+    rangeValueLabel.leadingAnchor.constraint(equalTo: rangeLabel.trailingAnchor, constant: 4).isActive = true
+    rangeValueLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+    rangeValueLabel.centerYAnchor.constraint(equalTo: rangeLabel.centerYAnchor).isActive = true
 
     unitOfMeasurementPickerView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     unitOfMeasurementPickerView.setContentHuggingPriority(.defaultLow, for: .vertical)
-    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: unitLabel.bottomAnchor, constant: 16).isActive = true
+    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: rangeLabel.bottomAnchor, constant: -16).isActive = true
     unitOfMeasurementPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-    unitOfMeasurementPickerView.heightAnchor.constraint(lessThanOrEqualToConstant: 120).isActive = true
+    unitOfMeasurementPickerView.heightAnchor.constraint(lessThanOrEqualToConstant: 100).isActive = true
     unitOfMeasurementPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
     saveButton.setTitle("Save", for: .normal)
@@ -181,7 +213,7 @@ class CreateActivityViewController: UIViewController {
     saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     saveButton.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor, constant: -16).isActive = true
     saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true 
+    saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
   }
 
   @objc func didTapSave(_ sender: UIButton) {
@@ -193,6 +225,7 @@ class CreateActivityViewController: UIViewController {
     let colorIndex = Entries.sharedInstance.activityCount
 
     let activity = Activity(
+      range: selectedRange,
       colorIndex: colorIndex,
       name: name,
       isBoolValue: isBoolValue,
@@ -207,6 +240,17 @@ class CreateActivityViewController: UIViewController {
   @objc func isBoolSwitchValueChanged(switchState: UISwitch) {
     isBoolValue = switchState.isOn
     isDefaultValueSwitch.isEnabled = !isBoolValue
+    if switchState.isOn {
+      selectedUnit = Unit.allUnits[0]
+      if isDefaultValueSwitch.isOn {
+        isDefaultValueSwitch.isOn = false
+      }
+    }
+
+    isDefaultValueLabel.textColor = switchState.isOn ? disabledFontColor : .black
+    unitOfMeasurementLabel.textColor = switchState.isOn ? disabledFontColor : .black
+    rangeLabel.textColor = switchState.isOn ? disabledFontColor : .black
+    unitOfMeasurementPickerView.isHidden = switchState.isOn
   }
 
   @objc func isDefaultSwitchValueChanged(switchState: UISwitch) {
@@ -217,7 +261,6 @@ class CreateActivityViewController: UIViewController {
 extension CreateActivityViewController: UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
     dismissKeyboard()
     return true
   }
@@ -230,18 +273,33 @@ extension CreateActivityViewController: UITextFieldDelegate {
 extension CreateActivityViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return Unit.allUnits[row].rawValue
+    switch component {
+    case 0:
+      return Unit.allUnits[row].rawValue
+    default:
+      return "\(ranges[row])"
+    }
   }
 
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
+    return 2
   }
 
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return Unit.allUnits.count
+    switch component {
+    case 0:
+      return Unit.allUnits.count
+    default:
+      return ranges.count
+    }
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    selectedUnit = Unit.allUnits[row]
+    switch component {
+    case 0:
+      selectedUnit = Unit.allUnits[row]
+    default:
+      selectedRange = ranges[row]
+    }
   }
 }

@@ -39,17 +39,17 @@ class InterfaceController: WKInterfaceController {
 
     var pickerItems: [WKPickerItem]
     if activity.isBoolValue {
-      let trueItem = WKPickerItem()
-      trueItem.caption = activity.name
-      trueItem.title = "true"
-
       let falseItem = WKPickerItem()
       falseItem.caption = activity.name
       falseItem.title = "false"
 
-      pickerItems = [trueItem, falseItem]
+      let trueItem = WKPickerItem()
+      trueItem.caption = activity.name
+      trueItem.title = "true"
+
+      pickerItems = [falseItem, trueItem]
     } else {
-      let entryValues = stride(from:0, to: 2500, by: 1)
+      let entryValues = stride(from:0, to: 5000, by: activity.range)
       pickerItems = entryValues.map {
         let pickerItem = WKPickerItem()
         pickerItem.title = "\($0)"
@@ -102,7 +102,7 @@ class InterfaceController: WKInterfaceController {
         selectedBool = value == 0 ? false : true
         return
     }
-    selectedItem = value
+    selectedItem = value * activity.range
   }
 
   func setErrorTitle() {
@@ -130,7 +130,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     if activity.isBoolValue {
-      let boolValue: String = value == 0 ? "true" : "false"
+      let boolValue: String = value == 0 ? "false" : "true"
       DispatchQueue.main.async {
         self.dailyTotalLabel.setText(boolValue)
       }

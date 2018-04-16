@@ -96,6 +96,11 @@ class AddEntryView: UIView {
     feedbackGenerator.prepare()
     feedbackGenerator.impactOccurred()
 
+    if activity.isBoolValue {
+      guard selectedValue == 0 || selectedValue == 1 else {
+        return
+      }
+    }
     let entry = Entry(timestamp: Date(), value: selectedValue)
     Entries.sharedInstance.cacheNewEntry(entry, for: activity)
     saveButtonFlashTitle()
@@ -128,18 +133,23 @@ extension AddEntryView: UIPickerViewDataSource, UIPickerViewDelegate {
     guard let activity = self.activity else {
       return 2500
     }
-    return activity.isBoolValue ? 2 : 2500
+    return activity.isBoolValue ? 2 : 10000/activity.range
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    self.selectedValue = row
+    guard let activity = activity else {
+      return
+    }
+    self.selectedValue = row * activity.range
   }
 
   func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-    var text = "\(row)"
+    guard let activity = activity else {
+      return nil
+    }
+    var text = "\(row * activity.range)"
 
-    if let activity = activity,
-      activity.isBoolValue {
+    if activity.isBoolValue {
       text = row == 0 ? "false" : "true"
     }
 
@@ -150,5 +160,4 @@ extension AddEntryView: UIPickerViewDataSource, UIPickerViewDelegate {
         NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18),
         NSAttributedStringKey.foregroundColor: textColor])
   }
-
 }

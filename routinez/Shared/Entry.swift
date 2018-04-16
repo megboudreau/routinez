@@ -23,6 +23,7 @@ class Activity: Codable, Equatable {
   var isBoolValue: Bool = false
   var isDefault: Bool = false
   var unitOfMeasurement: Unit = .noUnit
+  var range: Int = 1
 
   var color: UIColor {
     return UIColor.activityColors[colorIndex]
@@ -34,6 +35,7 @@ class Activity: Codable, Equatable {
 
   var dictValue: [String: Any] {
     return [
+      "range": range,
       "colorIndex": colorIndex,
       "name": name,
       "isBoolValue": isBoolValue,
@@ -42,7 +44,7 @@ class Activity: Codable, Equatable {
   }
 
   private enum CodingKeys: String, CodingKey {
-    case colorIndex, name, isBoolValue, unitOfMeasurement, isDefault
+    case colorIndex, name, isBoolValue, unitOfMeasurement, isDefault, range
   }
 
   init(colorIndex: Int, name: String) {
@@ -50,7 +52,8 @@ class Activity: Codable, Equatable {
     self.name = name
   }
 
-  init(colorIndex: Int, name: String, isBoolValue: Bool, unitOfMeasurement: Unit, isDefault: Bool) {
+  init(range: Int, colorIndex: Int, name: String, isBoolValue: Bool, unitOfMeasurement: Unit, isDefault: Bool) {
+    self.range = range
     self.colorIndex = colorIndex
     self.name = name
     self.isBoolValue = isBoolValue
@@ -61,6 +64,7 @@ class Activity: Codable, Equatable {
   required init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     self.colorIndex = try values.decode(Int.self, forKey: .colorIndex)
+    self.range = try values.decode(Int.self, forKey: .range)
     self.name = try values.decode(String.self, forKey: .name)
     self.isBoolValue = try values.decode(Bool.self, forKey: .isBoolValue)
     self.isDefault = try values.decode(Bool.self, forKey: .isDefault)
@@ -71,6 +75,7 @@ class Activity: Codable, Equatable {
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(name, forKey: .name)
+    try container.encode(range, forKey: .range)
     try container.encode(colorIndex, forKey: .colorIndex)
     try container.encode(isBoolValue, forKey: .isBoolValue)
     try container.encode(isDefault, forKey: .isDefault)

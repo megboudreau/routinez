@@ -13,6 +13,7 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
   let trackingLabel = UILabel()
   let collectionView: UICollectionView
   let layout = UICollectionViewFlowLayout()
+  let outerPadding: CGFloat = 24
 
   var totalCurrentActivities: Int {
     if ActivitiesViewController.activities == nil {
@@ -53,9 +54,9 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
     collectionView.backgroundColor = .white
     collectionView.showsVerticalScrollIndicator = false
     view.addSubviewForAutoLayout(collectionView)
-    collectionView.topAnchor.constraint(equalTo: trackingLabel.bottomAnchor, constant: 24).isActive = true
+    collectionView.topAnchor.constraint(equalTo: trackingLabel.bottomAnchor, constant: outerPadding).isActive = true
     collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).isActive = true
+    collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: outerPadding).isActive = true
     if #available(iOS 11.0, *) {
       let bottomInset = view.safeAreaInsets.bottom + 60
       collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomInset).isActive = true
@@ -85,17 +86,15 @@ extension ActivitiesViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let width = view.bounds.width
     let height = view.bounds.height
-    let insideSpacing: CGFloat = 16
-    let outsideSpacing: CGFloat = 24
 
-    return CGSize(width: width/2 - (insideSpacing + outsideSpacing), height: height/8)
+    return CGSize(width: width - (outerPadding*2), height: height/8)
   }
 }
 
 extension ActivitiesViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return Entries.maxActivitiesTracked
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

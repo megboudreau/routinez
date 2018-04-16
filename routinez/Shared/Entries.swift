@@ -19,6 +19,11 @@ let defaultsActivitiesKey = "Activities"
 
 class Entries {
 
+  static var maxActivitiesTracked: Int {
+    // TODO change number based on paid or unpaid?
+    return 5
+  }
+
   static let sharedInstance = Entries()
 
   private init() {}

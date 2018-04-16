@@ -71,11 +71,12 @@ class ActivityCollectionViewCell: UICollectionViewCell {
 
   func commonInit() {
     backgroundColor = .chartGrey
-    layer.cornerRadius = 5
+
+    layer.cornerRadius = 10
 
     plusButton.isHidden = true
     plusButton.isUserInteractionEnabled = true
-    addSubviewForAutoLayout(plusButton)
+    contentView.addSubviewForAutoLayout(plusButton)
     plusButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     plusButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     plusButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.40).isActive = true
@@ -86,10 +87,11 @@ class ActivityCollectionViewCell: UICollectionViewCell {
     activityNameLabel.numberOfLines = 2
     activityNameLabel.adjustsFontSizeToFitWidth = true
     activityNameLabel.textAlignment = .center
-    addSubviewForAutoLayout(activityNameLabel)
+    contentView.addSubviewForAutoLayout(activityNameLabel)
     activityNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     activityNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     activityNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4).isActive = true
     activityNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
+
   }
 }
