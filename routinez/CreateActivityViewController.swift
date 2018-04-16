@@ -28,7 +28,7 @@ class CreateActivityViewController: UIViewController {
   let saveButton = UIButton()
 
   let disabledFontColor = UIColor.black.withAlphaComponent(0.5)
-  let ranges = [1, 10, 100, 1000]
+  let ranges = [1, 5, 10, 100, 1000]
 
   // MARK - Activity Stuff
   var isBoolValue: Bool = false

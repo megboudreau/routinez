@@ -40,6 +40,8 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    view.backgroundColor = .white
+
     trackingLabel.text = "I am tracking..."
     trackingLabel.font = UIFont.systemFont(ofSize: 24)
     trackingLabel.textColor = .darkBluePigment

@@ -22,6 +22,7 @@
 		1547EDE12068763B004A6209 /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1547EDE02068763B004A6209 /* UnderlinedTextField.swift */; };
 		154CB8BF201552CB006A3E05 /* routinez.ckcomplication in Resources */ = {isa = PBXBuildFile; fileRef = 154CB8BE201552CB006A3E05 /* routinez.ckcomplication */; };
 		15607EC22016CA800071C9FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A6B631FE5A02B00435670 /* Entry.swift */; };
+		157E421D20842C4500CBFDCA /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E421C20842C4500CBFDCA /* LaunchViewController.swift */; };
 		159C6CDE203FB0C8007965EF /* LineChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159C6CDD203FB0C8007965EF /* LineChartViewController.swift */; };
 		159C6CE020410EC0007965EF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159C6CDF20410EC0007965EF /* Extensions.swift */; };
 		159C6CE120410EC8007965EF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159C6CDF20410EC0007965EF /* Extensions.swift */; };
@@ -112,6 +113,7 @@
 		1547EDDE206875C1004A6209 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
 		1547EDE02068763B004A6209 /* UnderlinedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedTextField.swift; sourceTree = "<group>"; };
 		154CB8BE201552CB006A3E05 /* routinez.ckcomplication */ = {isa = PBXFileReference; lastKnownFileType = folder; path = routinez.ckcomplication; sourceTree = "<group>"; };
+		157E421C20842C4500CBFDCA /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		159C6CDD203FB0C8007965EF /* LineChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartViewController.swift; sourceTree = "<group>"; };
 		159C6CDF20410EC0007965EF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		15D1CEC0203B6B900046731B /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				15D1CEC2203B72CD0046731B /* views */,
 				1574FB7E2009A6E6009837C9 /* Shared */,
 				15EAFE9420225C780051947B /* CloudKitManager.swift */,
+				157E421C20842C4500CBFDCA /* LaunchViewController.swift */,
 				15FF87DA1F96D39700686BEB /* ViewController.swift */,
 				1524505920450850004FBDC7 /* ActivitiesViewController.swift */,
 				1547EDDE206875C1004A6209 /* CreateActivityViewController.swift */,
@@ -612,6 +615,7 @@
 				15D1CECA203BAF720046731B /* UIViewExtensions.swift in Sources */,
 				15D1CEC6203B83360046731B /* DailyCircleChart.swift in Sources */,
 				15FF87D91F96D39700686BEB /* AppDelegate.swift in Sources */,
+				157E421D20842C4500CBFDCA /* LaunchViewController.swift in Sources */,
 				15D1CEC4203B73130046731B /* DateBanner.swift in Sources */,
 				1524505A20450850004FBDC7 /* ActivitiesViewController.swift in Sources */,
 			);
