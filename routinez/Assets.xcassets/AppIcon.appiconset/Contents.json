@@ -25,36 +25,37 @@
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "graphAppIcon40x40.png",
+      "filename" : "icon40x402x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "graphAppIcon40x403x.png",
+      "filename" : "icon40x403x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "graphAppIcon2x.png",
+      "filename" : "icon60x602x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "graphAppIcon3x.png",
+      "filename" : "appIcon60x603x.png",
       "scale" : "3x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "1024AppIcon1X.png",
+      "filename" : "icon1024.png",
       "scale" : "1x"
     },
     {
       "size" : "24x24",
       "idiom" : "watch",
+      "filename" : "watchIcon242x.png",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "38mm"
@@ -62,6 +63,7 @@
     {
       "size" : "27.5x27.5",
       "idiom" : "watch",
+      "filename" : "watchIcon55.png",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "42mm"
@@ -69,19 +71,21 @@
     {
       "size" : "29x29",
       "idiom" : "watch",
+      "filename" : "icon292x.png",
       "role" : "companionSettings",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "watch",
+      "filename" : "icon293x.png",
       "role" : "companionSettings",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "watch",
-      "filename" : "watchIcon.png",
+      "filename" : "icon.png",
       "scale" : "2x",
       "role" : "appLauncher",
       "subtype" : "38mm"
@@ -89,6 +93,7 @@
     {
       "size" : "86x86",
       "idiom" : "watch",
+      "filename" : "icon862x.png",
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "38mm"
@@ -96,6 +101,7 @@
     {
       "size" : "98x98",
       "idiom" : "watch",
+      "filename" : "icon982x.png",
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "42mm"
