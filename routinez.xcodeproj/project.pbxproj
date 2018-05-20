@@ -16,7 +16,7 @@
 		152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */; };
 		152450582044FE54004FBDC7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152450572044FE54004FBDC7 /* MainTabBarController.swift */; };
 		1524505A20450850004FBDC7 /* ActivitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1524505920450850004FBDC7 /* ActivitiesViewController.swift */; };
-		1524505C20450892004FBDC7 /* ActivityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1524505B20450892004FBDC7 /* ActivityCollectionViewCell.swift */; };
+		1524505C20450892004FBDC7 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1524505B20450892004FBDC7 /* ActivityTableViewCell.swift */; };
 		153F970E207178E1006D588C /* AddEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153F970D207178E1006D588C /* AddEntryView.swift */; };
 		1547EDDF206875C1004A6209 /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1547EDDE206875C1004A6209 /* CreateActivityViewController.swift */; };
 		1547EDE12068763B004A6209 /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1547EDE02068763B004A6209 /* UnderlinedTextField.swift */; };
@@ -108,7 +108,7 @@
 		152450552044EC4A004FBDC7 /* LineChartTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartTabBarController.swift; sourceTree = "<group>"; };
 		152450572044FE54004FBDC7 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		1524505920450850004FBDC7 /* ActivitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesViewController.swift; sourceTree = "<group>"; };
-		1524505B20450892004FBDC7 /* ActivityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCollectionViewCell.swift; sourceTree = "<group>"; };
+		1524505B20450892004FBDC7 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		153F970D207178E1006D588C /* AddEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntryView.swift; sourceTree = "<group>"; };
 		1547EDDE206875C1004A6209 /* CreateActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
 		1547EDE02068763B004A6209 /* UnderlinedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedTextField.swift; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 			children = (
 				15D1CEC3203B73130046731B /* DateBanner.swift */,
 				1547EDE02068763B004A6209 /* UnderlinedTextField.swift */,
-				1524505B20450892004FBDC7 /* ActivityCollectionViewCell.swift */,
+				1524505B20450892004FBDC7 /* ActivityTableViewCell.swift */,
 				153F970D207178E1006D588C /* AddEntryView.swift */,
 				15D1CEC5203B83360046731B /* DailyCircleChart.swift */,
 				15D1CEC9203BAF720046731B /* UIViewExtensions.swift */,
@@ -608,7 +608,7 @@
 				15EAFE9520225C780051947B /* CloudKitManager.swift in Sources */,
 				150AE0382083C0C600A78098 /* Colors.swift in Sources */,
 				152450562044EC4A004FBDC7 /* LineChartTabBarController.swift in Sources */,
-				1524505C20450892004FBDC7 /* ActivityCollectionViewCell.swift in Sources */,
+				1524505C20450892004FBDC7 /* ActivityTableViewCell.swift in Sources */,
 				151C7E701FDB2F43009DEF0C /* DayTableViewCell.swift in Sources */,
 				15D1CEC1203B6B900046731B /* Style.swift in Sources */,
 				159C6CE020410EC0007965EF /* Extensions.swift in Sources */,

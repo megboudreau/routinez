@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window = window
     self.window?.makeKeyAndVisible()
 
-    let navController = UINavigationController(rootViewController: MainTabBarController())
+    let navController = UINavigationController(rootViewController: ActivitiesViewController())
     window.rootViewController = navController
 
     setupWatchConnectivity()

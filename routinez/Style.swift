@@ -18,10 +18,6 @@ extension UIWindow {
     let barButtonItem = UIBarButtonItem.appearance()
     barButtonItem.tintColor = .darkGray
 
-    let navigationBar = UINavigationBar.appearance()
-    navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-    navigationBar.shadowImage = UIImage()
-
     backgroundColor = .white
   }
 }

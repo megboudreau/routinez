@@ -11,25 +11,25 @@ import UIKit
 class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
 
   let trackingLabel = UILabel()
-  let collectionView: UICollectionView
-  let layout = UICollectionViewFlowLayout()
-  let outerPadding: CGFloat = 24
+  let tableView = UITableView()
 
   var totalCurrentActivities: Int {
     if ActivitiesViewController.activities == nil {
       ActivitiesViewController.activities = Entries.sharedInstance.cachedActivities
-      collectionView.reloadData()
+      tableView.reloadData()
     }
     return Entries.sharedInstance.activityKeys?.count ?? 0
   }
 
   static var activities: [Activity]?
 
-  init() {
-    layout.scrollDirection = .vertical
-    layout.minimumLineSpacing = 24
-    collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+  var currentFormattedDate: String {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    return formatter.string(from: Date())
+  }
 
+  init() {
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -42,35 +42,24 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
 
     view.backgroundColor = .white
 
-    trackingLabel.text = "I am tracking..."
-    trackingLabel.font = UIFont.systemFont(ofSize: 24)
-    trackingLabel.textColor = .darkBluePigment
-    trackingLabel.sizeToFit()
-    view.addSubviewForAutoLayout(trackingLabel)
-    trackingLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
-    trackingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).isActive = true
-
-    collectionView.delegate = self
-    collectionView.dataSource = self
-    collectionView.register(ActivityCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-    collectionView.backgroundColor = .white
-    collectionView.showsVerticalScrollIndicator = false
-    view.addSubviewForAutoLayout(collectionView)
-    collectionView.topAnchor.constraint(equalTo: trackingLabel.bottomAnchor, constant: outerPadding).isActive = true
-    collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: outerPadding).isActive = true
-    if #available(iOS 11.0, *) {
-      let bottomInset = view.safeAreaInsets.bottom + 60
-      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomInset).isActive = true
-    } else {
-      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
-    }
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.register(ActivityTableViewCell.self, forCellReuseIdentifier: "cell")
+    tableView.estimatedRowHeight = 124
+    tableView.rowHeight = UITableViewAutomaticDimension
+    view.addSubview(tableView)
+    tableView.pinToSuperviewEdges()
 
     let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
     longPress.delegate = self
     view.addGestureRecognizer(longPress)
 
     ActivitiesViewController.activities = Entries.sharedInstance.cachedActivities
+
+    let plusButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(addActivity))
+    navigationItem.rightBarButtonItem = plusButton
+
+    navigationItem.title = currentFormattedDate
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -78,82 +67,52 @@ class ActivitiesViewController: UIViewController, UIGestureRecognizerDelegate {
 
     if ActivitiesViewController.activities == nil {
       ActivitiesViewController.activities = Entries.sharedInstance.cachedActivities
-      collectionView.reloadData()
+      tableView.reloadData()
     }
   }
-}
 
-extension ActivitiesViewController: UICollectionViewDelegateFlowLayout {
-
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let width = view.bounds.width
-    let height = view.bounds.height
-
-    return CGSize(width: width - (outerPadding*2), height: height/8)
+  @objc func addActivity() {
+    let color = UIColor.activityColors[totalCurrentActivities]
+    let vc = CreateActivityViewController(color: color)
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
 
-extension ActivitiesViewController: UICollectionViewDataSource {
+extension ActivitiesViewController: UITableViewDataSource, UITableViewDelegate {
 
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return Entries.maxActivitiesTracked
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
   }
 
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return totalCurrentActivities
+  }
 
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ActivityCollectionViewCell
-
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let activities = ActivitiesViewController.activities else {
-      if indexPath.row == 0 {
-        cell.cellType = .add
-        return cell
-      }
-      cell.cellType = .empty
-      return cell
+      return UITableViewCell()
     }
 
-    let addIndex = activities.count
-    if activities.count > indexPath.item {
-      let activity = activities[indexPath.item]
-      cell.activity = activity
-      cell.cellType = .filled(activity: activity, color: activity.color)
-      return cell
-    } else if indexPath.item == addIndex {
-      cell.cellType = .add
-      return cell
-    }
-
-    cell.cellType = .empty
+    let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActivityTableViewCell
+    cell.activity = activities[indexPath.row]
     return cell
   }
 
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let cell = collectionView.cellForItem(at: indexPath) as! ActivityCollectionViewCell
-    guard let cellType = cell.cellType else {
-      return
-    }
-    switch cellType {
-    case .add:
-      let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-      feedbackGenerator.prepare()
-      feedbackGenerator.impactOccurred()
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    feedbackGenerator.prepare()
+    feedbackGenerator.impactOccurred()
 
-      let color = UIColor.activityColors[indexPath.item]
-      let vc = CreateActivityViewController(color: color)
-      navigationController?.pushViewController(vc, animated: true)
-    case .filled(let activity, _):
-      print(activity.name)
-    // TODO:
-      // allow to edit activity
-    default:
-      return
-    }
+    let cell = tableView.cellForRow(at: indexPath) as! ActivityTableViewCell
+    cell.toggleCellState()
+    tableView.beginUpdates()
+    tableView.endUpdates()
   }
 
   @objc func handleLongPress(sender: UILongPressGestureRecognizer) {
-    let location = sender.location(in: collectionView)
-    if let index = collectionView.indexPathForItem(at: location),
-      let cell = collectionView.cellForItem(at: index) as? ActivityCollectionViewCell,
+    let location = sender.location(in: tableView)
+    if let index = tableView.indexPathForRow(at: location),
+      let cell = tableView.cellForRow(at: index) as? ActivityTableViewCell,
       let activity = cell.activity {
       let alert = UIAlertController(
         title: "Delete this Activity?",
@@ -167,7 +126,7 @@ extension ActivitiesViewController: UICollectionViewDataSource {
         UIAlertAction(title: "Yes", style: .destructive, handler: { _ in
           Entries.sharedInstance.deleteActivityAndEntries(activity)
           ActivitiesViewController.activities = Entries.sharedInstance.cachedActivities
-          self.collectionView.reloadData()
+          self.tableView.reloadData()
           alert.dismiss(animated: true, completion: nil)
         }))
 

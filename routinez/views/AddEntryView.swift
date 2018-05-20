@@ -48,7 +48,7 @@ class AddEntryView: UIView {
 
     addEntryLabel.font = UIFont.systemFont(ofSize: 18)
     addEntryLabel.text = "Add a new entry: "
-    addEntryLabel.textColor = .black
+    addEntryLabel.textColor = .white
     addEntryLabel.sizeToFit()
     addEntryLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     addEntryLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true

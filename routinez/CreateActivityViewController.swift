@@ -112,7 +112,7 @@ class CreateActivityViewController: UIViewController {
     nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 4).isActive = true
     nameTextField.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
 
-    isBoolValueLabel.text = "Is this a true/false value?"
+    isBoolValueLabel.text = "Is this a done/not done activity?"
     isBoolValueLabel.font = UIFont.systemFont(ofSize: 24)
     isBoolValueLabel.sizeToFit()
     isBoolValueLabel.adjustsFontSizeToFitWidth = true
@@ -199,7 +199,7 @@ class CreateActivityViewController: UIViewController {
 
     unitOfMeasurementPickerView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     unitOfMeasurementPickerView.setContentHuggingPriority(.defaultLow, for: .vertical)
-    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: rangeLabel.bottomAnchor, constant: -16).isActive = true
+    unitOfMeasurementPickerView.topAnchor.constraint(equalTo: rangeLabel.bottomAnchor, constant: 16).isActive = true
     unitOfMeasurementPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     unitOfMeasurementPickerView.heightAnchor.constraint(lessThanOrEqualToConstant: 100).isActive = true
     unitOfMeasurementPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
