@@ -76,10 +76,18 @@ class LineChartViewController: UIViewController {
 
     view.addSubview(lineChartView)
     lineChartView.translatesAutoresizingMaskIntoConstraints = false
-    lineChartView.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 24).isActive = true
+    lineChartView.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 40).isActive = true
     lineChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     lineChartView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    lineChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70).isActive = true
+    lineChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
+
+    let monthLabel = UILabel()
+    monthLabel.text = "Weeks in April"
+    monthLabel.font = UIFont.systemFont(ofSize: 16)
+    view.addSubviewForAutoLayout(monthLabel)
+    monthLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    monthLabel.topAnchor.constraint(equalTo: lineChartView.bottomAnchor, constant: 16).isActive = true
+    monthLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -70).isActive = true
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -88,8 +96,8 @@ class LineChartViewController: UIViewController {
     guard let data = lineChartView.data else {
       return
     }
-    lineChartView.lineChart.data = data
-    lineChartView.lineChart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
+    lineChartView.barChart.data = data
+    lineChartView.barChart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
   }
 
   func setTotalForDateRange(activity: Activity, dateRange: LineChartDateRange) {

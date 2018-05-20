@@ -1,5 +1,5 @@
 //
-//  LineChartView.swift
+//  BarChartView.swift
 //  routinez
 //
 //  Created by Megan Boudreau on 2018-02-21.
@@ -13,10 +13,10 @@ class LineChart: UIView {
 
   let activity: Activity
   let dateRange: LineChartDateRange
-  var data: LineChartData?
+  var data: BarChartData?
 
-  let lineChart: LineChartView = {
-    let l = LineChartView()
+  let barChart: BarChartView = {
+    let l = BarChartView()
 
     l.pinchZoomEnabled = false
     l.legend.enabled = false
@@ -35,6 +35,7 @@ class LineChart: UIView {
     l.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 12)
     l.xAxis.drawGridLinesEnabled = false
     l.xAxis.axisLineWidth = 1
+    l.xAxis.labelPosition = .bottom
 
     return l
   }()
@@ -52,7 +53,7 @@ class LineChart: UIView {
     let dateFormatter = DateFormatter()
     dateFormatter.locale = Locale.current
     dateFormatter.calendar = Calendar.current
-    dateFormatter.dateFormat = "MMM dd"
+    dateFormatter.dateFormat = "dd"
     return dateFormatter
   }()
 
@@ -62,8 +63,8 @@ class LineChart: UIView {
 
     super.init(frame: .zero)
 
-    addSubview(lineChart)
-    lineChart.pinToSuperviewEdges()
+    addSubview(barChart)
+    barChart.pinToSuperviewEdges()
     drawChart()
   }
 
@@ -84,9 +85,9 @@ class LineChart: UIView {
     }
 
     guard entries.count > 0 else {
-      lineChart.noDataText = "No values recorded yet \(self.dateRange.description)."
-      lineChart.noDataFont = UIFont.systemFont(ofSize: 24)
-      lineChart.noDataTextColor = .darkBluePigment
+      barChart.noDataText = "No values recorded yet \(self.dateRange.description)."
+      barChart.noDataFont = UIFont.systemFont(ofSize: 24)
+      barChart.noDataTextColor = .darkBluePigment
       return
     }
 
@@ -104,21 +105,23 @@ class LineChart: UIView {
         referenceTimeInterval: referenceTimeInterval,
         dateFormatter: dateFormatter
       )
-      lineChart.xAxis.valueFormatter = xValuesNumberFormatter
+      barChart.xAxis.valueFormatter = xValuesNumberFormatter
     } else if dateRange == .week {
-      let xValuesNumberFormatter = WeekChartXAxisFormatter(
-      referenceTimeInterval: weekReferenceInterval!,
-      dateFormatter: weekDateFormatter
-      )
-      lineChart.xAxis.valueFormatter = xValuesNumberFormatter
-      lineChart.xAxis.labelRotationAngle = -45
-    } else {
-      let xValuesNumberFormatter = MonthChartXAxisFormatter(
-      referenceTimeInterval: monthReferenceInterval!,
-      dateFormatter: weekDateFormatter
-      )
-      lineChart.xAxis.valueFormatter = xValuesNumberFormatter
+//      let xValuesNumberFormatter = WeekChartXAxisFormatter(
+//      referenceTimeInterval: weekReferenceInterval!,
+//      dateFormatter: weekDateFormatter
+//      )
+//      barChart.xAxis.valueFormatter = xValuesNumberFormatter
+//      barChart.xAxis.labelRotationAngle = -90
     }
+
+//    else {
+//      let xValuesNumberFormatter = MonthChartXAxisFormatter(
+//      referenceTimeInterval: monthReferenceInterval!,
+//      dateFormatter: weekDateFormatter
+//      )
+//      BarChart.xAxis.valueFormatter = xValuesNumberFormatter
+//    }
 
     // Define chart entries
     let sortedEntries = entries.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending })
@@ -139,40 +142,44 @@ class LineChart: UIView {
         referenceTimeInterval: referenceTimeInterval)
     }
 
-    lineChart.xAxis.granularity = 1.0
-    lineChart.xAxis.setLabelCount(dataEntries.count, force: true)
-    lineChart.xAxis.avoidFirstLastClippingEnabled = true
+    barChart.xAxis.granularity = 1.0
+    barChart.xAxis.setLabelCount(dataEntries.count, force: true)
+    barChart.xAxis.axisMinimum = dataEntries.first?.x ?? 0
+    barChart.xAxis.avoidFirstLastClippingEnabled = true
 
-    let lineChartDataSet = LineChartDataSet(values: dataEntries, label: activity.name)
-    lineChartDataSet.setCircleColor(activity.color)
-    lineChartDataSet.setColor(activity.color.withAlphaComponent(0.7))
-    lineChartDataSet.circleHoleRadius = 0
-    lineChartDataSet.circleRadius = 4
-    lineChartDataSet.lineWidth = 2
-    lineChartDataSet.valueTextColor = .clear
+    let barChartDataSet = BarChartDataSet(values: dataEntries, label: activity.name)
+//    barChartDataSet.setCircleColor(activity.color)
+    barChartDataSet.setColor(activity.color.withAlphaComponent(0.7))
+//    barChartDataSet.circleHoleRadius = 0
+//    barChartDataSet.circleRadius = 4
+//    barChartDataSet.lineWidth = 2
+    barChartDataSet.valueTextColor = .black
 
-    let data = LineChartData()
-    data.addDataSet(lineChartDataSet)
+//    barChartDataSet.fill = Fill.fillWithCGColor(activity.color.cgColor)
+//    barChartDataSet.drawFilledEnabled = true
+
+    let data = BarChartData()
+    data.addDataSet(barChartDataSet)
 
     self.data = data
   }
 
-  func dataEntriesForDay(sortedEntries: [Entry], referenceTimeInterval: TimeInterval) -> [ChartDataEntry] {
-    var dataEntries = [ChartDataEntry]()
+  func dataEntriesForDay(sortedEntries: [Entry], referenceTimeInterval: TimeInterval) -> [BarChartDataEntry] {
+    var dataEntries = [BarChartDataEntry]()
     for entry in sortedEntries {
       let timeInterval = entry.timestamp.timeIntervalSince1970
       let xValue = (timeInterval - referenceTimeInterval)
       let yValue = entry.value
-      let entry = ChartDataEntry(x: xValue, y: Double(yValue))
+      let entry = BarChartDataEntry(x: xValue, y: Double(yValue))
       dataEntries.append(entry)
     }
     return dataEntries
   }
 
-  func dataEntriesForWeek(sortedEntries: [Entry], referenceTimeInterval: TimeInterval) -> [ChartDataEntry] {
-    var dataEntries = [ChartDataEntry]()
+  func dataEntriesForWeek(sortedEntries: [Entry], referenceTimeInterval: TimeInterval) -> [BarChartDataEntry] {
+    var dataEntries = [BarChartDataEntry]()
 
-    var values = [(TimeInterval, Int)]()
+    var values = [(Double, Int)]()
     for index in 1...7 {
       let total = (sortedEntries.filter({ $0.timestamp.weekdayNumber == index }).map({ $0.value }).reduce(0, +))
 
@@ -180,40 +187,33 @@ class LineChart: UIView {
       let weekInterval = Calendar.current.dateInterval(of: .weekOfYear, for: Date())
       if let startDate = weekInterval?.start,
         let weekDay = calendar.date(byAdding: .weekday, value: index-1, to: startDate) {
-        values.append((weekDay.timeIntervalSince1970, total))
+        values.append((Double(weekDay.dayNumber), total))
       }
     }
 
     for value in values {
-      let timeInterval = value.0
-      let xValue = (timeInterval - referenceTimeInterval)
+      let xValue = value.0
       let yValue = value.1
-      let entry = ChartDataEntry(x: xValue, y: Double(yValue))
+      let entry = BarChartDataEntry(x: xValue, y: Double(yValue))
       dataEntries.append(entry)
     }
     return dataEntries
   }
 
-  func dataEntriesForMonth(sortedEntries: [Entry], referenceTimeInterval: TimeInterval) -> [ChartDataEntry] {
-    var dataEntries = [ChartDataEntry]()
+  func dataEntriesForMonth(sortedEntries: [Entry], referenceTimeInterval: TimeInterval) -> [BarChartDataEntry] {
+    var dataEntries = [BarChartDataEntry]()
 
-    var values = [(TimeInterval, Int)]()
+    var values = [(Double, Int)]()
     for index in 1...4 {
       let total = (sortedEntries.filter({ $0.timestamp.weekNumber == index }).map({ $0.value }).reduce(0, +))
 
-      let calendar = Calendar.current
-      let monthInterval = Calendar.current.dateInterval(of: .month, for: Date())
-      if let startDate = monthInterval?.start,
-        let week = calendar.date(byAdding: .weekOfMonth, value: index-1, to: startDate) {
-        values.append((week.timeIntervalSince1970, total))
-      }
+      values.append((Double(index), total))
     }
 
     for value in values {
-      let timeInterval = value.0
-      let xValue = (timeInterval - referenceTimeInterval)
+      let xValue = value.0
       let yValue = value.1
-      let entry = ChartDataEntry(x: xValue, y: Double(yValue))
+      let entry = BarChartDataEntry(x: xValue, y: Double(yValue))
       dataEntries.append(entry)
     }
     return dataEntries
@@ -234,6 +234,7 @@ class MonthChartXAxisFormatter: NSObject {
 extension MonthChartXAxisFormatter: IAxisValueFormatter {
 
   func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+
     let date = Date(timeIntervalSince1970: value + referenceTimeInterval)
 
     let weekInterval = Calendar.current.dateInterval(of: .weekOfMonth, for: date.addingTimeInterval(2.days))
@@ -262,6 +263,7 @@ extension WeekChartXAxisFormatter: IAxisValueFormatter {
 
   func stringForValue(_ value: Double, axis: AxisBase?) -> String {
     let date = Date(timeIntervalSince1970: value + referenceTimeInterval)
+
     return dateFormatter.string(from: date.addingTimeInterval(1.day))
   }
 }
