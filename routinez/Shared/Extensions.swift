@@ -59,6 +59,22 @@ extension Date {
   var weekdayNumber: Int {
     return Calendar.current.component(.weekday, from: self)
   }
+
+  var dayNumber: Int {
+    return Calendar.current.component(.day, from: self)
+  }
+}
+
+extension String {
+
+  func separate(every: Int, with separator: String) -> String {
+    let characters = Array(self)
+
+    return String(stride(from: 0, to: Array(self).count, by: every).map { index in
+      Array(characters[index..<min(index + every, characters.count)])
+      }.joined(separator: separator))
+  }
+
 }
 
 extension Bool {
