@@ -46,6 +46,8 @@ class ViewController: UIViewController {
 
     addInitialViews()
 
+    UIApplication.shared.statusBarView?.backgroundColor = .lighterGrey
+
     // record identifier of the user that's signed in on the device
     CKContainer.default().fetchUserRecordID { (recordID, error) in
       if let error = error {
