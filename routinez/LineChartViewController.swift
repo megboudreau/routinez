@@ -50,7 +50,7 @@ class LineChartViewController: UIViewController {
     view.backgroundColor = .white
 
     dateBanner.textColor = .darkBluePigment
-    dateBanner.font = UIFont.boldSystemFont(ofSize: 24)
+    dateBanner.font = UIFont.boldSystemFont(ofSize: 30)
     dateBanner.text = dateString(for: dateRange)
     dateBanner.adjustsFontSizeToFitWidth = true
     dateBanner.sizeToFit()
@@ -59,9 +59,9 @@ class LineChartViewController: UIViewController {
     dateBanner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     if #available(iOS 11.0, *) {
       let safeArea = view.safeAreaLayoutGuide
-      dateBanner.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
+      dateBanner.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8).isActive = true
     } else {
-      dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
+      dateBanner.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
     }
 
     setTotalForDateRange(activity: activity, dateRange: dateRange)
@@ -72,14 +72,14 @@ class LineChartViewController: UIViewController {
 
     totalLabel.translatesAutoresizingMaskIntoConstraints = false
     totalLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    totalLabel.topAnchor.constraint(equalTo: dateBanner.bottomAnchor).isActive = true
+    totalLabel.topAnchor.constraint(equalTo: dateBanner.bottomAnchor, constant: 10).isActive = true
 
     view.addSubview(lineChartView)
     lineChartView.translatesAutoresizingMaskIntoConstraints = false
-    lineChartView.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 24).isActive = true
+    lineChartView.topAnchor.constraint(equalTo: totalLabel.bottomAnchor, constant: 16).isActive = true
     lineChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
     lineChartView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    lineChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70).isActive = true
+    lineChartView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
   }
 
   override func viewDidAppear(_ animated: Bool) {

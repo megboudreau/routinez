@@ -112,7 +112,7 @@ class CreateActivityViewController: UIViewController {
     nameTextField.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 4).isActive = true
     nameTextField.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
 
-    isBoolValueLabel.text = "Is this a true/false value?"
+    isBoolValueLabel.text = "Is this a done/not done activity?"
     isBoolValueLabel.font = UIFont.systemFont(ofSize: 24)
     isBoolValueLabel.sizeToFit()
     isBoolValueLabel.adjustsFontSizeToFitWidth = true

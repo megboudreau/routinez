@@ -25,7 +25,7 @@ class LineChart: UIView {
 
     // Left Axis formatting
     l.leftAxis.drawBottomYLabelEntryEnabled = true
-    l.leftAxis.drawGridLinesEnabled = false
+    l.leftAxis.drawGridLinesEnabled = true
     l.leftAxis.labelFont = UIFont.boldSystemFont(ofSize: 12)
     l.leftAxis.labelTextColor = .black
     l.leftAxis.axisLineWidth = 1
@@ -35,6 +35,7 @@ class LineChart: UIView {
     l.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 12)
     l.xAxis.drawGridLinesEnabled = false
     l.xAxis.axisLineWidth = 1
+    l.xAxis.labelPosition = .bottom
 
     return l
   }()
@@ -52,7 +53,7 @@ class LineChart: UIView {
     let dateFormatter = DateFormatter()
     dateFormatter.locale = Locale.current
     dateFormatter.calendar = Calendar.current
-    dateFormatter.dateFormat = "MMM dd"
+    dateFormatter.dateFormat = "dd"
     return dateFormatter
   }()
 

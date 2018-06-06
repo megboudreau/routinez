@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,18 +18,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chart" translatesAutoresizingMaskIntoConstraints="NO" id="7YT-Hg-Rhc">
-                                <rect key="frame" x="147.5" y="283.5" width="80" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="W2p-3r-SuB"/>
-                                    <constraint firstAttribute="height" constant="100" id="mr8-g5-LtG"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchView" translatesAutoresizingMaskIntoConstraints="NO" id="J91-oT-srR">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chart" translatesAutoresizingMaskIntoConstraints="NO" id="AiL-1z-8aA">
+                                <rect key="frame" x="157" y="308.5" width="60" height="49"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.27843137254901962" green="0.19215686274509802" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="7YT-Hg-Rhc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="6cg-XL-Wee"/>
-                            <constraint firstItem="7YT-Hg-Rhc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Ve9-5Y-hx3"/>
+                            <constraint firstItem="J91-oT-srR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="1cR-ux-bnM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="J91-oT-srR" secondAttribute="bottom" id="2S0-QE-8qi"/>
+                            <constraint firstItem="AiL-1z-8aA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5J5-GE-Ze4"/>
+                            <constraint firstItem="J91-oT-srR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9pd-F7-utj"/>
+                            <constraint firstItem="AiL-1z-8aA" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="dcE-Bz-jNr"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="J91-oT-srR" secondAttribute="trailing" id="wKf-PS-wuU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -41,5 +44,6 @@
     </scenes>
     <resources>
         <image name="chart" width="60" height="49"/>
+        <image name="launchView" width="880" height="1540"/>
     </resources>
 </document>

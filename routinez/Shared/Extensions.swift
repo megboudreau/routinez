@@ -61,6 +61,13 @@ extension Date {
   }
 }
 
+extension CGFloat {
+
+  init(_ bool: Bool) {
+    self = bool == true ? 1 : 0
+  }
+}
+
 extension Bool {
   init(_ int: Int) {
     self = int > 0 ? true : false
