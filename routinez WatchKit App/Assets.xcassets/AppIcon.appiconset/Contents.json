@@ -3,6 +3,7 @@
     {
       "size" : "24x24",
       "idiom" : "watch",
+      "filename" : "graphAppIcon24x24.png",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "38mm"
