@@ -3,14 +3,6 @@
     {
       "size" : "24x24",
       "idiom" : "watch",
-      "filename" : "watchIcon242x.png",
-      "scale" : "2x",
-      "role" : "notificationCenter",
-      "subtype" : "38mm"
-    },
-    {
-      "size" : "24x24",
-      "idiom" : "watch",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "38mm"
@@ -19,14 +11,6 @@
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "filename" : "watchIcon55-1.png",
-      "scale" : "2x",
-      "role" : "notificationCenter",
-      "subtype" : "42mm"
-    },
-    {
-      "size" : "27.5x27.5",
-      "idiom" : "watch",
-      "filename" : "watchIcon55.png",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "42mm"
